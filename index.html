@@ -631,7 +631,7 @@
             .container {
                 max-width: 920px;
                 margin: 0 auto;
-                padding: 16px 12px 70px;
+                padding: max(16px, env(safe-area-inset-top)) 12px 70px;
             }
 
             header {
@@ -2202,7 +2202,82 @@
                 *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
             }
 
-        </style>
+        
+            /* Читаемая тёмная тема: более ясные поверхности и контрастные элементы управления. */
+            [data-theme="dark"] {
+                --primary: #b7d7ff;
+                --primary-light: #78b8ff;
+                --accent: #55e5d1;
+                --bg: #0b1424;
+                --bg2: #142239;
+                --card: #192941;
+                --text: #f0f5ff;
+                --muted: #b2c2d8;
+                --border: #354b67;
+                --success: #55e5d1;
+                --urgent: #ffad78;
+                --urgent-bg: rgba(255, 173, 120, 0.16);
+                --c1: #8bc4ff;
+                --c2: #55e5d1;
+                --c3: #b8a5ff;
+                --c4: #7be4f2;
+                --c5: #79e0a9;
+                --cu: #ffad78;
+                --c-hw: #7be4f2;
+            }
+
+            [data-theme="dark"] .icon-btn,
+            [data-theme="dark"] .subj-actions button,
+            [data-theme="dark"] .task-actions button,
+            [data-theme="dark"] .month-nav button,
+            [data-theme="dark"] .cal-day-header,
+            [data-theme="dark"] .day-count {
+                color: #eaf3ff;
+            }
+
+            [data-theme="dark"] .subj-actions button,
+            [data-theme="dark"] .task-actions button {
+                opacity: 1;
+                text-shadow: 0 0 1px rgba(255,255,255,.3);
+            }
+
+            [data-theme="dark"] .day-dot {
+                outline: 1px solid rgba(240,245,255,.72);
+                box-shadow: 0 0 0 1px rgba(5,12,24,.8), 0 0 5px rgba(120,184,255,.55);
+            }
+
+            [data-theme="dark"] .day-dot.done {
+                background: #a9b8cc !important;
+                outline-color: rgba(240,245,255,.38);
+                box-shadow: none;
+                opacity: .85;
+            }
+
+            .calendar-subject-hint {
+                margin: 0 0 12px;
+                padding: 10px 12px;
+                border: 1px solid var(--primary-light);
+                border-radius: 10px;
+                background: var(--bg2);
+                color: var(--text);
+                font-size: .84rem;
+                line-height: 1.45;
+            }
+
+            .pair-number {
+                display: inline-block;
+                margin-right: 4px;
+                padding: 1px 6px;
+                border-radius: 6px;
+                background: var(--bg2);
+                border: 1px solid var(--border);
+                color: var(--primary);
+                font-size: .72rem;
+                font-weight: 800;
+                white-space: nowrap;
+            }
+
+</style>
         <meta name="mobile-web-app-capable" content="yes">
     </head>
     <body>
@@ -2265,7 +2340,7 @@
                         <span class="theme-ico theme-ico-sun">☀</span>
                     </span>
                 </button>
-                <button class="icon-btn" onclick="exportICS()">📅 Экспорт в Google calendar
+                <button class="icon-btn" onclick="exportICS()">📅 Скачать календарь (.ics)
                 </button>
             </div>
             <div class="sheet-tabs">
@@ -2494,6 +2569,9 @@
                     <h1 style="font-size:1.35rem">📅 Календарь задач</h1>
                     <div class="subtitle">Нажми на день, чтобы увидеть задачи</div>
                 </header>
+                <div id="calendar-subject-hint" class="calendar-subject-hint" hidden>
+                    Предметы не выбраны. Открой раздел «Предметы», добавь предметы и назначь им цвета — так точки задач в календаре будут различимы.
+                </div>
                 <div class="lang-toggle" style="margin-bottom:12px">
                     <button type="button" id="cal-filter-all" class="active" onclick="setCalFilter('all')">Все</button>
                     <button type="button" id="cal-filter-hw" onclick="setCalFilter('hw')">Учёба</button>
@@ -2635,8 +2713,8 @@
                         r.feed = [];
                     if (!r.feedRead)
                         r.feedRead = {};
-                    if (!r.subjects || !r.subjects.length)
-                        r.subjects = r.subjects || [];
+                    if (!Array.isArray(r.subjects))
+                        r.subjects = JSON.parse(JSON.stringify(DEFAULT_SUBJECTS));
                     return r;
                 } catch {
                     return initState();
@@ -2688,9 +2766,13 @@
                 return d.innerHTML;
             }
             function daysUntil(iso) {
-                if (!iso)
+                if (!iso || !/^\d{4}-\d{2}-\d{2}$/.test(String(iso)))
                     return null;
-                return Math.ceil((new Date(iso + 'T23:59:59') - new Date()) / 86400000);
+                const parts = iso.split('-').map(Number);
+                const target = Date.UTC(parts[0], parts[1] - 1, parts[2]);
+                const now = new Date();
+                const today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+                return Math.round((target - today) / 86400000);
             }
             function daysText(n) {
                 if (n === null)
@@ -3518,6 +3600,9 @@
 
             function renderCalendar() {
                 const s = load();
+                const subjectHint = document.getElementById('calendar-subject-hint');
+                if (subjectHint)
+                    subjectHint.hidden = getSubjects().length > 0;
                 const tasks = getTasks().filter(t => t.deadline).map(t => ({
                     ...t,
                     _src: 'proj'
@@ -3746,56 +3831,101 @@
             // Always-visible curated cards (no CORS needed)
 
             /* ===== Calendar ICS export ===== */
-            function exportICS() {
-                const tasks = getTasks().filter(t => t.deadline);
-                if (!tasks.length) {
-                    alert('Нет задач с дедлайнами');
+            async function exportICS() {
+                const stateForExport = load();
+                const allItems = [
+                    ...getTasks().filter(t => t.deadline).map(t => ({ ...t, _src: 'project' })),
+                    ...getHw().filter(t => t.deadline).map(t => ({ ...t, _src: 'homework' }))
+                ];
+                if (!allItems.length) {
+                    alert('Нет задач или домашних заданий с дедлайнами');
                     return;
                 }
 
-                // Proper ICS with CRLF and folded lines
-                const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//StudyTracker//RU', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', 'X-WR-CALNAME:Учёба 1 semestr'];
-
+                const escapeICS = value => String(value || '')
+                    .replace(/\\/g, '\\\\')
+                    .replace(/\r\n|\r|\n/g, '\\n')
+                    .replace(/;/g, '\\;')
+                    .replace(/,/g, '\\,');
                 const now = new Date();
-                const stamp = now.getUTCFullYear().toString() + String(now.getUTCMonth() + 1).padStart(2, '0') + String(now.getUTCDate()).padStart(2, '0') + 'T' + String(now.getUTCHours()).padStart(2, '0') + String(now.getUTCMinutes()).padStart(2, '0') + String(now.getUTCSeconds()).padStart(2, '0') + 'Z';
+                const stamp = now.getUTCFullYear().toString()
+                    + String(now.getUTCMonth() + 1).padStart(2, '0')
+                    + String(now.getUTCDate()).padStart(2, '0')
+                    + 'T' + String(now.getUTCHours()).padStart(2, '0')
+                    + String(now.getUTCMinutes()).padStart(2, '0')
+                    + String(now.getUTCSeconds()).padStart(2, '0') + 'Z';
+                const lines = [
+                    'BEGIN:VCALENDAR',
+                    'VERSION:2.0',
+                    'PRODID:-//StudyTracker//RU',
+                    'CALSCALE:GREGORIAN',
+                    'METHOD:PUBLISH',
+                    'X-WR-CALNAME:Расписание и задачи'
+                ];
 
-                tasks.forEach( (t, i) => {
-                    const d = t.deadline.replace(/-/g, '');
-                    // end date = next day for all-day events
-                    const endDate = new Date(t.deadline + 'T12:00:00');
-                    endDate.setDate(endDate.getDate() + 1);
-                    const dEnd = endDate.getFullYear().toString() + String(endDate.getMonth() + 1).padStart(2, '0') + String(endDate.getDate()).padStart(2, '0');
-
-                    // Escape special chars for ICS: \ , ;
-                    const summary = (t.text || 'Task').replace(/\\\\/g, '\\\\\\\\').replace(/;/g, '\\\\;').replace(/,/g, '\\\\,').replace(/\\n/g, '\\\\n');
+                allItems.forEach((item, index) => {
+                    const match = String(item.deadline || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
+                    if (!match) return;
+                    const year = Number(match[1]), month = Number(match[2]), day = Number(match[3]);
+                    const startDate = `${match[1]}${match[2]}${match[3]}`;
+                    const next = new Date(Date.UTC(year, month - 1, day + 1));
+                    const endDate = next.getUTCFullYear().toString()
+                        + String(next.getUTCMonth() + 1).padStart(2, '0')
+                        + String(next.getUTCDate()).padStart(2, '0');
+                    const source = item._src === 'homework' ? 'Домашнее задание' : 'Проект';
+                    const description = [
+                        source,
+                        item.subject ? `Предмет: ${item.subject}` : '',
+                        item.category ? `Тип: ${item.category}` : '',
+                        stateForExport.notes && stateForExport.notes[item.id] ? `Заметка: ${stateForExport.notes[item.id]}` : ''
+                    ].filter(Boolean).join('\n');
 
                     lines.push('BEGIN:VEVENT');
-                    lines.push('UID:' + t.id + '-' + i + '@study.local');
-                    lines.push('DTSTAMP:' + stamp);
-                    lines.push('DTSTART;VALUE=DATE:' + d);
-                    lines.push('DTEND;VALUE=DATE:' + dEnd);
-                    lines.push('SUMMARY:' + summary);
-                    lines.push('DESCRIPTION:Учебный трекер - IATE MEPhI');
+                    lines.push(`UID:${escapeICS(item._src)}-${escapeICS(item.id || index)}@study.local`);
+                    lines.push(`DTSTAMP:${stamp}`);
+                    lines.push(`DTSTART;VALUE=DATE:${startDate}`);
+                    lines.push(`DTEND;VALUE=DATE:${endDate}`);
+                    lines.push(`SUMMARY:${escapeICS(item.text || 'Задача')}`);
+                    lines.push(`DESCRIPTION:${escapeICS(description)}`);
+                    lines.push(`CATEGORIES:${item._src === 'homework' ? 'HOMEWORK' : 'PROJECT'}`);
                     lines.push('STATUS:CONFIRMED');
                     lines.push('TRANSP:TRANSPARENT');
                     lines.push('END:VEVENT');
-                }
-                );
+                });
 
                 lines.push('END:VCALENDAR');
-
-                // Join with CRLF (required by ICS spec)
                 const icsContent = lines.join('\r\n') + '\r\n';
+                const filename = 'study_calendar.ics';
 
-                const blob = new Blob([icsContent],{
-                    type: 'text/calendar;charset=utf-8'
-                });
+                // На iPhone удобнее передать файл через системное меню «Поделиться».
+                try {
+                    if (/iPhone|iPad|iPod/i.test(navigator.userAgent) &&
+                        typeof File === 'function' &&
+                        navigator.share && navigator.canShare) {
+                        const file = new File([icsContent], filename, { type: 'text/calendar;charset=utf-8' });
+                        if (navigator.canShare({ files: [file] })) {
+                            await navigator.share({ files: [file], title: 'Календарь задач' });
+                            showToast('Файл календаря подготовлен. Выбери приложение или сохрани файл.');
+                            return;
+                        }
+                    }
+                } catch (err) {
+                    if (err && err.name === 'AbortError') return;
+                    console.warn('Не удалось открыть меню отправки файла:', err);
+                }
+
+                const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
-                a.href = URL.createObjectURL(blob);
-                a.download = 'deadlines.ics';
+                a.href = url;
+                a.download = filename;
+                a.style.display = 'none';
+                document.body.appendChild(a);
                 a.click();
-                URL.revokeObjectURL(a.href);
-                showToast('Файл .ics скачан. Если не импортируется — используй кнопки GCal у задач');
+                a.remove();
+                // Не отзывать blob URL сразу: мобильным браузерам нужно время начать скачивание.
+                window.setTimeout(() => URL.revokeObjectURL(url), 15000);
+                showToast('Скачан .ics со всеми дедлайнами. Для Google Calendar импортируй файл в настройках календаря.');
             }
 
             function googleCalUrl(task) {
@@ -6944,6 +7074,42 @@
                 return TYPE_COLORS[t] || 'var(--muted)';
             }
 
+            function getPairNumber(lesson) {
+                const start = String(lesson && lesson.time || '').split('–')[0].trim();
+                const standardSlots = {
+                    '09:00': 1, '10:45': 2, '13:20': 3, '15:00': 4,
+                    '16:40': 5, '18:20': 6, '20:00': 7
+                };
+                if (standardSlots[start])
+                    return standardSlots[start];
+
+                const starts = new Set();
+                const collectStarts = value => {
+                    if (!value || typeof value !== 'object') return;
+                    if (Array.isArray(value)) {
+                        value.forEach(item => {
+                            if (item && typeof item === 'object' && item.time) {
+                                const startTime = String(item.time).split('–')[0].trim();
+                                if (/^\d{1,2}:\d{2}$/.test(startTime)) starts.add(startTime);
+                            }
+                            collectStarts(item);
+                        });
+                        return;
+                    }
+                    Object.values(value).forEach(collectStarts);
+                };
+                collectStarts(DEFAULT_SCHEDULE);
+                if (typeof FLOW_SCHEDULE_GROUPS !== 'undefined')
+                    collectStarts(FLOW_SCHEDULE_GROUPS);
+                const minutes = value => {
+                    const [h, m] = value.split(':').map(Number);
+                    return h * 60 + m;
+                };
+                const sorted = [...starts].sort((a, b) => minutes(a) - minutes(b));
+                const index = sorted.indexOf(start);
+                return index >= 0 ? index + 1 : null;
+            }
+
             let raspOpenDays = {};
             // remember expanded days
 
@@ -7118,7 +7284,7 @@
                         const isCurrentLesson = lessonIndex === activeLessonIndex;
                         html += `<div class="cal-day-task" style="display:flex;align-items:flex-start;gap:8px;${isCurrentLesson ? 'background:color-mix(in srgb,var(--primary-light) 7%,transparent);' : ''}">
         <div style="flex:1">
-          <div style="font-weight:600;font-size:0.88rem">${esc(l.time)} · <span style="color:${tCol};font-weight:700">${esc(l.type)}</span> · ${esc(l.subject)}</div>
+          <div style="font-weight:600;font-size:0.88rem">${getPairNumber(l) ? `<span class="pair-number">${getPairNumber(l)} пара</span>` : ''}${esc(l.time)} · <span style="color:${tCol};font-weight:700">${esc(l.type)}</span> · ${esc(l.subject)}</div>
           <div style="font-size:0.78rem;color:var(--muted);margin-top:2px">${esc(l.teacher)} · ауд. ${esc(l.room)}${l.sub ? ' · ' + l.sub + ' п/г' : ''}${weeksHint}</div>
         </div>
         ${isCurrentLesson ? `<span title="Текущая пара или следующая после перерыва" aria-label="Текущая пара" style="width:7px;height:7px;flex:0 0 7px;border-radius:50%;background:var(--primary-light);margin:7px 4px 0 0;box-shadow:0 0 0 3px color-mix(in srgb,var(--primary-light) 15%,transparent)"></span>` : ''}
