@@ -1,49 +1,44 @@
 <!DOCTYPE html>
 <html lang="ru">
     <head>
-<link rel="manifest" href="./manifest.json">
-<link rel="apple-touch-icon" href="./icon.png">
+        <meta name="theme-color" content="#003274">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <meta name="apple-mobile-web-app-title" content="Расписание">
+        <link rel="manifest" href="./manifest.json">
+        <link rel="apple-touch-icon" href="./icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="./icon.png">
 
         <!-- Подключаем манифест для Android, Chrome и Яндекс -->
-<link rel="manifest" href="./manifest.json">
+
 
 <!-- Иконка для экранов Apple (iPhone/iPad) -->
-<link rel="apple-touch-icon" href="./icon.png">
+
 
 <!-- Говорим Safari открывать сайт как приложение без вкладок -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Расписание">
 
 <!-- Цвет шапки приложения -->
-<meta name="theme-color" content="#3C86C4">
 
         <!-- Подключение манифеста для Android/Yandex/Chrome -->
-<link rel="manifest" href="./manifest.json">
+
 
 <!-- Иконка для экранов Apple iOS (iPhone/iPad) -->
-<link rel="apple-touch-icon" href="./icon.png">
+
 
 <!-- Настройки полноэкранного режима для Safari -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Расписание">
+
+
+
 
 <!-- Цвет панели браузеров -->
-<meta name="theme-color" content="#3C86C4">
+
 
         <!-- Подключение манифеста для Android и Chrome -->
-<link rel="manifest" href="manifest.json">
+
 
 <!-- Иконка для iPhone / Safari -->
-<link rel="apple-touch-icon" href="icon.png">
 
 <!-- Цвет вкладки в мобильном браузере -->
-<meta name="theme-color" content="#3C86C4">
-<link rel="manifest" href="manifest.json">
-
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Расписание и задачи</title>
         <style>
             :root {
@@ -102,7 +97,7 @@
                 min-height: 100vh;
                 line-height: 1.5;
                 background-color: #0a1628;
-                background-image: radial-gradient(ellipse 120% 80% at 50% -20%, rgba(60,134,196,0.35) 0%, transparent 55%), radial-gradient(ellipse 80% 50% at 100% 100%, rgba(42,157,143,0.12) 0%, transparent 50%), linear-gradient(165deg, rgba(10,22,40,0.55) 0%, rgba(15,35,70,0.45) 40%, rgba(8,18,35,0.65) 100%), url('https://commons.wikimedia.org/wiki/Special:FilePath/Cooling_towers_of_a_nuclear_power_plant.jpg?width=1600');
+                background-image: radial-gradient(ellipse 120% 80% at 50% -20%, rgba(60,134,196,0.35) 0%, transparent 55%), radial-gradient(ellipse 80% 50% at 100% 100%, rgba(42,157,143,0.12) 0%, transparent 50%), linear-gradient(165deg, rgba(10,22,40,0.55) 0%, rgba(15,35,70,0.45) 40%, rgba(8,18,35,0.65) 100%), url('./atom_background.webp?v=3');
                 background-size: cover, cover, cover, cover;
                 background-position: center, center, center, center;
                 background-repeat: no-repeat;
@@ -111,7 +106,7 @@
 
             [data-theme="light"] body {
                 background-color: #e8eef5;
-                background-image: radial-gradient(ellipse 100% 60% at 50% 0%, rgba(60,134,196,0.18) 0%, transparent 50%), linear-gradient(180deg, rgba(245,247,250,0.70) 0%, rgba(232,238,245,0.78) 100%), url('https://commons.wikimedia.org/wiki/Special:FilePath/Cooling_towers_of_a_nuclear_power_plant.jpg?width=1600');
+                background-image: radial-gradient(ellipse 100% 60% at 50% 0%, rgba(60,134,196,0.18) 0%, transparent 50%), linear-gradient(180deg, rgba(245,247,250,0.52) 0%, rgba(232,238,245,0.66) 100%), url('./atom_background.webp?v=3');
                 background-size: cover, cover, cover;
                 background-position: center top;
                 background-repeat: no-repeat;
@@ -119,7 +114,7 @@
 
             [data-theme="dark"] body {
                 background-color: #0a1628;
-                background-image: radial-gradient(ellipse 120% 80% at 50% -20%, rgba(60,134,196,0.28) 0%, transparent 55%), radial-gradient(ellipse 70% 40% at 80% 100%, rgba(94,234,212,0.08) 0%, transparent 45%), linear-gradient(165deg, rgba(8,15,30,0.70) 0%, rgba(12,25,50,0.55) 50%, rgba(6,12,25,0.78) 100%), url('https://images.unsplash.com/photo-1513828583688-c52646db42da?auto=format&fit=crop&w=1600&q=80');
+                background-image: radial-gradient(ellipse 120% 80% at 50% -20%, rgba(60,134,196,0.28) 0%, transparent 55%), radial-gradient(ellipse 70% 40% at 80% 100%, rgba(94,234,212,0.08) 0%, transparent 45%), linear-gradient(165deg, rgba(8,15,30,0.70) 0%, rgba(12,25,50,0.55) 50%, rgba(6,12,25,0.78) 100%), url('./atom_background.webp?v=3');
                 background-size: cover;
                 background-position: center;
                 background-repeat: no-repeat;
@@ -977,6 +972,15 @@
             .task-item.urgent-item:not(.done) {
                 background: rgba(229,62,62,0.06);
             }
+            .task-item.urgent-bucket-item:not(.done) {
+                background: rgba(229,62,62,0.12);
+                border-left: 3px solid #e53e3e;
+            }
+            .urgent-stage .task-list {
+                border-color: rgba(229,62,62,0.55);
+            }
+            .urgent-stage .task-text { color: #c53030; }
+            [data-theme="dark"] .urgent-stage .task-text { color: #fc8181; }
 
             .task-main {
                 display: flex;
@@ -2108,7 +2112,7 @@
 
 
 
-        /* Минималистичная заставка: иконка и эффект расщепления атома */
+        /* PWA launch animation */
         #pwa-launch-screen {
             position: fixed;
             inset: 0;
@@ -2116,160 +2120,94 @@
             display: none;
             align-items: center;
             justify-content: center;
-            background:
-                radial-gradient(circle at 50% 50%, rgba(38,126,210,.24) 0, rgba(15,42,76,.12) 26%, transparent 52%),
-                radial-gradient(ellipse at 50% 35%, #17385e 0%, #0b1b31 58%, #06101f 100%);
+            flex-direction: column;
+            gap: 16px;
+            background: radial-gradient(ellipse at 50% 30%, #244f7e 0%, #142b4b 48%, #0b1729 100%);
+            color: #fff;
             opacity: 1;
-            visibility: visible;
-            overflow: hidden;
             transition: opacity 380ms ease, visibility 380ms ease;
-            isolation: isolate;
+            visibility: visible;
         }
         #pwa-launch-screen.pwa-launch-visible { display: flex; }
         #pwa-launch-screen.pwa-launch-hide { opacity: 0; visibility: hidden; pointer-events: none; }
-        .atom-animation {
-            position: relative;
-            width: 220px;
-            height: 220px;
-            display: grid;
-            place-items: center;
-            animation: atom-arrive 720ms cubic-bezier(.18,.85,.25,1.15) both;
+        #pwa-launch-screen .pwa-launch-icon {
+            width: 88px;
+            height: 88px;
+            object-fit: cover;
+            border-radius: 23px;
+            box-shadow: 0 12px 38px rgba(0,0,0,.28);
+            animation: pwa-icon-pop 650ms cubic-bezier(.2,.8,.2,1) both;
         }
-        .atom-core {
-            position: relative;
-            z-index: 2;
-            width: 96px;
-            height: 96px;
-            border-radius: 22px;
-            overflow: hidden;
-            box-shadow: 0 0 22px rgba(91,190,255,.35), 0 0 65px rgba(46,142,255,.24), 0 12px 30px rgba(0,0,0,.32);
-            animation: core-react 1.45s 120ms ease-in-out both;
+        #pwa-launch-screen .pwa-launch-title {
+            font-size: 1.45rem;
+            font-weight: 750;
+            letter-spacing: .2px;
+            animation: pwa-title-rise 650ms 100ms both;
         }
-        .atom-core img {
-            display: block;
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            image-rendering: auto;
-            border-radius: inherit;
+        #pwa-launch-screen .pwa-launch-subtitle {
+            color: rgba(255,255,255,.7);
+            font-size: .9rem;
+            animation: pwa-title-rise 650ms 180ms both;
         }
-        .atom-orbits {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            overflow: visible;
+        #pwa-launch-screen .pwa-launch-loader {
+            display: flex;
+            gap: 6px;
+            margin-top: 8px;
         }
-        .atom-orbits .orbit {
-            fill: none;
-            stroke: rgba(115,205,255,.82);
-            stroke-width: 1.5;
-            stroke-linecap: round;
-            stroke-dasharray: 390;
-            stroke-dashoffset: 390;
-            filter: drop-shadow(0 0 4px rgba(70,174,255,.85));
-            transform-origin: 110px 110px;
-            animation: orbit-draw 850ms 80ms ease-out forwards;
-        }
-        .atom-orbits .orbit:nth-child(2) { animation-delay: 150ms; stroke: rgba(80,235,220,.8); }
-        .atom-orbits .orbit:nth-child(3) { animation-delay: 220ms; stroke: rgba(177,155,255,.82); }
-        .atom-electron {
-            fill: #e2f8ff;
-            filter: drop-shadow(0 0 5px #52caff);
-            transform-origin: 110px 110px;
-            animation: electron-spin 1.7s linear infinite;
-        }
-        .atom-electron.e2 { animation-duration: 1.35s; animation-direction: reverse; fill: #8affed; }
-        .atom-electron.e3 { animation-duration: 1.55s; fill: #c4b5fd; }
-        .atom-burst {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 3;
-            pointer-events: none;
-        }
-        .atom-burst circle {
-            fill: #bceeff;
-            filter: drop-shadow(0 0 5px #48baff);
-            opacity: 0;
-            transform-box: fill-box;
-            transform-origin: center;
-            animation: particle-split 950ms 320ms cubic-bezier(.12,.7,.25,1) both;
-        }
-        .atom-burst circle:nth-child(2n) { fill: #65f2df; animation-delay: 380ms; }
-        .atom-burst circle:nth-child(3n) { fill: #c4b5fd; animation-delay: 430ms; }
-        .atom-glow {
-            position: absolute;
-            width: 92px;
-            height: 92px;
+        #pwa-launch-screen .pwa-launch-loader span {
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
-            background: rgba(56,189,248,.22);
-            filter: blur(22px);
-            animation: nucleus-flash 1.25s 250ms ease-out both;
+            background: #7fc4ff;
+            animation: pwa-dot 900ms ease-in-out infinite;
         }
-        @keyframes atom-arrive {
-            0% { opacity: 0; transform: scale(.68) rotate(-12deg); }
-            65% { opacity: 1; transform: scale(1.06) rotate(3deg); }
-            100% { opacity: 1; transform: scale(1) rotate(0); }
+        #pwa-launch-screen .pwa-launch-loader span:nth-child(2) { animation-delay: 140ms; }
+        #pwa-launch-screen .pwa-launch-loader span:nth-child(3) { animation-delay: 280ms; }
+        @keyframes pwa-icon-pop {
+            from { opacity: 0; transform: scale(.72) rotate(-7deg); }
+            to { opacity: 1; transform: scale(1) rotate(0); }
         }
-        @keyframes orbit-draw { to { stroke-dashoffset: 0; } }
-        @keyframes electron-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes core-react {
-            0%, 100% { transform: scale(1); }
-            42% { transform: scale(1.12); box-shadow: 0 0 34px rgba(91,190,255,.8), 0 0 85px rgba(46,142,255,.5); }
-            58% { transform: scale(.92); }
-            76% { transform: scale(1.04); }
+        @keyframes pwa-title-rise {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        @keyframes particle-split {
-            0% { opacity: 0; transform: scale(.15) translate(0,0); }
-            20% { opacity: 1; }
-            100% { opacity: 0; transform: scale(1.5) translate(var(--dx, 20px), var(--dy, -20px)); }
-        }
-        @keyframes nucleus-flash {
-            0% { opacity: 0; transform: scale(.35); }
-            35% { opacity: .95; transform: scale(1.25); }
-            100% { opacity: .15; transform: scale(1.7); }
+        @keyframes pwa-dot {
+            0%, 60%, 100% { opacity: .35; transform: translateY(0); }
+            30% { opacity: 1; transform: translateY(-5px); }
         }
         @media (prefers-reduced-motion: reduce) {
-            #pwa-launch-screen *, #pwa-launch-screen *::before, #pwa-launch-screen *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition: none !important; }
+            #pwa-launch-screen *, #pwa-launch-screen *::before, #pwa-launch-screen *::after { animation: none !important; transition: none !important; }
         }
+
+            .urgent-stage .task-item:not(.done) { background: rgba(229,62,62,0.12); border-left: 3px solid #e53e3e; }
+            .urgent-stage .task-item .task-text { color: #c53030 !important; }
+            .urgent-stage .task-item.done { background: rgba(229,62,62,0.08); }
+            [data-theme="dark"] .urgent-stage .task-item .task-text { color: #fc8181 !important; }
+        
+            /* Mobile reliability and readability */
+            html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+            body { background-attachment: scroll; }
+            img { max-width: 100%; }
+            button, input, select, textarea { font: inherit; }
+            button, .btn, .icon-btn { touch-action: manipulation; }
+            @media (max-width: 640px) {
+                body { background-position: center top; }
+                .actions { gap: 6px; }
+                .actions .btn { max-width: 100%; }
+                input, select, textarea { max-width: 100%; }
+            }
+            @media (prefers-reduced-motion: reduce) {
+                *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
+            }
         </style>
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="default">
-        <meta name="apple-mobile-web-app-title" content="Учёба">
         <meta name="mobile-web-app-capable" content="yes">
-        <meta name="theme-color" content="#1a365d">
-        <link rel="manifest" href="data:application/manifest+json,{&quot;name&quot;:&quot;Расписание и задачи&quot;,&quot;short_name&quot;:&quot;Учёба&quot;,&quot;start_url&quot;:&quot;.&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;#edf2f7&quot;,&quot;theme_color&quot;:&quot;#1a365d&quot;,&quot;lang&quot;:&quot;ru&quot;}">
     </head>
     <body>
-        <div id="pwa-launch-screen" class="pwa-launch-visible" aria-hidden="true">
-            <div class="atom-animation">
-                <div class="atom-glow"></div>
-                <svg class="atom-orbits" viewBox="0 0 220 220" aria-hidden="true">
-                    <ellipse class="orbit" cx="110" cy="110" rx="91" ry="35" transform="rotate(-38 110 110)"/>
-                    <ellipse class="orbit" cx="110" cy="110" rx="91" ry="35" transform="rotate(38 110 110)"/>
-                    <ellipse class="orbit" cx="110" cy="110" rx="91" ry="35" transform="rotate(90 110 110)"/>
-                    <circle class="atom-electron" cx="201" cy="110" r="4"/>
-                    <circle class="atom-electron e2" cx="19" cy="110" r="3.5"/>
-                    <circle class="atom-electron e3" cx="110" cy="19" r="3"/>
-                </svg>
-                <div class="atom-core"><img src="./icon.png" alt=""></div>
-                <svg class="atom-burst" viewBox="0 0 220 220" aria-hidden="true">
-                    <circle cx="110" cy="24" r="3" style="--dx:8px;--dy:-20px"/>
-                    <circle cx="164" cy="43" r="2.5" style="--dx:28px;--dy:-12px"/>
-                    <circle cx="194" cy="91" r="3" style="--dx:22px;--dy:4px"/>
-                    <circle cx="184" cy="158" r="2.5" style="--dx:24px;--dy:22px"/>
-                    <circle cx="132" cy="197" r="3" style="--dx:8px;--dy:25px"/>
-                    <circle cx="67" cy="191" r="2.5" style="--dx:-18px;--dy:24px"/>
-                    <circle cx="25" cy="143" r="3" style="--dx:-24px;--dy:12px"/>
-                    <circle cx="29" cy="72" r="2.5" style="--dx:-25px;--dy:-12px"/>
-                    <circle cx="76" cy="28" r="3" style="--dx:-14px;--dy:-22px"/>
-                    <circle cx="145" cy="70" r="2" style="--dx:18px;--dy:-18px"/>
-                    <circle cx="151" cy="145" r="2.5" style="--dx:20px;--dy:18px"/>
-                    <circle cx="68" cy="148" r="2" style="--dx:-20px;--dy:18px"/>
-                </svg>
-            </div>
+        <div id="pwa-launch-screen" aria-hidden="true">
+            <img class="pwa-launch-icon" src="./icon.png" alt="">
+            <div class="pwa-launch-title">Расписание</div>
+            <div class="pwa-launch-subtitle">Всё по плану</div>
+            <div class="pwa-launch-loader" aria-hidden="true"><span></span><span></span><span></span></div>
         </div>
         <script>
         // Показываем заставку сразу, до выполнения основного кода приложения.
@@ -2283,7 +2221,7 @@
           const hideSplash = () => {
             if (finished) return;
             finished = true;
-            const delay = Math.max(0, 1250 - (Date.now() - startedAt));
+            const delay = Math.max(0, 700 - (Date.now() - startedAt));
             window.setTimeout(() => {
               splash.classList.add('pwa-launch-hide');
               window.setTimeout(() => splash.remove(), 400);
@@ -2292,7 +2230,7 @@
           if (document.readyState === 'complete') hideSplash();
           else window.addEventListener('load', hideSplash, { once: true });
           // Не оставляем заставку навсегда, если внешний ресурс завис.
-          window.setTimeout(hideSplash, 2400);
+          window.setTimeout(hideSplash, 1800);
         })();
         </script>
         <div id="theme-fill" class="theme-fill" aria-hidden="true"></div>
@@ -2430,6 +2368,7 @@
                         <input type="text" id="stage-new-name" placeholder="Название этапа (напр. Этап 1. Исследование)">
                         <input type="date" id="stage-new-deadline" title="Дедлайн этапа">
                         <button type="button" onclick="addStage()">+ Этап</button>
+                        <button type="button" onclick="addUrgentStage()" style="background:#e53e3e;color:#fff;border-color:#e53e3e">🔥 Срочно</button>
                     </div>
                     <div style="font-size:0.78rem;color:var(--muted);margin:8px 0 4px">Цвет этапа:</div>
                     <div class="color-preset" id="stage-color-presets">
@@ -2716,7 +2655,17 @@
                 };
             }
             function save(s) {
-                localStorage.setItem(KEY, JSON.stringify(s));
+                try {
+                    localStorage.setItem(KEY, JSON.stringify(s));
+                    return true;
+                } catch (err) {
+                    console.error('Не удалось сохранить данные приложения:', err);
+                    const msg = (err && (err.name === 'QuotaExceededError' || err.code === 22))
+                        ? 'Память приложения заполнена. Экспортируй данные и освободи место в хранилище браузера.'
+                        : 'Не удалось сохранить изменения. Проверь, разрешено ли сайту хранить данные.';
+                    if (typeof showToast === 'function') showToast(msg); else alert(msg);
+                    return false;
+                }
             }
 
             function getSubjects() {
@@ -3003,6 +2952,39 @@
                 showToast('Название проекта сохранено');
             }
 
+            function isUrgentStage(section, sections) {
+                const list = Array.isArray(sections) ? sections : getSections();
+                const sec = typeof section === 'number' ? list[section] : section;
+                return !!(sec && (sec.isUrgentBucket === true || sec.kind === 'urgent'));
+            }
+
+            function isUrgentTask(task, sections) {
+                return !!(task && (task.urgent || isUrgentStage(task.section, sections)));
+            }
+
+            function addUrgentStage() {
+                const s = load();
+                if (!Array.isArray(s.sections)) s.sections = JSON.parse(JSON.stringify(DEFAULT_SECTIONS));
+                if (s.sections.some(sec => sec && (sec.isUrgentBucket === true || sec.kind === 'urgent'))) {
+                    showToast('Этап 🔥 Срочно уже есть');
+                    return;
+                }
+                s.sections.push({ name: '🔥 Срочно', deadline: null, color: '#e53e3e', urgent: true, isUrgentBucket: true, kind: 'urgent' });
+                s.urgentStageManuallyRemoved = false;
+                save(s);
+                render();
+                showToast('Этап 🔥 Срочно добавлен');
+            }
+
+            function ensureDefaultUrgentStage(s) {
+                if (!s || s.urgentStageManuallyRemoved === true) return;
+                if (!Array.isArray(s.sections)) s.sections = JSON.parse(JSON.stringify(DEFAULT_SECTIONS));
+                if (!s.sections.some(sec => sec && (sec.isUrgentBucket === true || sec.kind === 'urgent'))) {
+                    s.sections.push({ name: '🔥 Срочно', deadline: null, color: '#e53e3e', urgent: true, isUrgentBucket: true, kind: 'urgent' });
+                    save(s);
+                }
+            }
+
             function fillSectionSelect() {
                 const sel = document.getElementById('new-section');
                 if (!sel) return;
@@ -3027,7 +3009,7 @@
                 }
                 const PRESETS = ['#2b6cb0','#3182ce','#00b5d8','#0bc5ea','#319795','#38a169','#48bb78','#68d391','#d69e2e','#dd6b20','#ed8936','#e53e3e','#c53030','#d53f8c','#805ad5','#6b46c1','#4a5568','#718096','#1a365d','#2c5282'];
                 el.innerHTML = sections.map(function(sec, i) {
-                    const col = (sec.color || '#3C86C4').toLowerCase();
+                    const col = (sec.isUrgentBucket || sec.kind === 'urgent' ? '#e53e3e' : (sec.color || '#3C86C4')).toLowerCase();
                     let dl = '';
                     if (sec.deadline) {
                         try {
@@ -3035,19 +3017,19 @@
                             if (f && f.indexOf('undefined') < 0) dl = ' <span style="font-size:0.75rem;color:var(--muted)">до ' + f + '</span>';
                         } catch (e) {}
                     }
-                    const swatches = PRESETS.map(function(c) {
+                    const swatches = (sec.isUrgentBucket || sec.kind === 'urgent' ? '' : PRESETS.map(function(c) {
                         const active = c.toLowerCase() === col ? ' active' : '';
                         return '<span class="' + active.trim() + '" style="background:' + c + '" onclick="event.stopPropagation();setStageColor(' + i + ',\'' + c + '\')"></span>';
-                    }).join('') +
-                      '<label style="width:26px;height:26px;border-radius:7px;overflow:hidden;cursor:pointer;border:2px dashed var(--border);display:inline-flex;align-items:center;justify-content:center;font-size:0.7rem;position:relative" title="Свой цвет">' +
+                    }).join('')) +
+                      ((sec.isUrgentBucket || sec.kind === 'urgent') ? '' : '<label style="width:26px;height:26px;border-radius:7px;overflow:hidden;cursor:pointer;border:2px dashed var(--border);display:inline-flex;align-items:center;justify-content:center;font-size:0.7rem;position:relative" title="Свой цвет">' +
                       '🎨<input type="color" value="' + esc(sec.color || '#3C86C4') + '" style="opacity:0;position:absolute;inset:0;width:100%;height:100%;cursor:pointer" onchange="setStageColor(' + i + ', this.value)" onclick="event.stopPropagation()">' +
-                      '</label>';
+                      '</label>');
                     return '<div class="subj-item" style="margin-bottom:4px;flex-wrap:wrap">' +
                         '<div class="subj-color-wrap" title="Цвет этапа" onclick="toggleStagePalette(' + i + ')">' +
-                        '<span class="subj-color" style="background:' + esc(sec.color || '#3C86C4') + ';flex-shrink:0"></span></div>' +
+                        '<span class="subj-color" style="background:' + (sec.isUrgentBucket || sec.kind === 'urgent' ? '#e53e3e' : esc(sec.color || '#3C86C4')) + ';flex-shrink:0"></span></div>' +
                         '<div class="subj-name" style="flex:1">' + esc(sec.name) + dl + '</div>' +
                         '<div class="subj-actions">' +
-                        '<button type="button" title="Изменить" onclick="editStage(' + i + ')">✏️</button>' +
+                        (sec.isUrgentBucket || sec.kind === 'urgent' ? '' : '<button type="button" title="Изменить" onclick="editStage(' + i + ')">✏️</button>') +
                         '<button type="button" title="Удалить" onclick="deleteStage(' + i + ')">🗑</button>' +
                         '</div>' +
                         '<div class="subj-palette" id="stage-pal-' + i + '">' + swatches + '</div>' +
@@ -3127,9 +3109,15 @@
                 const s = load();
                 if (!s.sections) s.sections = JSON.parse(JSON.stringify(DEFAULT_SECTIONS));
                 if (!confirm('Удалить этап «' + (s.sections[i] && s.sections[i].name) + '»? Задачи этапа станут «Мои задачи».')) return;
+                const removedStage = s.sections[i];
                 s.sections.splice(i, 1);
+                const removedUrgentStage = !!(removedStage && (removedStage.isUrgentBucket === true || removedStage.kind === 'urgent'));
+                if (removedUrgentStage) s.urgentStageManuallyRemoved = true;
                 (s.tasks || []).forEach(function(task) {
-                    if (task.section === i) task.section = 'custom';
+                    if (task.section === i) {
+                        task.section = 'custom';
+                        if (removedUrgentStage) task.urgent = false;
+                    }
                     else if (typeof task.section === 'number' && task.section > i) task.section = task.section - 1;
                 });
                 save(s);
@@ -3139,6 +3127,7 @@
 
             function render() {
                 const s = load();
+                ensureDefaultUrgentStage(s);
                 const tasks = getTasks();
                 applyProjectMeta();
                 fillSectionSelect();
@@ -3156,14 +3145,15 @@
                     const n = sec.deadline ? daysUntil(sec.deadline) : null;
                     const warn = n !== null && n <= 7;
                     const sectionEl = document.createElement('div');
-                    sectionEl.className = 'section';
+                    const urgentBucket = isUrgentStage(si, sectionsList);
+                    sectionEl.className = 'section' + (urgentBucket ? ' urgent-stage' : '');
                     let badgeHtml = '';
                     if (sec.deadline) {
                         const fdl = fmt(sec.deadline);
                         if (fdl && fdl.indexOf('undefined') < 0)
                             badgeHtml = '<span class="badge ' + (sec.urgent ? 'urgent' : '') + '">до ' + fdl + '</span>';
                     }
-                    sectionEl.innerHTML = `<div class="section-title" style="color:${sec.color || 'var(--primary)'}">
+                    sectionEl.innerHTML = `<div class="section-title" style="color:${urgentBucket ? '#e53e3e' : (sec.color || 'var(--primary)')};font-weight:${urgentBucket ? '800' : '600'}">
       ${esc(sec.name)}
       ${badgeHtml}
       <span class="days-left ${warn ? 'warn' : ''}">${n !== null ? daysText(n) : ''}</span>
@@ -3182,7 +3172,8 @@
                         const dw = dn !== null && dn <= 5;
 
                         const el = document.createElement('div');
-                        el.className = 'task-item' + (isDone ? ' done' : '') + (item.urgent && !isDone ? ' urgent-item' : '');
+                        const taskUrgent = isUrgentTask(item, sectionsList);
+                        el.className = 'task-item' + (isDone ? ' done' : '') + (taskUrgent && !isDone ? ' urgent-item' : '') + (urgentBucket && !isDone ? ' urgent-bucket-item' : '');
                         el.innerHTML = `
         <div class="task-main">
           <div class="checkbox" onclick="toggleDone('${item.id}')">
@@ -3190,7 +3181,7 @@
           </div>
           <div class="task-content" onclick="toggleDone('${item.id}')">
             <div class="task-text">${esc(item.text)}</div>
-            <div class="task-deadline ${item.urgent ? 'urgent-text' : ''}">
+            <div class="task-deadline ${taskUrgent ? 'urgent-text' : ''}">
               ${fmt(item.deadline)} <span class="task-days ${dw ? 'warn' : ''}">· ${daysText(dn)}</span>
             </div>
           </div>
@@ -3635,7 +3626,7 @@
                     section,
                     text,
                     deadline: deadline || null,
-                    urgent: section === 0
+                    urgent: false
                 });
                 save(s);
                 document.getElementById('new-text').value = '';
@@ -3871,7 +3862,17 @@
             }
 
             function saveSchedule(sched) {
-                localStorage.setItem(SCHED_KEY, JSON.stringify(sched));
+                try {
+                    localStorage.setItem(SCHED_KEY, JSON.stringify(sched));
+                    return true;
+                } catch (err) {
+                    console.error('Не удалось сохранить расписание:', err);
+                    const msg = (err && (err.name === 'QuotaExceededError' || err.code === 22))
+                        ? 'Хранилище заполнено: расписание не сохранено. Экспортируй данные и освободи место.'
+                        : 'Не удалось сохранить расписание. Проверь настройки хранения сайта.';
+                    if (typeof showToast === 'function') showToast(msg); else alert(msg);
+                    return false;
+                }
             }
 
             const FLOW_SCHEDULE_GROUPS = {
@@ -6693,8 +6694,9 @@
             function resetSchedule() {
                 if (!confirm('Сбросить расписание к исходному?'))
                     return;
-                SCHEDULE = JSON.parse(JSON.stringify(DEFAULT_SCHEDULE));
-                saveSchedule(SCHEDULE);
+                const resetScheduleData = JSON.parse(JSON.stringify(DEFAULT_SCHEDULE));
+                if (!saveSchedule(resetScheduleData)) return;
+                SCHEDULE = resetScheduleData;
                 renderRasp();
                 showToast('Расписание сброшено');
             }
@@ -7175,17 +7177,24 @@
 
             function importScheduleFile(ev) {
                 const file = ev.target.files[0];
-                if (!file)
+                if (!file) return;
+                if (file.size > 10 * 1024 * 1024) {
+                    alert('Файл расписания слишком большой (максимум 10 МБ).');
+                    ev.target.value = '';
                     return;
+                }
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     try {
                         const data = JSON.parse(e.target.result);
                         const sch = data.schedule || data;
-                        if (!sch || typeof sch !== 'object')
-                            throw new Error('bad format');
-                        SCHEDULE = normalizeSchedule(sch);
-                        saveSchedule(SCHEDULE);
+                        if (!sch || typeof sch !== 'object' || Array.isArray(sch))
+                            throw new Error('Ожидался объект расписания');
+                        const normalized = normalizeSchedule(sch);
+                        if (!normalized || typeof normalized !== 'object' || Array.isArray(normalized))
+                            throw new Error('Структура расписания неверна');
+                        if (!saveSchedule(normalized)) throw new Error('Хранилище не приняло расписание; прежнее расписание сохранено');
+                        SCHEDULE = normalized;
                         renderRasp();
                         showToast('Расписание импортировано');
                     } catch (err) {
@@ -7524,110 +7533,185 @@
                 const s = load();
                 const tasks = getTasks();
                 const hw = getHw();
-                const sections = (typeof getSections === 'function') ? getSections() : (s.sections || []);
-                let total = tasks.length;
-                let done = tasks.filter(t => s.done[t.id]).length;
-                let hwTotal = hw.length;
-                let hwDone = hw.filter(t => s.done[t.id]).length;
+                const sections = (typeof getSections === 'function') ? getSections() : (Array.isArray(s.sections) ? s.sections : []);
+                const doneMap = s.done || {};
+                const notes = s.notes || {};
+                const links = s.links || {};
+                const safeText = value => String(value == null ? '' : value).trim();
+                const taskDone = task => !!doneMap[task.id];
+                const taskLabel = task => {
+                    const bits = [];
+                    if (task.deadline) {
+                        const days = typeof daysUntil === 'function' ? daysUntil(task.deadline) : null;
+                        bits.push('срок: ' + (typeof fmt === 'function' ? fmt(task.deadline) : task.deadline));
+                        if (days !== null && days < 0) bits.push('просрочено на ' + Math.abs(days) + ' дн.');
+                        else if (days !== null && days === 0) bits.push('срок сегодня');
+                        else if (days !== null && days <= 3) bits.push('осталось ' + days + ' дн.');
+                    }
+                    if (task.urgent || (typeof isUrgentTask === 'function' && isUrgentTask(task, sections))) bits.push('СРОЧНО');
+                    return bits.length ? ' (' + bits.join('; ') + ')' : '';
+                };
+                const grouped = sections.map((sec, index) => ({
+                    sec,
+                    index,
+                    items: tasks.filter(task => task.section === index)
+                }));
+                const groupedIds = new Set(grouped.flatMap(group => group.items.map(task => task.id)));
+                const custom = tasks.filter(task => task.section === 'custom' || task.section === 6 || !groupedIds.has(task.id));
+                const total = tasks.length;
+                const done = tasks.filter(taskDone).length;
+                const hwTotal = hw.length;
+                const hwDone = hw.filter(taskDone).length;
                 let text = '';
-                text += '=== Сводка проекта (трекер студента) ===\n\n';
-                text += 'Проект: ' + (s.projectTitle || 'Без названия') + '\n';
-                if (s.projectSubtitle) text += 'Описание: ' + s.projectSubtitle + '\n';
-                text += 'Дата сводки: ' + new Date().toLocaleString('ru-RU') + '\n\n';
-                text += 'Прогресс задач проекта: ' + done + '/' + total + ' (' + (total ? Math.round(done / total * 100) : 0) + '%)\n';
-                text += 'Домашние задания: ' + hwDone + '/' + hwTotal + ' (' + (hwTotal ? Math.round(hwDone / hwTotal * 100) : 0) + '%)\n\n';
 
-                if (sections && sections.length) {
-                    text += '--- Этапы проекта ---\n';
-                    sections.forEach(function(sec, i) {
-                        const items = tasks.filter(t => t.section === i);
-                        const d = items.filter(t => s.done[t.id]).length;
-                        text += (i + 1) + '. ' + (sec.name || 'Этап') +
-                            (sec.deadline ? ' (до ' + fmt(sec.deadline) + ')' : '') +
-                            ' — ' + d + '/' + items.length + '\n';
+                text += 'КОНТЕКСТ ДЛЯ ИИ — УЧЕБНЫЙ ПРОЕКТ И ПЛАНИРОВАНИЕ\n';
+                text += 'Сформировано: ' + new Date().toLocaleString('ru-RU') + '\n\n';
+                text += 'ТВОЯ РОЛЬ\n';
+                text += 'Будь доброжелательным научным наставником и помощником по планированию. Помогай разбираться в теме, рассуждать о проекте, отвечай на мои конкретные вопросы, предлагай полезные темы для изучения и следующие шаги. Не ограничивайся пересказом списка задач.\n\n';
+                text += 'ПРАВИЛА ОТВЕТА\n';
+                text += '1. Опирайся на сведения ниже и на мой вопрос. Не выдумывай факты о проекте; явно отделяй известное от предположений.\n';
+                text += '2. Если совету нужны новые научные сведения, указывай, что именно стоит проверить в надёжных источниках; не придумывай ссылки и цитаты.\n';
+                text += '3. Объясняй ход рассуждения понятными шагами и отмечай ограничения/неопределённость.\n';
+                text += '4. Для учебных пробелов предлагай конкретные темы и порядок изучения: что знать заранее, что понять, как проверить понимание.\n';
+                text += '5. При планировании учитывай сроки, срочность и уже выполненные задачи. Давай реалистичный ближайший план, а не огромный список общих советов.\n';
+                text += '6. Если я задаю конкретный вопрос, сначала ответь на него; не заменяй ответ общим анализом. Задавай уточняющий вопрос только если без него нельзя дать полезный ответ.\n\n';
+
+                text += 'О ПРОЕКТЕ\n';
+                text += 'Название: ' + (safeText(s.projectTitle) || 'не указано') + '\n';
+                if (safeText(s.projectSubtitle)) text += 'Описание: ' + safeText(s.projectSubtitle) + '\n';
+                text += 'Выполнено задач дорожной карты: ' + done + '/' + total + ' (' + (total ? Math.round(done / total * 100) : 0) + '%).\n';
+                if (sections.length) text += 'Количество этапов: ' + sections.length + '.\n';
+                text += '\n';
+
+                if (sections.length) {
+                    text += 'ЭТАПЫ И ЗАДАЧИ\n';
+                    grouped.forEach(group => {
+                        const sec = group.sec || {};
+                        const items = group.items;
+                        const countDone = items.filter(taskDone).length;
+                        text += '\n### ' + (safeText(sec.name) || ('Этап ' + (group.index + 1)));
+                        if (sec.deadline) text += ' — срок этапа: ' + (typeof fmt === 'function' ? fmt(sec.deadline) : sec.deadline);
+                        text += ' (' + countDone + '/' + items.length + ' выполнено)\n';
+                        if (!items.length) text += 'Задач пока нет.\n';
+                        items.forEach(task => {
+                            text += (taskDone(task) ? '[ВЫПОЛНЕНО] ' : '[НЕ ВЫПОЛНЕНО] ');
+                            text += safeText(task.text) + taskLabel(task) + '\n';
+                            if (safeText(notes[task.id])) text += '  Заметка: ' + safeText(notes[task.id]).replace(/\n/g, '\n  ') + '\n';
+                            if (safeText(links[task.id])) text += '  Материал/ссылка: ' + safeText(links[task.id]) + '\n';
+                        });
                     });
-                    text += '\n';
                 }
-
-                text += '--- Задачи по этапам ---\n';
-                sections.forEach(function(sec, i) {
-                    const items = tasks.filter(t => t.section === i);
-                    if (!items.length) return;
-                    text += '\n[' + (sec.name || ('Этап ' + (i + 1))) + ']\n';
-                    items.forEach(function(t) {
-                        text += (s.done[t.id] ? '✓ ' : '○ ') + t.text;
-                        if (t.deadline) text += ' (до ' + fmt(t.deadline) + ')';
-                        if (t.urgent) text += ' [срочно]';
-                        text += '\n';
-                        if (s.notes && s.notes[t.id]) text += '  заметка: ' + s.notes[t.id] + '\n';
-                    });
-                });
-                const custom = tasks.filter(t => t.section === 'custom' || t.section === 6);
                 if (custom.length) {
-                    text += '\n[Мои задачи]\n';
-                    custom.forEach(function(t) {
-                        text += (s.done[t.id] ? '✓ ' : '○ ') + t.text;
-                        if (t.deadline) text += ' (до ' + fmt(t.deadline) + ')';
-                        text += '\n';
+                    text += '\n### Мои задачи / без этапа\n';
+                    custom.forEach(task => {
+                        text += (taskDone(task) ? '[ВЫПОЛНЕНО] ' : '[НЕ ВЫПОЛНЕНО] ') + safeText(task.text) + taskLabel(task) + '\n';
+                        if (safeText(notes[task.id])) text += '  Заметка: ' + safeText(notes[task.id]) + '\n';
+                        if (safeText(links[task.id])) text += '  Материал/ссылка: ' + safeText(links[task.id]) + '\n';
                     });
                 }
 
                 if (hw.length) {
-                    text += '\n--- Домашние задания ---\n';
-                    hw.forEach(function(t) {
-                        text += (s.done[t.id] ? '✓ ' : '○ ') + t.text;
-                        if (t.subject) text += ' [' + t.subject + ']';
-                        if (t.category) text += ' (' + t.category + ')';
-                        if (t.deadline) text += ' до ' + fmt(t.deadline);
+                    text += '\nДОМАШНИЕ ЗАДАНИЯ (дополнительный учебный контекст)\n';
+                    text += 'Выполнено: ' + hwDone + '/' + hwTotal + '.\n';
+                    hw.forEach(task => {
+                        text += (taskDone(task) ? '[ВЫПОЛНЕНО] ' : '[НЕ ВЫПОЛНЕНО] ') + safeText(task.text);
+                        if (task.subject) text += ' | предмет: ' + safeText(task.subject);
+                        if (task.category) text += ' | тип: ' + safeText(task.category);
+                        if (task.deadline) text += ' | срок: ' + (typeof fmt === 'function' ? fmt(task.deadline) : task.deadline);
                         text += '\n';
                     });
                 }
-
-                if (s.journal && s.journal.length) {
-                    text += '\n--- Журнал прогресса (последние записи) ---\n';
-                    s.journal.slice(0, 5).forEach(function(e) {
-                        text += '\n[' + fmt(e.date) + ']\n';
-                        if (e.done) text += 'Сделано: ' + e.done + '\n';
-                        if (e.questions) text += 'Вопросы / проблемы: ' + e.questions + '\n';
-                        if (e.plan) text += 'План: ' + e.plan + '\n';
+                if (Array.isArray(s.subjects) && s.subjects.length) {
+                    text += '\nПРЕДМЕТЫ В РАСПИСАНИИ (только как общий учебный контекст)\n';
+                    text += s.subjects.map(subject => safeText(subject && subject.name)).filter(Boolean).join('; ') + '\n';
+                }
+                if (Array.isArray(s.journal) && s.journal.length) {
+                    text += '\nПОСЛЕДНИЕ ЗАПИСИ ПРОГРЕССА\n';
+                    s.journal.slice(0, 8).forEach(entry => {
+                        text += '\n' + (entry.date && typeof fmt === 'function' ? fmt(entry.date) : safeText(entry.date)) + '\n';
+                        if (safeText(entry.done)) text += 'Что сделано: ' + safeText(entry.done) + '\n';
+                        if (safeText(entry.questions)) text += 'Вопросы/трудности: ' + safeText(entry.questions) + '\n';
+                        if (safeText(entry.plan)) text += 'План: ' + safeText(entry.plan) + '\n';
                     });
                 }
 
-                text += '\n--- Просьба к ИИ ---\n';
-                text += 'По этой сводке: кратко оцени прогресс, укажи риски по дедлайнам, что сделать в первую очередь и что уточнить.\n';
+                text += '\nКАК ПОМОГАТЬ МНЕ ДАЛЬШЕ\n';
+                text += 'На основе этого контекста помогай мне: отвечать на вопросы о проекте; оценивать идеи и аргументы; выявлять пробелы в знаниях и объяснять, что подтянуть; составлять порядок изучения тем; разбирать сложные понятия на примерах; находить риски и зависимости между задачами; выбирать следующие практические шаги с учётом сроков. Не считай, что все разделы данных одинаково важны: дорожная карта — основной контекст, домашние задания и предметы — вспомогательный.\n';
+                text += '\nМОЙ ВОПРОС / ЗАПРОС\n';
+                text += '[Впиши сюда вопрос. Если вопрос не добавлен, сначала предложи краткий обзор текущего прогресса, 3 главных риска/пробела и план ближайших действий.]\n';
                 return text;
             }
 
             function copyForAI() {
                 const txt = buildAIText();
-                navigator.clipboard.writeText(txt).then(function() {
-                    showToast('Скопировано! Вставь в любой чат с ИИ');
-                }).catch(function() {
-                    prompt('Скопируй текст:', txt);
-                });
+                const fallbackCopy = function() {
+                    const area = document.createElement('textarea');
+                    area.value = txt;
+                    area.setAttribute('readonly', '');
+                    area.style.position = 'fixed';
+                    area.style.opacity = '0';
+                    area.style.pointerEvents = 'none';
+                    document.body.appendChild(area);
+                    area.select();
+                    area.setSelectionRange(0, area.value.length);
+                    let copied = false;
+                    try { copied = document.execCommand('copy'); } catch (e) {}
+                    document.body.removeChild(area);
+                    if (copied) showToast('Сводка скопирована — вставь её в любой чат с ИИ');
+                    else prompt('Автокопирование недоступно. Скопируй текст вручную:', txt);
+                };
+                if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+                    navigator.clipboard.writeText(txt).then(function() {
+                        showToast('Сводка скопирована — вставь её в любой чат с ИИ');
+                    }).catch(fallbackCopy);
+                } else {
+                    fallbackCopy();
+                }
             }
 
-            function buildGrokText() { return buildAIText(); }
+                        function buildGrokText() { return buildAIText(); }
             function copyForGrok() { copyForAI(); }
 
 
             function makeRoadmapSnapshot() {
                 const s = load();
+                const tasks = Array.isArray(s.tasks) ? s.tasks : [];
+                const taskIds = new Set(tasks.map(t => String(t && t.id)).filter(Boolean));
+                const pickTaskMap = value => {
+                    const out = {};
+                    if (value && typeof value === 'object' && !Array.isArray(value)) {
+                        Object.keys(value).forEach(id => {
+                            if (taskIds.has(String(id))) out[id] = value[id];
+                        });
+                    }
+                    return out;
+                };
                 return {
+                    schema: 'roadmap-only-v2',
                     savedAt: new Date().toISOString(),
                     projectTitle: s.projectTitle || '',
                     projectSubtitle: s.projectSubtitle || '',
-                    sections: JSON.parse(JSON.stringify(s.sections || [])),
-                    tasks: JSON.parse(JSON.stringify(s.tasks || [])),
-                    done: JSON.parse(JSON.stringify(s.done || {})),
-                    notes: JSON.parse(JSON.stringify(s.notes || {})),
-                    links: JSON.parse(JSON.stringify(s.links || {})),
-                    journal: JSON.parse(JSON.stringify(s.journal || []))
+                    sections: JSON.parse(JSON.stringify(Array.isArray(s.sections) ? s.sections : [])),
+                    tasks: JSON.parse(JSON.stringify(tasks)),
+                    done: JSON.parse(JSON.stringify(pickTaskMap(s.done || {}))),
+                    notes: JSON.parse(JSON.stringify(pickTaskMap(s.notes || {}))),
+                    links: JSON.parse(JSON.stringify(pickTaskMap(s.links || {}))),
+                    journal: JSON.parse(JSON.stringify(Array.isArray(s.journal) ? s.journal : []))
                 };
             }
 
             function backupRoadmap(silent) {
                 try {
+                    const current = load();
+                    const hasContent =
+                        (Array.isArray(current.sections) && current.sections.length > 0) ||
+                        (Array.isArray(current.tasks) && current.tasks.length > 0);
+                    // Пустая карта не должна затирать последнюю полезную резервную копию.
+                    if (!hasContent && hasRoadmapBackup()) {
+                        if (!silent) showToast('Карта пуста — предыдущий бэкап сохранён');
+                        updateBackupButton();
+                        return true;
+                    }
                     const snap = makeRoadmapSnapshot();
                     localStorage.setItem(BACKUP_KEY, JSON.stringify(snap));
                     if (!silent) {
@@ -7681,22 +7765,37 @@
                     alert('Бэкапа нет. Сначала сделай «Бэкап» или сбрось карту (бэкап создаётся автоматически).');
                     return;
                 }
+                if (!Array.isArray(snap.tasks) || !Array.isArray(snap.sections) || snap.tasks.some(t => !t || typeof t !== 'object' || t.id == null) || snap.sections.some(sec => !sec || typeof sec !== 'object' || typeof sec.name !== 'string')) {
+                    alert('Бэкап повреждён или имеет неподдерживаемый формат. Текущие данные не изменены.');
+                    return;
+                }
                 let when = '';
                 try { when = new Date(snap.savedAt).toLocaleString('ru-RU'); } catch (e) {}
                 if (!confirm('Восстановить дорожную карту из бэкапа' + (when ? ' (' + when + ')' : '') + '?\n\nТекущие этапы и задачи будут заменены.'))
                     return;
-                // на всякий случай бэкап текущего состояния перед восстановлением
-                backupRoadmap(true);
+                // Не перезаписываем бэкап текущим состоянием: восстанавливаем именно сохранённую копию.
                 const s = load();
                 s.projectTitle = snap.projectTitle != null ? snap.projectTitle : s.projectTitle;
                 s.projectSubtitle = snap.projectSubtitle != null ? snap.projectSubtitle : s.projectSubtitle;
+                const oldIds = new Set((Array.isArray(s.tasks) ? s.tasks : []).map(t => String(t && t.id)));
+                const restoredTasks = Array.isArray(snap.tasks) ? snap.tasks : [];
+                const restoredIds = new Set(restoredTasks.map(t => String(t && t.id)));
+                const mergeTaskMap = (current, incoming) => {
+                    const out = Object.assign({}, current && typeof current === 'object' && !Array.isArray(current) ? current : {});
+                    oldIds.forEach(id => { if (!restoredIds.has(id)) delete out[id]; });
+                    if (incoming && typeof incoming === 'object' && !Array.isArray(incoming)) {
+                        oldIds.forEach(id => delete out[id]);
+                        Object.keys(incoming).forEach(id => { if (restoredIds.has(String(id))) out[id] = incoming[id]; });
+                    }
+                    return out;
+                };
                 s.sections = Array.isArray(snap.sections) ? snap.sections : [];
-                s.tasks = Array.isArray(snap.tasks) ? snap.tasks : [];
-                if (snap.done && typeof snap.done === 'object') s.done = snap.done;
-                if (snap.notes && typeof snap.notes === 'object') s.notes = snap.notes;
-                if (snap.links && typeof snap.links === 'object') s.links = snap.links;
+                s.tasks = restoredTasks;
+                s.done = mergeTaskMap(s.done, snap.done);
+                s.notes = mergeTaskMap(s.notes, snap.notes);
+                s.links = mergeTaskMap(s.links, snap.links);
                 if (Array.isArray(snap.journal)) s.journal = snap.journal;
-                save(s);
+                if (!save(s)) return;
                 applyProjectMeta();
                 render();
                 updateBackupButton();
@@ -7704,55 +7803,110 @@
             }
 
             function exportJSON() {
-                // при экспорте тоже обновляем локальный бэкап
-                backupRoadmap(true);
-                const blob = new Blob([JSON.stringify(makeRoadmapSnapshot(), null, 2)], {
-                    type: 'application/json'
+                const snapshot = makeRoadmapSnapshot();
+                // Экспорт не должен менять локальный бэкап сам по себе.
+                const blob = new Blob([JSON.stringify(snapshot, null, 2)], {
+                    type: 'application/json;charset=utf-8'
                 });
+                const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
-                a.href = URL.createObjectURL(blob);
+                a.href = url;
                 a.download = 'roadmap_' + new Date().toISOString().slice(0, 10) + '.json';
+                document.body.appendChild(a);
                 a.click();
+                a.remove();
+                setTimeout(() => URL.revokeObjectURL(url), 1000);
                 showToast('Файл экспорта скачан');
             }
 
             function importJSON(ev) {
-                const file = ev.target.files[0];
-                if (!file)
+                const file = ev.target.files && ev.target.files[0];
+                if (!file) return;
+                if (file.size > 10 * 1024 * 1024) {
+                    alert('Файл слишком большой для импорта дорожной карты (максимум 10 МБ).');
+                    ev.target.value = '';
                     return;
+                }
                 const reader = new FileReader();
                 reader.onload = e => {
                     try {
                         const data = JSON.parse(e.target.result);
-                        // перед импортом — бэкап текущего
-                        backupRoadmap(true);
-                        const s = load();
-                        // полный дамп (старый формат) или снимок карты
-                        if (Array.isArray(data.tasks) || Array.isArray(data.sections) || data.projectTitle) {
-                            if (data.projectTitle != null) s.projectTitle = data.projectTitle;
-                            if (data.projectSubtitle != null) s.projectSubtitle = data.projectSubtitle;
-                            if (Array.isArray(data.sections)) s.sections = data.sections;
-                            if (Array.isArray(data.tasks)) s.tasks = data.tasks;
-                            if (data.done && typeof data.done === 'object') s.done = data.done;
-                            if (data.notes && typeof data.notes === 'object') s.notes = data.notes;
-                            if (data.links && typeof data.links === 'object') s.links = data.links;
-                            if (Array.isArray(data.journal)) s.journal = data.journal;
-                            // если импортировали полный save() — подтянуть остальное осторожно
-                            if (Array.isArray(data.hw)) s.hw = data.hw;
-                            if (Array.isArray(data.subjects)) s.subjects = data.subjects;
-                        } else {
+                        if (!data || typeof data !== 'object' || Array.isArray(data)) throw new Error('Ожидался JSON-объект');
+                        const hasTasks = Array.isArray(data.tasks);
+                        const hasSections = Array.isArray(data.sections);
+                        const hasProjectMeta = data.projectTitle != null || data.projectSubtitle != null;
+                        if (!hasTasks && !hasSections && !hasProjectMeta) {
                             alert('В файле нет данных дорожной карты');
                             return;
                         }
-                        save(s);
-                        if (data.theme) applyTheme(data.theme);
+                        if (hasTasks && data.tasks.some(t => !t || typeof t !== 'object' || t.id == null)) {
+                            throw new Error('В списке задач есть запись без ID или с неверным форматом');
+                        }
+                        if (hasSections && data.sections.some(sec => !sec || typeof sec !== 'object' || typeof sec.name !== 'string')) {
+                            throw new Error('В списке этапов есть запись с неверным форматом');
+                        }
+
+                        const current = load();
+                        const oldTasks = Array.isArray(current.tasks) ? current.tasks : [];
+                        const importedTasks = hasTasks ? data.tasks : oldTasks;
+                        let importedSections;
+                        if (hasSections) {
+                            importedSections = data.sections;
+                        } else if (hasTasks) {
+                            // Поддержка старых файлов, в которых задачи ссылаются на номера этапов,
+                            // но сам список этапов отсутствует.
+                            const numericSections = importedTasks.map(t => t && t.section).filter(v => Number.isInteger(v) && v >= 0);
+                            const maxSection = numericSections.length ? Math.max(...numericSections) : -1;
+                            const inferredNames = ['Срочные задачи','Базовые понятия и навивка','Теплофизика и гидродинамика','Поиск литературы','Выбор геометрии','Подготовка отчёта'];
+                            importedSections = Array.from({ length: maxSection + 1 }, (_, i) => ({
+                                name: inferredNames[i] || ('Этап ' + (i + 1)), deadline: null,
+                                color: ['#2b6cb0','#3182ce','#00b5d8','#319795','#38a169','#805ad5'][i % 6],
+                                urgent: i === 0
+                            }));
+                        } else {
+                            importedSections = Array.isArray(current.sections) ? current.sections : [];
+                        }
+
+                        // Резервируем только дорожную карту. Если бэкап не записался, импорт отменяется.
+                        if (!backupRoadmap(true)) throw new Error('Не удалось сохранить бэкап; импорт отменён, текущие данные не изменены');
+                        const s = load();
+                        const previousTaskIds = new Set(oldTasks.map(t => String(t && t.id)));
+                        const nextTaskIds = new Set(importedTasks.map(t => String(t && t.id)));
+                        const mergeTaskMap = (currentMap, importedMap, fieldWasProvided) => {
+                            const out = Object.assign({}, currentMap && typeof currentMap === 'object' && !Array.isArray(currentMap) ? currentMap : {});
+                            previousTaskIds.forEach(id => { if (!nextTaskIds.has(id)) delete out[id]; });
+                            if (fieldWasProvided && importedMap && typeof importedMap === 'object' && !Array.isArray(importedMap)) {
+                                previousTaskIds.forEach(id => delete out[id]);
+                                Object.keys(importedMap).forEach(id => { if (nextTaskIds.has(String(id))) out[id] = importedMap[id]; });
+                            }
+                            return out;
+                        };
+                        if (data.projectTitle != null) s.projectTitle = String(data.projectTitle);
+                        else if (!s.projectTitle) s.projectTitle = '⚛ Мой проект';
+                        if (data.projectSubtitle != null) s.projectSubtitle = String(data.projectSubtitle);
+                        s.sections = importedSections;
+                        s.tasks = importedTasks;
+                        s.done = mergeTaskMap(s.done, data.done, Object.prototype.hasOwnProperty.call(data, 'done'));
+                        s.notes = mergeTaskMap(s.notes, data.notes, Object.prototype.hasOwnProperty.call(data, 'notes'));
+                        s.links = mergeTaskMap(s.links, data.links, Object.prototype.hasOwnProperty.call(data, 'links'));
+                        if (Array.isArray(data.journal)) s.journal = data.journal;
+                        // Намеренно не импортируем data.hw, data.subjects, data.theme или расписание.
+                        if (!save(s)) throw new Error('Изменения не сохранены: проверь свободное место в хранилище');
                         applyProjectMeta();
+                        fillSubjectSelect();
+                        fillSectionSelect();
                         render();
                         updateBackupButton();
-                        alert('Импорт выполнен');
+                        alert('Импорт дорожной карты выполнен. Задач: ' + s.tasks.length + ', этапов: ' + s.sections.length + '. Расписание, ДЗ, предметы и тема не изменены.');
                     } catch (err) {
-                        alert('Ошибка файла');
+                        console.error('Ошибка импорта дорожной карты:', err);
+                        alert('Не удалось импортировать файл: ' + (err && err.message ? err.message : 'проверь формат JSON'));
+                    } finally {
+                        ev.target.value = '';
                     }
+                };
+                reader.onerror = () => {
+                    alert('Не удалось прочитать файл');
                     ev.target.value = '';
                 };
                 reader.readAsText(file);
@@ -7761,14 +7915,17 @@
             function resetAll() {
                 if (!confirm('Сбросить дорожную карту?\nБудут удалены этапы и задачи проекта.\nРасписание и ДЗ не трогаем.\n\nПеред сбросом автоматически сохранится бэкап.'))
                     return;
-                // автобэкап перед очисткой
-                backupRoadmap(true);
+                // Сохраняем состояние перед очисткой; без успешного бэкапа не сбрасываем карту.
+                if (!backupRoadmap(true)) {
+                    alert('Не удалось сохранить бэкап. Сброс отменён, данные сохранены.');
+                    return;
+                }
                 const s = load();
                 s.tasks = [];
                 s.sections = [];
                 s.projectTitle = '⚛ Мой проект';
                 s.projectSubtitle = 'Опиши свой проект — нажми ✏️';
-                save(s);
+                if (!save(s)) return;
                 applyProjectMeta();
                 render();
                 updateBackupButton();
@@ -7822,7 +7979,7 @@
             showSheet('rasp');
         </script>
         <!-- Иконка для Android, Chrome, Яндекс и других современных браузеров -->
-<link rel="manifest" href="manifest.json">
+
 
 <!-- Базовая иконка для браузеров (вкладка на ПК) -->
 <link rel="icon" type="image/png" sizes="32x32" href="icon.png">
@@ -7832,22 +7989,28 @@
 <link rel="apple-touch-icon" href="icon.png">
 
 <!-- Разрешаем запускать сайт как полноценное веб-приложение (убирает браузерную строку) -->
-<meta name="apple-mobile-web-app-capable" content="yes">
+
 
 <!-- Стиль строки состояния вверху экрана (может быть default, black или black-translucent) -->
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
 
 <!-- Название приложения под иконкой на экране iPhone -->
-<meta name="apple-mobile-web-app-title" content="Расписание">
+
 
 <!-- Цвет вкладки и элементов интерфейса -->
-<meta name="theme-color" content="#3C86C4">
+
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js')
-        .then((reg) => console.log('Service Worker успешно зарегистрирован!', reg))
-        .catch((err) => console.log('Ошибка регистрации Service Worker:', err));
+      navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' })
+        .then((reg) => {
+          console.log('Service Worker зарегистрирован', reg);
+          reg.update().catch(() => {});
+          document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') reg.update().catch(() => {});
+          });
+        })
+        .catch((err) => console.warn('Ошибка регистрации Service Worker:', err));
     });
   }
 </script>
