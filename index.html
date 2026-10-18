@@ -2190,6 +2190,30 @@
             <div class="pwa-launch-subtitle">Всё по плану</div>
             <div class="pwa-launch-loader" aria-hidden="true"><span></span><span></span><span></span></div>
         </div>
+        <script>
+        // Показываем заставку сразу, до выполнения основного кода приложения.
+        // Это работает и для ярлыков Яндекс Браузера, которые открываются как вкладка.
+        (() => {
+          const splash = document.getElementById('pwa-launch-screen');
+          if (!splash) return;
+          splash.classList.add('pwa-launch-visible');
+          const startedAt = Date.now();
+          let finished = false;
+          const hideSplash = () => {
+            if (finished) return;
+            finished = true;
+            const delay = Math.max(0, 700 - (Date.now() - startedAt));
+            window.setTimeout(() => {
+              splash.classList.add('pwa-launch-hide');
+              window.setTimeout(() => splash.remove(), 400);
+            }, delay);
+          };
+          if (document.readyState === 'complete') hideSplash();
+          else window.addEventListener('load', hideSplash, { once: true });
+          // Не оставляем заставку навсегда, если внешний ресурс завис.
+          window.setTimeout(hideSplash, 1800);
+        })();
+        </script>
         <div id="theme-fill" class="theme-fill" aria-hidden="true"></div>
         <div class="container">
             <div class="top-bar">
@@ -6855,7 +6879,11 @@
 
             // Обновлять отметку текущей пары автоматически, без перезагрузки страницы.
             setInterval(() => {
-                if (document.getElementById('rasp-content') && !raspEditMode) renderRasp(false);
+                // Не перестраиваем всё расписание в фоне: это может давать микрофризы на телефонах.
+                const scheduleSheet = document.getElementById('sheet-rasp');
+                if (document.visibilityState === 'visible' && scheduleSheet && scheduleSheet.classList.contains('active') && !raspEditMode) {
+                    renderRasp(false);
+                }
             }, 60000);
 
             function renderRasp(scrollToday) {
@@ -7722,43 +7750,10 @@
     });
   }
 </script>
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js')
-        .then((reg) => console.log('Service Worker успешно зарегистрирован!', reg))
-        .catch((err) => console.log('Ошибка регистрации Service Worker:', err));
-    });
-  }
-</script>
 
 
 
-<script>
-(() => {
-  // Показываем заставку только при запуске как установленного PWA,
-  // а не при обычном просмотре сайта во вкладке браузера.
-  const isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
-    window.matchMedia('(display-mode: fullscreen)').matches ||
-    window.navigator.standalone === true;
-  if (!isStandalone) return;
-  const splash = document.getElementById('pwa-launch-screen');
-  if (!splash) return;
-  splash.classList.add('pwa-launch-visible');
-  const startedAt = Date.now();
-  const hideSplash = () => {
-    const delay = Math.max(0, 1050 - (Date.now() - startedAt));
-    window.setTimeout(() => {
-      splash.classList.add('pwa-launch-hide');
-      window.setTimeout(() => splash.remove(), 420);
-    }, delay);
-  };
-  if (document.readyState === 'complete') hideSplash();
-  else window.addEventListener('load', hideSplash, { once: true });
-  // Safety fallback in case another resource never finishes loading.
-  window.setTimeout(hideSplash, 2200);
-})();
-</script>
+
 
     </body>
 </html>
