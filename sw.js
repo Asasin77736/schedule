@@ -1,66 +1,94 @@
-/* Schedule PWA service worker — bump CACHE_VERSION whenever app assets change. */
-const CACHE_VERSION = 'schedule-pwa-v4';
-const APP_SHELL = [
+/* Offline shell for the StudyTracker PWA.
+   Upload this file beside index.html on GitHub Pages. */
+const CACHE_PREFIX = 'study-tracker-pwa-';
+const CACHE_NAME = CACHE_PREFIX + 'v4';
+const CORE_PATHS = [
   './',
   './index.html',
   './manifest.json',
+  './icon.png',
   './atom_background.webp?v=3'
 ];
 
-self.addEventListener('install', (event) => {
+self.addEventListener('install', event => {
   event.waitUntil((async () => {
-    const cache = await caches.open(CACHE_VERSION);
-    // Cache each asset independently: one missing optional file must not break install.
-    await Promise.all(APP_SHELL.map(async (url) => {
+    const cache = await caches.open(CACHE_NAME);
+    // Optional assets may not exist in every deployment; one missing file must
+    // not prevent the service worker from installing.
+    await Promise.all(CORE_PATHS.map(async path => {
       try {
-        const response = await fetch(url, { cache: 'reload' });
-        if (response.ok) await cache.put(url, response.clone());
-      } catch (_) {}
+        const url = new URL(path, self.registration.scope);
+        const response = await fetch(url.href, { cache: 'reload' });
+        if (response.ok && (response.type === 'basic' || response.type === 'default')) {
+          await cache.put(url.href, response.clone());
+        }
+      } catch (error) {
+        // Continue installation if an optional asset is missing or offline.
+      }
     }));
     await self.skipWaiting();
   })());
 });
 
-self.addEventListener('activate', (event) => {
+self.addEventListener('activate', event => {
   event.waitUntil((async () => {
     const keys = await caches.keys();
-    await Promise.all(keys.filter((key) => key.startsWith('schedule-pwa-') && key !== CACHE_VERSION).map((key) => caches.delete(key)));
+    await Promise.all(keys
+      .filter(key => key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME)
+      .map(key => caches.delete(key)));
     await self.clients.claim();
   })());
 });
 
-self.addEventListener('fetch', (event) => {
+self.addEventListener('fetch', event => {
   const request = event.request;
   if (request.method !== 'GET') return;
-  const url = new URL(request.url);
-  if (url.origin !== self.location.origin) return;
 
-  if (request.mode === 'navigate') {
+  const url = new URL(request.url);
+  const scope = new URL(self.registration.scope);
+  if (url.origin !== scope.origin) return;
+
+  if (request.mode === 'navigate' || request.destination === 'document') {
     event.respondWith((async () => {
-      const cache = await caches.open(CACHE_VERSION);
+      const cache = await caches.open(CACHE_NAME);
       try {
-        const response = await fetch(request, { cache: 'no-store' });
-        if (response && response.ok) await cache.put('./index.html', response.clone());
-        return response;
-      } catch (_) {
-        return (await cache.match(request)) || (await cache.match('./index.html')) || Response.error();
+        const response = await fetch(request);
+        if (response && response.ok) {
+          cache.put(request, response.clone()).catch(() => {});
+          return response;
+        }
+      } catch (error) {
+        // Fall back to the saved app shell when offline.
       }
+      const cached = await caches.match(request);
+      if (cached) return cached;
+      const indexUrl = new URL('./index.html', self.registration.scope).href;
+      const indexResponse = await caches.match(indexUrl);
+      if (indexResponse) return indexResponse;
+      const rootUrl = new URL('./', self.registration.scope).href;
+      const rootResponse = await caches.match(rootUrl);
+      if (rootResponse) return rootResponse;
+      return new Response('Приложение ещё не сохранено для работы офлайн. Открой сайт с интернетом хотя бы один раз.', {
+        status: 503,
+        headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+      });
     })());
     return;
   }
 
-  // Stale-while-revalidate for same-origin assets, so updates arrive without blocking UI.
+  // Cache-first for local assets, with network fallback and cache update.
   event.respondWith((async () => {
-    const cache = await caches.open(CACHE_VERSION);
-    const cached = await cache.match(request);
-    const network = fetch(request).then((response) => {
-      if (response && response.ok) cache.put(request, response.clone()).catch(() => {});
+    const cached = await caches.match(request);
+    if (cached) return cached;
+    try {
+      const response = await fetch(request);
+      if (response && response.ok) {
+        const cache = await caches.open(CACHE_NAME);
+        cache.put(request, response.clone()).catch(() => {});
+      }
       return response;
-    }).catch(() => null);
-    if (cached) {
-      event.waitUntil(network.then(() => undefined));
-      return cached;
+    } catch (error) {
+      return new Response('', { status: 504, statusText: 'Offline asset unavailable' });
     }
-    return (await network) || Response.error();
   })());
 });
