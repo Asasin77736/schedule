@@ -2834,10 +2834,30 @@
             }
             function toggleVkMenu() {
                 const m = document.getElementById('vk-menu');
-                if (!m)
-                    return;
+                const btn = document.getElementById('vk-btn');
+                if (!m || !btn) return;
                 const open = m.style.display === 'block';
-                m.style.display = open ? 'none' : 'block';
+                if (open) {
+                    m.style.display = 'none';
+                    m.style.position = '';
+                    m.style.left = '';
+                    m.style.right = '';
+                    m.style.top = '';
+                    return;
+                }
+                m.style.display = 'block';
+                // On narrow screens anchor the popup to the button, but keep the whole menu inside the viewport.
+                if (window.matchMedia('(max-width: 480px)').matches) {
+                    m.style.position = 'fixed';
+                    m.style.right = 'auto';
+                    m.style.left = '8px';
+                    m.style.top = '8px';
+                    const rect = btn.getBoundingClientRect();
+                    const width = Math.min(240, window.innerWidth - 16);
+                    const left = Math.max(8, Math.min(rect.left, window.innerWidth - width - 8));
+                    m.style.left = left + 'px';
+                    m.style.top = Math.min(rect.bottom + 6, window.innerHeight - 120) + 'px';
+                }
             }
             document.addEventListener('click', function(e) {
                 const wrap = document.querySelector('.vk-wrap');
