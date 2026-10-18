@@ -6853,6 +6853,11 @@
                     el.style.display = raspOpenDays[day] ? 'block' : 'none';
             }
 
+            // Обновлять отметку текущей пары автоматически, без перезагрузки страницы.
+            setInterval(() => {
+                if (document.getElementById('rasp-content') && !raspEditMode) renderRasp(false);
+            }, 60000);
+
             function renderRasp(scrollToday) {
                 if (typeof updateRaspSubButtons === 'function') updateRaspSubButtons();
                 const realWeek = getAcademicWeek();
@@ -6945,10 +6950,30 @@
                     }
                     html += `</div>`;
 
+                    // Точка текущей пары; во время перерыва отмечаем следующую.
+                    const now = new Date();
+                    const nowMinutes = now.getHours() * 60 + now.getMinutes();
+                    const toMinutes = (value) => {
+                        const m = String(value || '').match(/(\d{1,2}):(\d{2})/);
+                        return m ? Number(m[1]) * 60 + Number(m[2]) : null;
+                    };
+                    let activeLessonIndex = -1;
+                    if (isToday) {
+                        activeLessonIndex = lessons.findIndex(l => {
+                            const parts = String(l.time || '').split('–');
+                            const startM = toMinutes(parts[0]);
+                            const endM = toMinutes(parts[1]);
+                            return startM !== null && endM !== null && nowMinutes >= startM && nowMinutes < endM;
+                        });
+                        if (activeLessonIndex < 0) {
+                            activeLessonIndex = lessons.findIndex(l => toMinutes(String(l.time || '').split('–')[0]) > nowMinutes);
+                        }
+                    }
+
                     // lessons with break — use original indices for edit
                     const allDay = SCHEDULE[d] || [];
                     let prevEnd = null;
-                    lessons.forEach( (l) => {
+                    lessons.forEach( (l, lessonIndex) => {
                         const origIdx = allDay.indexOf(l);
                         const start = l.time.split('–')[0];
                         if (prevEnd && prevEnd <= '12:20' && start >= '13:20') {
@@ -6956,11 +6981,13 @@
                         }
                         const tCol = typeColor(l.type);
                         const weeksHint = Array.isArray(l.weeks) ? ' · нед. ' + l.weeks.join(',') : (l.weeks === 'odd' ? ' · нечёт' : (l.weeks === 'even' ? ' · чёт' : ''));
-                        html += `<div class="cal-day-task" style="display:flex;align-items:flex-start;gap:8px">
+                        const isCurrentLesson = lessonIndex === activeLessonIndex;
+                        html += `<div class="cal-day-task" style="display:flex;align-items:flex-start;gap:8px;${isCurrentLesson ? 'background:color-mix(in srgb,var(--primary-light) 7%,transparent);' : ''}">
         <div style="flex:1">
           <div style="font-weight:600;font-size:0.88rem">${esc(l.time)} · <span style="color:${tCol};font-weight:700">${esc(l.type)}</span> · ${esc(l.subject)}</div>
           <div style="font-size:0.78rem;color:var(--muted);margin-top:2px">${esc(l.teacher)} · ауд. ${esc(l.room)}${l.sub ? ' · ' + l.sub + ' п/г' : ''}${weeksHint}</div>
         </div>
+        ${isCurrentLesson ? `<span title="Текущая пара или следующая после перерыва" aria-label="Текущая пара" style="width:7px;height:7px;flex:0 0 7px;border-radius:50%;background:var(--primary-light);margin:7px 4px 0 0;box-shadow:0 0 0 3px color-mix(in srgb,var(--primary-light) 15%,transparent)"></span>` : ''}
         ${raspEditMode ? `<div style="display:flex;gap:2px;flex-shrink:0">
           <button type="button" class="icon-btn" style="padding:4px 6px;font-size:0.75rem" title="Изменить" onclick="event.stopPropagation();editLesson(${d},${origIdx})">✏️</button>
           <button type="button" class="icon-btn" style="padding:4px 6px;font-size:0.75rem" title="Удалить" onclick="event.stopPropagation();deleteLesson(${d},${origIdx})">🗑</button>
