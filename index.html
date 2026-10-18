@@ -620,19 +620,29 @@
                 flex-wrap: wrap;
             }
 
+            .vk-wrap {
+                position: relative;
+                z-index: 60;
+            }
+
             .vk-menu {
                 position: absolute;
                 right: 0;
+                left: auto;
                 top: calc(100% + 6px);
-                z-index: 50;
-                min-width: 240px;
-                max-width: 280px;
+                z-index: 70;
+                width: min(260px, calc(100vw - 24px));
+                min-width: 0;
+                max-width: calc(100vw - 24px);
+                box-sizing: border-box;
                 background: var(--card);
                 border: 1px solid var(--border);
                 border-radius: 12px;
                 box-shadow: 0 10px 28px rgba(0,50,116,0.18);
                 padding: 8px;
                 animation: fadeUp 0.2s ease;
+                overflow: hidden;
+                word-break: break-word;
             }
 
             .vk-menu a {
@@ -641,8 +651,9 @@
                 border-radius: 8px;
                 color: var(--text);
                 text-decoration: none;
-                font-size: 0.84rem;
+                font-size: 0.8rem;
                 line-height: 1.35;
+                white-space: normal;
             }
 
             .vk-menu a:hover {
@@ -2035,6 +2046,25 @@
                     align-items: stretch;
                 }
             }
+        
+            @media (max-width: 480px) {
+                .vk-menu {
+                    right: 0;
+                    left: auto;
+                    width: min(240px, calc(100vw - 16px));
+                    max-width: calc(100vw - 16px);
+                }
+                .vk-menu a {
+                    font-size: 0.78rem;
+                    padding: 9px 10px;
+                }
+                .top-bar {
+                    overflow: visible;
+                    position: relative;
+                    z-index: 50;
+                }
+            }
+
         </style>
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -2064,7 +2094,7 @@
                                 <div class="vk-menu-sub">ВКонтакте</div>
                             </div>
                         </div>
-                        <a href="https://vk.ru/zezeron" target="_blank" rel="noopener">Предложения по улучшению кидать сюда</a>
+                        <a href="https://vk.ru/zezeron" target="_blank" rel="noopener">💡 Предложения — сюда</a>
                     </div>
                 </div>
                 <button type="button" class="theme-switch" onclick="toggleTheme()" id="theme-btn" title="Сменить тему" aria-label="Сменить тему">
