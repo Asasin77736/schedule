@@ -1,18 +1,50 @@
 <!DOCTYPE html>
 <html lang="ru">
     <head>
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icon.png">
+
+        <!-- Подключаем манифест для Android, Chrome и Яндекс -->
+<link rel="manifest" href="./manifest.json">
+
+<!-- Иконка для экранов Apple (iPhone/iPad) -->
+<link rel="apple-touch-icon" href="./icon.png">
+
+<!-- Говорим Safari открывать сайт как приложение без вкладок -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Расписание">
+
+<!-- Цвет шапки приложения -->
+<meta name="theme-color" content="#3C86C4">
+
+        <!-- Подключение манифеста для Android/Yandex/Chrome -->
+<link rel="manifest" href="./manifest.json">
+
+<!-- Иконка для экранов Apple iOS (iPhone/iPad) -->
+<link rel="apple-touch-icon" href="./icon.png">
+
+<!-- Настройки полноэкранного режима для Safari -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Расписание">
+
+<!-- Цвет панели браузеров -->
+<meta name="theme-color" content="#3C86C4">
+
+        <!-- Подключение манифеста для Android и Chrome -->
+<link rel="manifest" href="manifest.json">
+
+<!-- Иконка для iPhone / Safari -->
+<link rel="apple-touch-icon" href="icon.png">
+
+<!-- Цвет вкладки в мобильном браузере -->
+<meta name="theme-color" content="#3C86C4">
+<link rel="manifest" href="manifest.json">
+
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Расписание и задачи</title>
-        <link rel="manifest" href="./manifest.json">
-        <link rel="icon" type="image/png" sizes="32x32" href="./icon.png">
-        <link rel="apple-touch-icon" href="./icon.png">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <meta name="apple-mobile-web-app-title" content="Расписание">
-        <meta name="mobile-web-app-capable" content="yes">
-        <meta name="theme-color" content="#3C86C4">
-
         <style>
             :root {
                 --primary: #003274;
@@ -2074,9 +2106,90 @@
                 }
             }
 
+
+
+        /* PWA launch animation */
+        #pwa-launch-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 999999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 16px;
+            background: radial-gradient(ellipse at 50% 30%, #244f7e 0%, #142b4b 48%, #0b1729 100%);
+            color: #fff;
+            opacity: 1;
+            transition: opacity 380ms ease, visibility 380ms ease;
+            visibility: visible;
+        }
+        #pwa-launch-screen.pwa-launch-visible { display: flex; }
+        #pwa-launch-screen.pwa-launch-hide { opacity: 0; visibility: hidden; pointer-events: none; }
+        #pwa-launch-screen .pwa-launch-icon {
+            width: 88px;
+            height: 88px;
+            object-fit: cover;
+            border-radius: 23px;
+            box-shadow: 0 12px 38px rgba(0,0,0,.28);
+            animation: pwa-icon-pop 650ms cubic-bezier(.2,.8,.2,1) both;
+        }
+        #pwa-launch-screen .pwa-launch-title {
+            font-size: 1.45rem;
+            font-weight: 750;
+            letter-spacing: .2px;
+            animation: pwa-title-rise 650ms 100ms both;
+        }
+        #pwa-launch-screen .pwa-launch-subtitle {
+            color: rgba(255,255,255,.7);
+            font-size: .9rem;
+            animation: pwa-title-rise 650ms 180ms both;
+        }
+        #pwa-launch-screen .pwa-launch-loader {
+            display: flex;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        #pwa-launch-screen .pwa-launch-loader span {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #7fc4ff;
+            animation: pwa-dot 900ms ease-in-out infinite;
+        }
+        #pwa-launch-screen .pwa-launch-loader span:nth-child(2) { animation-delay: 140ms; }
+        #pwa-launch-screen .pwa-launch-loader span:nth-child(3) { animation-delay: 280ms; }
+        @keyframes pwa-icon-pop {
+            from { opacity: 0; transform: scale(.72) rotate(-7deg); }
+            to { opacity: 1; transform: scale(1) rotate(0); }
+        }
+        @keyframes pwa-title-rise {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pwa-dot {
+            0%, 60%, 100% { opacity: .35; transform: translateY(0); }
+            30% { opacity: 1; transform: translateY(-5px); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            #pwa-launch-screen *, #pwa-launch-screen *::before, #pwa-launch-screen *::after { animation: none !important; transition: none !important; }
+        }
+
         </style>
-</head>
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="default">
+        <meta name="apple-mobile-web-app-title" content="Учёба">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="theme-color" content="#1a365d">
+        <link rel="manifest" href="data:application/manifest+json,{&quot;name&quot;:&quot;Расписание и задачи&quot;,&quot;short_name&quot;:&quot;Учёба&quot;,&quot;start_url&quot;:&quot;.&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;#edf2f7&quot;,&quot;theme_color&quot;:&quot;#1a365d&quot;,&quot;lang&quot;:&quot;ru&quot;}">
+    </head>
     <body>
+        <div id="pwa-launch-screen" aria-hidden="true">
+            <img class="pwa-launch-icon" src="./icon.png" alt="">
+            <div class="pwa-launch-title">Расписание</div>
+            <div class="pwa-launch-subtitle">Всё по плану</div>
+            <div class="pwa-launch-loader" aria-hidden="true"><span></span><span></span><span></span></div>
+        </div>
         <div id="theme-fill" class="theme-fill" aria-hidden="true"></div>
         <div class="container">
             <div class="top-bar">
@@ -7552,16 +7665,73 @@
             renderSubjects();
             showSheet('rasp');
         </script>
-        <script>
-          if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-              navigator.serviceWorker.register('./sw.js')
-                .then((reg) => console.log('Service Worker успешно зарегистрирован!', reg))
-                .catch((err) => console.log('Ошибка регистрации Service Worker:', err));
-            });
-          }
-        </script>
+        <!-- Иконка для Android, Chrome, Яндекс и других современных браузеров -->
+<link rel="manifest" href="manifest.json">
 
+<!-- Базовая иконка для браузеров (вкладка на ПК) -->
+<link rel="icon" type="image/png" sizes="32x32" href="icon.png">
+
+<!-- --- ТЕГИ ДЛЯ APPLE SAFARI (iOS) --- -->
+<!-- Главная иконка для экрана "Домой" на iPhone / iPad -->
+<link rel="apple-touch-icon" href="icon.png">
+
+<!-- Разрешаем запускать сайт как полноценное веб-приложение (убирает браузерную строку) -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<!-- Стиль строки состояния вверху экрана (может быть default, black или black-translucent) -->
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<!-- Название приложения под иконкой на экране iPhone -->
+<meta name="apple-mobile-web-app-title" content="Расписание">
+
+<!-- Цвет вкладки и элементов интерфейса -->
+<meta name="theme-color" content="#3C86C4">
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then((reg) => console.log('Service Worker успешно зарегистрирован!', reg))
+        .catch((err) => console.log('Ошибка регистрации Service Worker:', err));
+    });
+  }
+</script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then((reg) => console.log('Service Worker успешно зарегистрирован!', reg))
+        .catch((err) => console.log('Ошибка регистрации Service Worker:', err));
+    });
+  }
+</script>
+
+
+
+<script>
+(() => {
+  // Показываем заставку только при запуске как установленного PWA,
+  // а не при обычном просмотре сайта во вкладке браузера.
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
+    window.matchMedia('(display-mode: fullscreen)').matches ||
+    window.navigator.standalone === true;
+  if (!isStandalone) return;
+  const splash = document.getElementById('pwa-launch-screen');
+  if (!splash) return;
+  splash.classList.add('pwa-launch-visible');
+  const startedAt = Date.now();
+  const hideSplash = () => {
+    const delay = Math.max(0, 1050 - (Date.now() - startedAt));
+    window.setTimeout(() => {
+      splash.classList.add('pwa-launch-hide');
+      window.setTimeout(() => splash.remove(), 420);
+    }, delay);
+  };
+  if (document.readyState === 'complete') hideSplash();
+  else window.addEventListener('load', hideSplash, { once: true });
+  // Safety fallback in case another resource never finishes loading.
+  window.setTimeout(hideSplash, 2200);
+})();
+</script>
 
     </body>
 </html>
