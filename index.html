@@ -1,50 +1,18 @@
 <!DOCTYPE html>
 <html lang="ru">
     <head>
-<link rel="manifest" href="./manifest.json">
-<link rel="apple-touch-icon" href="./icon.png">
-
-        <!-- Подключаем манифест для Android, Chrome и Яндекс -->
-<link rel="manifest" href="./manifest.json">
-
-<!-- Иконка для экранов Apple (iPhone/iPad) -->
-<link rel="apple-touch-icon" href="./icon.png">
-
-<!-- Говорим Safari открывать сайт как приложение без вкладок -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Расписание">
-
-<!-- Цвет шапки приложения -->
-<meta name="theme-color" content="#3C86C4">
-
-        <!-- Подключение манифеста для Android/Yandex/Chrome -->
-<link rel="manifest" href="./manifest.json">
-
-<!-- Иконка для экранов Apple iOS (iPhone/iPad) -->
-<link rel="apple-touch-icon" href="./icon.png">
-
-<!-- Настройки полноэкранного режима для Safari -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Расписание">
-
-<!-- Цвет панели браузеров -->
-<meta name="theme-color" content="#3C86C4">
-
-        <!-- Подключение манифеста для Android и Chrome -->
-<link rel="manifest" href="manifest.json">
-
-<!-- Иконка для iPhone / Safari -->
-<link rel="apple-touch-icon" href="icon.png">
-
-<!-- Цвет вкладки в мобильном браузере -->
-<meta name="theme-color" content="#3C86C4">
-<link rel="manifest" href="manifest.json">
-
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Расписание и задачи</title>
+        <link rel="manifest" href="./manifest.json">
+        <link rel="icon" type="image/png" sizes="32x32" href="./icon.png">
+        <link rel="apple-touch-icon" href="./icon.png">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <meta name="apple-mobile-web-app-title" content="Расписание">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="theme-color" content="#3C86C4">
+
         <style>
             :root {
                 --primary: #003274;
@@ -2107,13 +2075,7 @@
             }
 
         </style>
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="default">
-        <meta name="apple-mobile-web-app-title" content="Учёба">
-        <meta name="mobile-web-app-capable" content="yes">
-        <meta name="theme-color" content="#1a365d">
-        <link rel="manifest" href="data:application/manifest+json,{&quot;name&quot;:&quot;Расписание и задачи&quot;,&quot;short_name&quot;:&quot;Учёба&quot;,&quot;start_url&quot;:&quot;.&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;#edf2f7&quot;,&quot;theme_color&quot;:&quot;#1a365d&quot;,&quot;lang&quot;:&quot;ru&quot;}">
-    </head>
+</head>
     <body>
         <div id="theme-fill" class="theme-fill" aria-hidden="true"></div>
         <div class="container">
@@ -7590,45 +7552,15 @@
             renderSubjects();
             showSheet('rasp');
         </script>
-        <!-- Иконка для Android, Chrome, Яндекс и других современных браузеров -->
-<link rel="manifest" href="manifest.json">
-
-<!-- Базовая иконка для браузеров (вкладка на ПК) -->
-<link rel="icon" type="image/png" sizes="32x32" href="icon.png">
-
-<!-- --- ТЕГИ ДЛЯ APPLE SAFARI (iOS) --- -->
-<!-- Главная иконка для экрана "Домой" на iPhone / iPad -->
-<link rel="apple-touch-icon" href="icon.png">
-
-<!-- Разрешаем запускать сайт как полноценное веб-приложение (убирает браузерную строку) -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-
-<!-- Стиль строки состояния вверху экрана (может быть default, black или black-translucent) -->
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-<!-- Название приложения под иконкой на экране iPhone -->
-<meta name="apple-mobile-web-app-title" content="Расписание">
-
-<!-- Цвет вкладки и элементов интерфейса -->
-<meta name="theme-color" content="#3C86C4">
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js')
-        .then((reg) => console.log('Service Worker успешно зарегистрирован!', reg))
-        .catch((err) => console.log('Ошибка регистрации Service Worker:', err));
-    });
-  }
-</script>
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js')
-        .then((reg) => console.log('Service Worker успешно зарегистрирован!', reg))
-        .catch((err) => console.log('Ошибка регистрации Service Worker:', err));
-    });
-  }
-</script>
+        <script>
+          if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+              navigator.serviceWorker.register('./sw.js')
+                .then((reg) => console.log('Service Worker успешно зарегистрирован!', reg))
+                .catch((err) => console.log('Ошибка регистрации Service Worker:', err));
+            });
+          }
+        </script>
 
 
     </body>
