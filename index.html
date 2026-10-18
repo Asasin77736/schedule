@@ -2108,7 +2108,7 @@
 
 
 
-        /* PWA launch animation */
+        /* Минималистичная заставка: иконка и эффект расщепления атома */
         #pwa-launch-screen {
             position: fixed;
             inset: 0;
@@ -2116,65 +2116,123 @@
             display: none;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
-            gap: 16px;
-            background: radial-gradient(ellipse at 50% 30%, #244f7e 0%, #142b4b 48%, #0b1729 100%);
-            color: #fff;
+            background:
+                radial-gradient(circle at 50% 50%, rgba(38,126,210,.24) 0, rgba(15,42,76,.12) 26%, transparent 52%),
+                radial-gradient(ellipse at 50% 35%, #17385e 0%, #0b1b31 58%, #06101f 100%);
             opacity: 1;
-            transition: opacity 380ms ease, visibility 380ms ease;
             visibility: visible;
+            overflow: hidden;
+            transition: opacity 380ms ease, visibility 380ms ease;
+            isolation: isolate;
         }
         #pwa-launch-screen.pwa-launch-visible { display: flex; }
         #pwa-launch-screen.pwa-launch-hide { opacity: 0; visibility: hidden; pointer-events: none; }
-        #pwa-launch-screen .pwa-launch-icon {
-            width: 88px;
-            height: 88px;
+        .atom-animation {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            display: grid;
+            place-items: center;
+            animation: atom-arrive 720ms cubic-bezier(.18,.85,.25,1.15) both;
+        }
+        .atom-core {
+            position: relative;
+            z-index: 2;
+            width: 76px;
+            height: 76px;
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: 0 0 22px rgba(91,190,255,.35), 0 0 65px rgba(46,142,255,.24), 0 12px 30px rgba(0,0,0,.32);
+            animation: core-react 1.45s 120ms ease-in-out both;
+        }
+        .atom-core img {
+            display: block;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            border-radius: 23px;
-            box-shadow: 0 12px 38px rgba(0,0,0,.28);
-            animation: pwa-icon-pop 650ms cubic-bezier(.2,.8,.2,1) both;
+            border-radius: inherit;
         }
-        #pwa-launch-screen .pwa-launch-title {
-            font-size: 1.45rem;
-            font-weight: 750;
-            letter-spacing: .2px;
-            animation: pwa-title-rise 650ms 100ms both;
+        .atom-orbits {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            overflow: visible;
         }
-        #pwa-launch-screen .pwa-launch-subtitle {
-            color: rgba(255,255,255,.7);
-            font-size: .9rem;
-            animation: pwa-title-rise 650ms 180ms both;
+        .atom-orbits .orbit {
+            fill: none;
+            stroke: rgba(115,205,255,.82);
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-dasharray: 390;
+            stroke-dashoffset: 390;
+            filter: drop-shadow(0 0 4px rgba(70,174,255,.85));
+            transform-origin: 110px 110px;
+            animation: orbit-draw 850ms 80ms ease-out forwards;
         }
-        #pwa-launch-screen .pwa-launch-loader {
-            display: flex;
-            gap: 6px;
-            margin-top: 8px;
+        .atom-orbits .orbit:nth-child(2) { animation-delay: 150ms; stroke: rgba(80,235,220,.8); }
+        .atom-orbits .orbit:nth-child(3) { animation-delay: 220ms; stroke: rgba(177,155,255,.82); }
+        .atom-electron {
+            fill: #e2f8ff;
+            filter: drop-shadow(0 0 5px #52caff);
+            transform-origin: 110px 110px;
+            animation: electron-spin 1.7s linear infinite;
         }
-        #pwa-launch-screen .pwa-launch-loader span {
-            width: 6px;
-            height: 6px;
+        .atom-electron.e2 { animation-duration: 1.35s; animation-direction: reverse; fill: #8affed; }
+        .atom-electron.e3 { animation-duration: 1.55s; fill: #c4b5fd; }
+        .atom-burst {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            pointer-events: none;
+        }
+        .atom-burst circle {
+            fill: #bceeff;
+            filter: drop-shadow(0 0 5px #48baff);
+            opacity: 0;
+            transform-box: fill-box;
+            transform-origin: center;
+            animation: particle-split 950ms 320ms cubic-bezier(.12,.7,.25,1) both;
+        }
+        .atom-burst circle:nth-child(2n) { fill: #65f2df; animation-delay: 380ms; }
+        .atom-burst circle:nth-child(3n) { fill: #c4b5fd; animation-delay: 430ms; }
+        .atom-glow {
+            position: absolute;
+            width: 92px;
+            height: 92px;
             border-radius: 50%;
-            background: #7fc4ff;
-            animation: pwa-dot 900ms ease-in-out infinite;
+            background: rgba(56,189,248,.22);
+            filter: blur(22px);
+            animation: nucleus-flash 1.25s 250ms ease-out both;
         }
-        #pwa-launch-screen .pwa-launch-loader span:nth-child(2) { animation-delay: 140ms; }
-        #pwa-launch-screen .pwa-launch-loader span:nth-child(3) { animation-delay: 280ms; }
-        @keyframes pwa-icon-pop {
-            from { opacity: 0; transform: scale(.72) rotate(-7deg); }
-            to { opacity: 1; transform: scale(1) rotate(0); }
+        @keyframes atom-arrive {
+            0% { opacity: 0; transform: scale(.68) rotate(-12deg); }
+            65% { opacity: 1; transform: scale(1.06) rotate(3deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0); }
         }
-        @keyframes pwa-title-rise {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes orbit-draw { to { stroke-dashoffset: 0; } }
+        @keyframes electron-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes core-react {
+            0%, 100% { transform: scale(1); }
+            42% { transform: scale(1.12); box-shadow: 0 0 34px rgba(91,190,255,.8), 0 0 85px rgba(46,142,255,.5); }
+            58% { transform: scale(.92); }
+            76% { transform: scale(1.04); }
         }
-        @keyframes pwa-dot {
-            0%, 60%, 100% { opacity: .35; transform: translateY(0); }
-            30% { opacity: 1; transform: translateY(-5px); }
+        @keyframes particle-split {
+            0% { opacity: 0; transform: scale(.15) translate(0,0); }
+            20% { opacity: 1; }
+            100% { opacity: 0; transform: scale(1.5) translate(var(--dx, 20px), var(--dy, -20px)); }
+        }
+        @keyframes nucleus-flash {
+            0% { opacity: 0; transform: scale(.35); }
+            35% { opacity: .95; transform: scale(1.25); }
+            100% { opacity: .15; transform: scale(1.7); }
         }
         @media (prefers-reduced-motion: reduce) {
-            #pwa-launch-screen *, #pwa-launch-screen *::before, #pwa-launch-screen *::after { animation: none !important; transition: none !important; }
+            #pwa-launch-screen *, #pwa-launch-screen *::before, #pwa-launch-screen *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition: none !important; }
         }
-
         </style>
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -2185,10 +2243,32 @@
     </head>
     <body>
         <div id="pwa-launch-screen" aria-hidden="true">
-            <img class="pwa-launch-icon" src="./icon.png" alt="">
-            <div class="pwa-launch-title">Расписание</div>
-            <div class="pwa-launch-subtitle">Всё по плану</div>
-            <div class="pwa-launch-loader" aria-hidden="true"><span></span><span></span><span></span></div>
+            <div class="atom-animation">
+                <div class="atom-glow"></div>
+                <svg class="atom-orbits" viewBox="0 0 220 220" aria-hidden="true">
+                    <ellipse class="orbit" cx="110" cy="110" rx="91" ry="35" transform="rotate(-38 110 110)"/>
+                    <ellipse class="orbit" cx="110" cy="110" rx="91" ry="35" transform="rotate(38 110 110)"/>
+                    <ellipse class="orbit" cx="110" cy="110" rx="91" ry="35" transform="rotate(90 110 110)"/>
+                    <circle class="atom-electron" cx="201" cy="110" r="4"/>
+                    <circle class="atom-electron e2" cx="19" cy="110" r="3.5"/>
+                    <circle class="atom-electron e3" cx="110" cy="19" r="3"/>
+                </svg>
+                <div class="atom-core"><img src="./icon.png" alt=""></div>
+                <svg class="atom-burst" viewBox="0 0 220 220" aria-hidden="true">
+                    <circle cx="110" cy="24" r="3" style="--dx:8px;--dy:-20px"/>
+                    <circle cx="164" cy="43" r="2.5" style="--dx:28px;--dy:-12px"/>
+                    <circle cx="194" cy="91" r="3" style="--dx:22px;--dy:4px"/>
+                    <circle cx="184" cy="158" r="2.5" style="--dx:24px;--dy:22px"/>
+                    <circle cx="132" cy="197" r="3" style="--dx:8px;--dy:25px"/>
+                    <circle cx="67" cy="191" r="2.5" style="--dx:-18px;--dy:24px"/>
+                    <circle cx="25" cy="143" r="3" style="--dx:-24px;--dy:12px"/>
+                    <circle cx="29" cy="72" r="2.5" style="--dx:-25px;--dy:-12px"/>
+                    <circle cx="76" cy="28" r="3" style="--dx:-14px;--dy:-22px"/>
+                    <circle cx="145" cy="70" r="2" style="--dx:18px;--dy:-18px"/>
+                    <circle cx="151" cy="145" r="2.5" style="--dx:20px;--dy:18px"/>
+                    <circle cx="68" cy="148" r="2" style="--dx:-20px;--dy:18px"/>
+                </svg>
+            </div>
         </div>
         <script>
         // Показываем заставку сразу, до выполнения основного кода приложения.
@@ -2202,7 +2282,7 @@
           const hideSplash = () => {
             if (finished) return;
             finished = true;
-            const delay = Math.max(0, 700 - (Date.now() - startedAt));
+            const delay = Math.max(0, 1250 - (Date.now() - startedAt));
             window.setTimeout(() => {
               splash.classList.add('pwa-launch-hide');
               window.setTimeout(() => splash.remove(), 400);
@@ -2211,7 +2291,7 @@
           if (document.readyState === 'complete') hideSplash();
           else window.addEventListener('load', hideSplash, { once: true });
           // Не оставляем заставку навсегда, если внешний ресурс завис.
-          window.setTimeout(hideSplash, 1800);
+          window.setTimeout(hideSplash, 2400);
         })();
         </script>
         <div id="theme-fill" class="theme-fill" aria-hidden="true"></div>
