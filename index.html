@@ -7558,5 +7558,27 @@
             renderSubjects();
             showSheet('rasp');
         </script>
+        <!-- Иконка для Android, Chrome, Яндекс и других современных браузеров -->
+<link rel="manifest" href="manifest.json">
+
+<!-- Базовая иконка для браузеров (вкладка на ПК) -->
+<link rel="icon" type="image/png" sizes="32x32" href="icon.png">
+
+<!-- --- ТЕГИ ДЛЯ APPLE SAFARI (iOS) --- -->
+<!-- Главная иконка для экрана "Домой" на iPhone / iPad -->
+<link rel="apple-touch-icon" href="icon.png">
+
+<!-- Разрешаем запускать сайт как полноценное веб-приложение (убирает браузерную строку) -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<!-- Стиль строки состояния вверху экрана (может быть default, black или black-translucent) -->
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<!-- Название приложения под иконкой на экране iPhone -->
+<meta name="apple-mobile-web-app-title" content="Расписание">
+
+<!-- Цвет вкладки и элементов интерфейса -->
+<meta name="theme-color" content="#3C86C4">
+
     </body>
 </html>
