@@ -9,6 +9,35 @@
         <link rel="apple-touch-icon" href="./icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="./icon.png">
 
+        <!-- Подключаем манифест для Android, Chrome и Яндекс -->
+
+
+<!-- Иконка для экранов Apple (iPhone/iPad) -->
+
+
+<!-- Говорим Safari открывать сайт как приложение без вкладок -->
+
+<!-- Цвет шапки приложения -->
+
+        <!-- Подключение манифеста для Android/Yandex/Chrome -->
+
+
+<!-- Иконка для экранов Apple iOS (iPhone/iPad) -->
+
+
+<!-- Настройки полноэкранного режима для Safari -->
+
+
+
+
+<!-- Цвет панели браузеров -->
+
+
+        <!-- Подключение манифеста для Android и Chrome -->
+
+
+<!-- Иконка для iPhone / Safari -->
+
 <!-- Цвет вкладки в мобильном браузере -->
         <title>Расписание и задачи</title>
         <style>
@@ -359,7 +388,8 @@
                 .day-cell {
                     border-radius: 10px;
                     padding: 2px 1px;
-                    max-height: 50px;
+                    min-height: 40px;
+                    max-height: none;
                 }
 
                 .day-num {
@@ -2171,30 +2201,6 @@
                 *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
             }
 
-            /* Restore comfortable phone sizing; avoid the overly compact controls. */
-            @media (max-width: 640px) {
-                body { font-size: 16px; }
-                .container { padding-left: 12px; padding-right: 12px; }
-                .sheet-tabs { gap: 0; }
-                .sheet-tab {
-                    min-height: 48px;
-                    padding: 12px 8px !important;
-                    font-size: 0.9rem !important;
-                    line-height: 1.25;
-                    white-space: normal;
-                }
-                button, .icon-btn, .btn, select, input, textarea {
-                    min-height: 42px;
-                }
-                input, select, textarea { font-size: 16px !important; }
-                .icon-btn, .btn { padding: 10px 12px; }
-                .lang-toggle button { min-height: 42px; padding: 9px 12px; }
-                .bottom-nav button { min-height: 54px; font-size: 0.76rem; }
-            }
-            @media (max-width: 380px) {
-                .sheet-tab { font-size: 0.84rem !important; padding: 10px 5px !important; }
-                .icon-btn, .btn { padding-left: 9px; padding-right: 9px; }
-            }
         </style>
         <meta name="mobile-web-app-capable" content="yes">
     </head>
@@ -7984,6 +7990,16 @@
 <!-- Главная иконка для экрана "Домой" на iPhone / iPad -->
 <link rel="apple-touch-icon" href="icon.png">
 
+<!-- Разрешаем запускать сайт как полноценное веб-приложение (убирает браузерную строку) -->
+
+
+<!-- Стиль строки состояния вверху экрана (может быть default, black или black-translucent) -->
+
+
+<!-- Название приложения под иконкой на экране iPhone -->
+
+
+<!-- Цвет вкладки и элементов интерфейса -->
 
 <script>
   if ('serviceWorker' in navigator) {
