@@ -2391,15 +2391,12 @@
 <!--
   АНАЛИТИКА ПОСЕТИТЕЛЕЙ (GoatCounter)
   1) Создай счётчик на https://www.goatcounter.com/
-  2) Замени пустое значение GOATCOUNTER_ENDPOINT на адрес счётчика, например:
-     https://МОЙ-КОД.goatcounter.com/count
-  3) После публикации статистика будет доступна в панели GoatCounter.
-  До настройки endpoint аналитика отключена и данные никуда не отправляются.
+  Счётчик настроен: https://asasin77736.goatcounter.com/count
+  После публикации статистика будет доступна в панели GoatCounter.
 -->
 <script>
   (function () {
-    const GOATCOUNTER_ENDPOINT = '<script data-goatcounter="https://asasin77736.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>'; // Вставь сюда свой адрес ...goatcounter.com/count
+    const GOATCOUNTER_ENDPOINT = 'https://asasin77736.goatcounter.com/count';
     if (!GOATCOUNTER_ENDPOINT || !/^https:\/\/[a-z0-9-]+\.goatcounter\.com\/count$/.test(GOATCOUNTER_ENDPOINT)) return;
     // Не учитывать локальные открытия и тестовые страницы.
     if (location.protocol !== 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1') return;
