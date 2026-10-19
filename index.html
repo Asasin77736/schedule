@@ -2,7 +2,7 @@
 <html lang="ru">
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-        <meta name="theme-color" content="#003274">
+        <meta name="theme-color" content="#0a1628">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
         <meta name="apple-mobile-web-app-title" content="Расписание">
@@ -329,6 +329,15 @@
                 border-color: rgba(42,157,143,0.45);
             }
 
+            .day-cell.has-exam {
+                background: linear-gradient(145deg, rgba(239, 68, 68, 0.22), rgba(248, 113, 113, 0.13));
+                border-color: rgba(220, 38, 38, 0.7);
+                box-shadow: inset 0 0 0 1px rgba(220, 38, 38, 0.18);
+            }
+            [data-theme="dark"] .day-cell.has-exam {
+                background: linear-gradient(145deg, rgba(220, 38, 38, 0.32), rgba(127, 29, 29, 0.22));
+                border-color: rgba(248, 113, 113, 0.75);
+            }
             .day-cell.selected {
                 background: linear-gradient(145deg, #3C86C4, #003274) !important;
                 color: #fff;
@@ -628,6 +637,10 @@
                 font-size: 0.9rem;
             }
 
+            html { background: #073b78; }
+            body { overflow-wrap: anywhere; }
+            *, *::before, *::after { box-sizing: border-box; }
+            input, select, textarea, button { max-width: 100%; }
             .container {
                 max-width: 920px;
                 margin: 0 auto;
@@ -2236,6 +2249,36 @@
             }
 
         
+
+            /* Layout hardening: long content and nested controls must stay inside cards. */
+            html { min-height: 100%; background: #0a1628; overscroll-behavior-y: none; }
+            body { min-width: 0; width: 100%; overflow-wrap: anywhere; -webkit-overflow-scrolling: touch; }
+            [data-theme="light"] { background: #e8eef5; }
+            [data-theme="dark"] { background: #0a1628; }
+            .task-item, .task-main, .task-content, .task-text, .note-area, .link-row,
+            .cal-day-task, .cal-item, .journal-entry, .entry-block, .section, .add-form,
+            .modal, .modal-overlay, .calendar-card, .task-list { min-width: 0; max-width: 100%; }
+            .task-content, .task-text, .note-preview, .entry-block, .cal-day-task > div,
+            .cal-item > span, .link-row a, .journal-entry, .subtitle { overflow-wrap: anywhere; word-break: normal; }
+            input, select, textarea, button { min-width: 0; max-width: 100%; }
+            textarea { white-space: pre-wrap; overflow-wrap: anywhere; }
+            .task-main > *, .task-actions { min-width: 0; }
+            .task-actions { flex-shrink: 0; }
+            .link-row a { display: inline-block; max-width: 100%; }
+            @supports (padding-top: env(safe-area-inset-top)) {
+                body { padding-top: 0; }
+                html { background: var(--primary, #073b78); }
+                body { background-color: var(--bg); }
+            }
+            @media (max-width: 640px) {
+                .task-main { gap: 8px; padding-left: 9px; padding-right: 9px; }
+                .task-content { flex: 1 1 0; }
+                .task-text { line-height: 1.45; }
+                .cal-item { align-items: flex-start; }
+                .cal-days { max-width: 34%; overflow-wrap: anywhere; }
+                .modal { width: calc(100% - 24px); }
+            }
+
             /* Читаемая тёмная тема: более ясные поверхности и контрастные элементы управления. */
             [data-theme="dark"] {
                 --primary: #b7d7ff;
@@ -2623,6 +2666,7 @@
                 </div>
             </div>
             <!-- /sheet-main -->
+<footer id="study-easter-egg" tabindex="0" role="button" aria-label=" " style="margin-top:24px;opacity:.12;text-align:center;cursor:pointer;user-select:none;font-size:.85rem;-webkit-tap-highlight-color:transparent;outline:none;background:transparent;border:0;color:inherit;box-shadow:none">Может уже пора начать учиться?</footer>
             <div id="sheet-hw" class="sheet">
                 <header style="margin-bottom:14px">
                     <h1 style="font-size:1.35rem">📝 Домашние задания</h1>
@@ -2688,9 +2732,14 @@
                             <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--primary);margin-bottom:3px">Текст</label>
                             <textarea id="hw-new-text" placeholder="Текст задания / что задали / тема лекции..." rows="3" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:7px;background:var(--card);color:var(--text);resize:vertical;font-family:inherit"></textarea>
                         </div>
+                        <div>
+                            <label style="display:block;font-size:0.8rem;font-weight:600;color:var(--primary);margin-bottom:3px">Ссылка на задание (необязательно)</label>
+                            <input type="url" id="hw-new-link" placeholder="https://..." inputmode="url" autocomplete="url" style="width:100%;min-width:0;padding:8px 10px;border:1px solid var(--border);border-radius:7px;background:var(--card);color:var(--text)">
+                        </div>
                         <button onclick="addHw()" style="background:var(--c-hw);color:#fff;border:none;padding:10px 16px;border-radius:8px;font-weight:600;cursor:pointer;align-self:flex-start">+ Добавить</button>
                     </div>
                 </div>
+            </div>
             </div>
             <div id="sheet-cal" class="sheet">
                 <header style="margin-bottom:14px">
@@ -2704,6 +2753,7 @@
                     <button type="button" id="cal-filter-all" class="active" onclick="setCalFilter('all')">Все</button>
                     <button type="button" id="cal-filter-hw" onclick="setCalFilter('hw')">Учёба</button>
                     <button type="button" id="cal-filter-proj" onclick="setCalFilter('proj')">Проект</button>
+                    <button type="button" id="cal-filter-exams" onclick="setCalFilter('exams')">Экзамены</button>
                 </div>
                 <div class="month-nav">
                     <button type="button" onclick="calShift(-1)" aria-label="Предыдущий месяц">◀</button>
@@ -2730,10 +2780,29 @@
                             <button type="button" id="dead-filter-all" class="active" onclick="setDeadFilter('all')">Все</button>
                             <button type="button" id="dead-filter-hw" onclick="setDeadFilter('hw')">Учёба</button>
                             <button type="button" id="dead-filter-proj" onclick="setDeadFilter('proj')">Проект</button>
+                            <button type="button" id="dead-filter-exams" onclick="setDeadFilter('exams')">Экзамены</button>
                         </div>
                     </div>
                     <div id="calendar"></div>
                 </div>
+            </div>
+            <div id="sheet-exams" class="sheet">
+                <header style="margin-bottom:14px"><h1 style="font-size:1.35rem">🎓 Экзамены</h1><div class="subtitle">Контрольные точки, коллоквиумы и экзамены</div></header>
+
+<div class="section"><div class="section-title" style="color:#8b5cf6">Список экзаменов</div><div id="exam-list" class="task-list"></div></div><div class="section"><div class="section-title" style="color:#8b5cf6">➕ Добавить событие</div>
+                  <div class="add-form" style="display:flex;flex-direction:column;gap:10px;padding:12px;background:var(--card);border:1px solid var(--border);border-radius:10px">
+                    <label>Дата<input type="date" id="exam-date" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text)"></label>
+                    <label>Предмет<select id="exam-subject" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text)"><option value="">— выбери предмет —</option></select></label>
+                    <label>Тип<select id="exam-type" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text)"><option>Контрольная точка</option><option>Коллоквиум</option><option>Экзамен</option></select></label>
+                    <label>Описание<input id="exam-text" type="text" placeholder="Например, главы 1–4" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text)"></label>
+                    <label>Ссылка<input type="url" id="exam-link" placeholder="https://..." style="width:100%;padding:9px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text)"></label>
+                    <button type="button" class="icon-btn accent-action" onclick="addExam()">Добавить</button>
+                  </div>
+                </div>
+                
+            </div>
+
+<div id="secret-cheats-section" class="section" hidden><div class="section-title" style="color:#8b5cf6">Шпоры</div><div id="cheats-content"></div></div>
             </div>
             <div id="sheet-subj" class="sheet">
                 <header style="margin-bottom:14px">
@@ -2770,9 +2839,6 @@
                 </div>
                 <p style="font-size:0.75rem;color:var(--muted);margin-top:12px">Цвета используются для точек на календаре и бейджей у записей.</p>
             </div>
-            <footer>
-      Может уже пора начать учиться?
-    </footer>
         </div>
         <nav class="bottom-nav" id="bottom-nav">
             <button type="button" id="nav-main" onclick="showSheet('main')">
@@ -2782,6 +2848,10 @@
             <button type="button" id="nav-subj" onclick="showSheet('subj')">
                 <span class="nav-ico">🎨</span>
                 Предметы
+            </button>
+            <button type="button" id="nav-exams" onclick="showSheet('exams')">
+                <span class="nav-ico">🎓</span>
+                Экзамены
             </button>
         </nav>
         <!-- Edit modal -->
@@ -2835,8 +2905,8 @@
                         r.deleted = [];
                     if (!r.tasks)
                         r.tasks = r.tasks || [];
-                    if (!r.hw)
-                        r.hw = [];
+                    if (!r.hw) r.hw = [];
+                    if (!Array.isArray(r.exams)) r.exams = [];
                     if (!r.feed)
                         r.feed = [];
                     if (!r.feedRead)
@@ -2852,6 +2922,7 @@
                 return {
                     tasks: [],
                     hw: [],
+                    exams: [],
                     subjects: JSON.parse(JSON.stringify(DEFAULT_SUBJECTS)),
                     done: {},
                     notes: {},
@@ -2930,6 +3001,19 @@
                 return (s.hw || []).filter(t => !(s.deleted || []).includes(t.id));
             }
 
+            function safeExternalUrl(value) {
+                try {
+                    const u = new URL(String(value || '').trim());
+                    return (u.protocol === 'https:' || u.protocol === 'http:') ? u.href : '';
+                } catch (_) { return ''; }
+            }
+
+            function homeworkLinkMarkup(id, rawLink) {
+                const url = safeExternalUrl(rawLink);
+                if (!url) return '';
+                return '<div class="link-row"><a href="' + esc(url) + '" rel="noopener noreferrer" title="Открыть ссылку на задание">🔗 Открыть задание</a></div>';
+            }
+
             function fillSubjectSelect() {
                 const sel = document.getElementById('hw-new-subject');
                 if (!sel)
@@ -2956,13 +3040,22 @@
         <span class="subj-color" style="background:${esc(x.color)}"></span>
         <input type="color" value="${esc(x.color)}" onchange="setSubjColor('${esc(x.id)}', this.value)" style="opacity:0;position:absolute;width:100%;height:100%;left:0;top:0;cursor:pointer">
       </label>
-      <div class="subj-name">${esc(x.name)}</div>
+      <div class="subj-name">${esc(x.name)}<div style="font-size:.75rem;color:var(--muted);margin-top:5px">Подгруппа: <select aria-label="Подгруппа предмета" onchange="setSubjectSubgroup('${esc(x.id)}',this.value)" style="max-width:130px;padding:4px;border:1px solid var(--border);border-radius:7px;background:var(--bg);color:var(--text)"><option value="all" ${!x.subgroup || x.subgroup==='all' ? 'selected' : ''}>Все</option><option value="1" ${String(x.subgroup)==='1' ? 'selected' : ''}>1 подгруппа</option><option value="2" ${String(x.subgroup)==='2' ? 'selected' : ''}>2 подгруппа</option><option value="3" ${String(x.subgroup)==='3' ? 'selected' : ''}>3 подгруппа</option></select></div></div>
       <div class="subj-actions">
         <button type="button" title="Изменить название" onclick="renameSubject('${esc(x.id)}')">✏️</button>
         <button type="button" title="Удалить" onclick="deleteSubject('${esc(x.id)}')">🗑</button>
       </div>
     </div>
   `).join('');
+            }
+
+
+            function setSubjectSubgroup(id, value) {
+                const s = load(); const item = (s.subjects || []).find(x => x.id === id);
+                if (!item) return;
+                item.subgroup = ['1','2','3'].includes(String(value)) ? Number(value) : 'all';
+                save(s); renderSubjects();
+                if (typeof renderRasp === 'function') renderRasp(false);
             }
 
             function pickPreset(el) {
@@ -3407,7 +3500,7 @@
         <div class="note-area">
           <button class="note-toggle" onclick="toggleNote('${item.id}')">${note ? '📝 Заметка' : '+ Заметка'}</button>
           <div class="note-preview ${note ? 'has-text' : ''}" id="preview-${item.id}">${esc(note)}</div>
-          ${link ? `<div class="link-row"><a href="${esc(link)}" target="_blank" rel="noopener">🔗 ${esc(link)}</a></div>` : ''}
+          ${homeworkLinkMarkup(item.id, link)}
           <textarea class="note-input" id="note-${item.id}" placeholder="Заметка..." onblur="saveNote('${item.id}')">${esc(note)}</textarea>
         </div>`;
                         list.appendChild(el);
@@ -3566,6 +3659,7 @@
               <div class="task-deadline ${dw && !isDone ? 'urgent-text' : ''}">
                 ${fmt(item.deadline)} <span class="task-days ${dw && !isDone ? 'warn' : ''}">· ${daysText(dn)}</span>
               </div>
+              ${homeworkLinkMarkup(item.id, (s.links || {})[item.id] || '')}
             </div>
           </div>
         </div>`;
@@ -3639,6 +3733,15 @@
                 const deadline = document.getElementById('hw-new-deadline').value;
                 const subject = document.getElementById('hw-new-subject').value.trim();
                 const category = document.getElementById('hw-new-category').value;
+                const rawLink = (document.getElementById('hw-new-link')?.value || '').trim();
+                let link = '';
+                if (rawLink) {
+                    try {
+                        const parsed = new URL(rawLink);
+                        if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') throw new Error('unsupported protocol');
+                        link = parsed.href;
+                    } catch (_) { alert('Укажи корректную ссылку, начинающуюся с https:// или http://'); return; }
+                }
                 if (!text) {
                     alert('Введи текст');
                     return;
@@ -3650,16 +3753,16 @@
                 const s = load();
                 if (!s.hw)
                     s.hw = [];
+                const id = 'hw' + Date.now();
                 s.hw.push({
-                    id: 'hw' + Date.now(),
-                    text,
-                    deadline: deadline || null,
-                    subject: subject || '',
-                    category: category || 'ДЗ',
-                    type: 'hw'
+                    id, text, deadline: deadline || null, subject: subject || '',
+                    category: category || 'ДЗ', type: 'hw'
                 });
+                s.links = s.links || {};
+                if (link) s.links[id] = link; else delete s.links[id];
                 save(s);
                 document.getElementById('hw-new-text').value = '';
+                document.getElementById('hw-new-link').value = '';
                 document.getElementById('hw-new-deadline').value = '';
                 document.getElementById('hw-new-subject').value = '';
                 document.getElementById('hw-new-category').value = 'ДЗ';
@@ -3718,7 +3821,7 @@
 
             function setDeadFilter(f) {
                 deadFilter = f || 'all';
-                ['all', 'hw', 'proj'].forEach(function(k) {
+                ['all', 'hw', 'proj', 'exams'].forEach(function(k) {
                     var el = document.getElementById('dead-filter-' + k);
                     if (el)
                         el.classList.toggle('active', deadFilter === k);
@@ -3735,6 +3838,7 @@
                     ...t,
                     _src: 'proj'
                 }));
+                const exams = (load().exams || []).filter(t => t.deadline).map(t => ({ ...t, title: (t.type || 'Экзамен') + (t.subject ? ' · ' + t.subject : ''), _src: 'exams', category: 'exams' }));
                 const hw = getHw().filter(t => t.deadline).map(t => ({
                     ...t,
                     _src: 'hw'
@@ -3744,9 +3848,10 @@
                     all = all.concat(tasks);
                 if (deadFilter === 'all' || deadFilter === 'hw')
                     all = all.concat(hw);
+                if (deadFilter === 'all' || deadFilter === 'exams') all = all.concat(exams);
                 all.sort( (a, b) => a.deadline.localeCompare(b.deadline));
                 // show active first, then done; keep done visible for undo
-                const upcoming = all.filter(t => daysUntil(t.deadline) >= -5).slice(0, 20);
+                const upcoming = all.filter(t => daysUntil(t.deadline) >= -5);
                 const el = document.getElementById('calendar');
                 if (!el)
                     return;
@@ -3904,7 +4009,11 @@
                     t.subject = document.getElementById('edit-subject').value || '';
                     t.category = document.getElementById('edit-category').value || 'ДЗ';
                 }
-                s.links[id] = document.getElementById('edit-link').value.trim();
+                const rawLink = document.getElementById('edit-link').value.trim();
+                if (rawLink && !safeExternalUrl(rawLink)) { alert('Укажи корректную ссылку, начинающуюся с https:// или http://'); return; }
+                s.links = s.links || {};
+                if (rawLink) s.links[id] = safeExternalUrl(rawLink); else delete s.links[id];
+                s.notes = s.notes || {};
                 s.notes[id] = document.getElementById('edit-note').value;
                 save(s);
                 closeModal();
@@ -13981,13 +14090,15 @@
             };
 
             function getAcademicWeek() {
-                // Учебная неделя №1 начинается 01.09.2026. Считаем календарные
-                // даты в UTC, чтобы часовой пояс и переходы летнего времени
-                // не сдвигали номер недели на день.
-                const start = Date.UTC(2026, 8, 1);
+                // Учебная неделя №1 — неделя, в которую входит 01.09.2026.
+                // Нумеруем учебные недели с понедельника: первая неделя
+                // начинается 31.08.2026, поэтому 19.10.2026 — неделя №8.
+                // UTC исключает ошибки из-за часового пояса и перехода DST.
+                const firstDay = Date.UTC(2026, 8, 1);
+                const firstMonday = firstDay - ((new Date(firstDay).getUTCDay() + 6) % 7) * 86400000;
                 const now = new Date();
                 const today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
-                const days = Math.floor((today - start) / 86400000);
+                const days = Math.floor((today - firstMonday) / 86400000);
                 if (days < 0) return 1;
                 return Math.floor(days / 7) + 1;
             }
@@ -14019,8 +14130,8 @@
                     (SCHEDULE[d] || []).forEach(function(l) {
                         if (l.sub !== null && l.sub !== undefined && l.sub !== '') {
                             var n = Number(l.sub);
-                            // только 1 и 2; 3-ю подгруппу не показываем
-                            if (n === 1 || n === 2) set.add(n);
+                            // Поддерживаем все три подгруппы
+                            if (n === 1 || n === 2 || n === 3) set.add(n);
                         }
                     });
                 });
@@ -14055,7 +14166,7 @@
                     /* ok */
                 } else {
                     n = parseInt(n, 10);
-                    if (n !== 1 && n !== 2) n = 1;
+                    if (n !== 1 && n !== 2 && n !== 3) n = 1;
                 }
                 const prev = raspSubgroup;
                 if (!skipConfirm && n !== prev && n !== 'all') {
@@ -14133,18 +14244,29 @@
             let raspOpenDays = {};
             // remember expanded days
 
-            function getDayTaskStats(dayLessons) {
+            function getDayTaskStats(dayLessons, weekday) {
                 const subjects = new Set(dayLessons.map(l => l.subject));
                 const s = load();
                 // Keep done items visible so accidental clicks can be undone
-                const hw = getHw().filter(h => h.subject && subjects.has(h.subject));
+                const dueOnWeekday = h => {
+                    if (!h.deadline) return false;
+                    const parts = h.deadline.split('-').map(Number);
+                    if (parts.length !== 3 || !parts[0]) return false;
+                    const due = new Date(parts[0], parts[1] - 1, parts[2]).getDay();
+                    return (due === 0 ? 7 : due) === weekday;
+                };
+                // ДЗ относятся к предметам дня, а экзамены показываем по дате независимо от предмета в расписании.
+                const hw = getHw().filter(h => h.subject && subjects.has(h.subject) && dueOnWeekday(h))
+                    .concat((load().exams || []).filter(dueOnWeekday).map(e => Object.assign({}, e, {exam:true, category:e.type || 'Экзамен'})));
                 let dz = 0
                   , lab = 0
-                  , lek = 0;
+                  , lek = 0
+                  , exams = 0;
                 hw.forEach(h => {
                     if (s.done[h.id])
                         return;
                     // count only active for badge
+                    if (h.exam) { exams++; return; }
                     const c = (h.category || '').toLowerCase();
                     if (c.includes('лаб'))
                         lab++;
@@ -14158,6 +14280,7 @@
                     dz,
                     lab,
                     lek,
+                    exams,
                     items: hw
                 };
             }
@@ -14209,7 +14332,9 @@
                         // пары без подгруппы (null) видны всем;
                         // при режиме "all" показываем всё;
                         // иначе только выбранная подгруппа + общие
-                        if (raspSubgroup !== 'all') {
+                        const subjectRule = (getSubjects().find(x => x.name === l.subject) || {}).subgroup;
+                        if ([1, 2, 3, '1', '2', '3'].includes(subjectRule)) { if (l.sub !== null && l.sub !== undefined && l.sub !== '' && Number(l.sub) !== Number(subjectRule)) return false; }
+                        else if (raspSubgroup !== 'all') {
                             if (l.sub !== null && l.sub !== undefined && l.sub !== '' && Number(l.sub) !== Number(raspSubgroup))
                                 return false;
                         }
@@ -14228,7 +14353,7 @@
                         continue;
 
                     const isToday = d === todayKey && raspWeekType === 'auto';
-                    const stats = getDayTaskStats(lessons);
+                    const stats = getDayTaskStats(lessons, d);
                     let statsText = [];
                     if (stats.dz)
                         statsText.push(stats.dz + ' дз');
@@ -14236,6 +14361,8 @@
                         statsText.push(stats.lab + ' лаб');
                     if (stats.lek)
                         statsText.push(stats.lek + ' лек');
+                    if (stats.exams)
+                        statsText.push(stats.exams + ' экзам.');
                     const hasTasks = statsText.length > 0;
                     const midStats = hasTasks ? `<span style="flex:1;text-align:center;font-size:0.78rem;color:var(--primary-light);font-weight:600">${statsText.join(' · ')} ${raspOpenDays[d] ? '▴' : '▾'}</span>` : `<span style="flex:1"></span>`;
 
@@ -14254,12 +14381,12 @@
                         stats.items.forEach(item => {
                             const isDone = !!s.done[item.id];
                             const dn = daysUntil(item.deadline);
-                            html += `<div class="cal-day-task${isDone ? ' done' : ''}" style="padding:8px 0;cursor:pointer;display:flex;align-items:flex-start;gap:10px" onclick="toggleDone('${item.id}');renderRasp();">
+                            html += `<div class="cal-day-task${isDone ? ' done' : ''}" style="${item.exam?'border-left:4px solid #8b5cf6;padding-left:8px;':''}" style="padding:8px 0;cursor:pointer;display:flex;align-items:flex-start;gap:10px" onclick="${item.exam ? '' : `toggleDone('${item.id}');`}renderRasp();">
           <div class="checkbox" style="pointer-events:none">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
           </div>
           <div style="flex:1">
-            <div style="font-size:0.84rem">${esc(item.text)} <span class="hw-badge">${esc(item.category || 'ДЗ')}</span>${item.subject ? ' <span class="hw-badge" style="background:' + esc(subjectColor(item.subject)) + '22;color:' + esc(subjectColor(item.subject)) + '">' + esc(item.subject) + '</span>' : ''}</div>
+            <div style="font-size:0.84rem">${esc(item.text)} <span class="hw-badge" style="${item.exam?'background:#8b5cf633;color:#8b5cf6':''}">${esc(item.exam ? (item.type || 'Экзамен') : (item.category || 'ДЗ'))}</span>${item.subject ? ' <span class="hw-badge" style="background:' + esc(subjectColor(item.subject)) + '22;color:' + esc(subjectColor(item.subject)) + '">' + esc(item.subject) + '</span>' : ''}</div>
             <div style="font-size:0.72rem;color:var(--muted)">${fmt(item.deadline)} · ${daysText(dn)}</div>
           </div>
         </div>`;
@@ -14517,6 +14644,50 @@
                 showToast('Загружено: ' + g);
             }
 
+
+            function renderExams() {
+                const sel = document.getElementById('exam-subject');
+                if (sel) { const cur=sel.value; sel.innerHTML='<option value="">— выбери предмет —</option>'+getSubjects().map(x=>'<option value="'+esc(x.name)+'">'+esc(x.name)+'</option>').join(''); if(cur) sel.value=cur; }
+                const list=document.getElementById('exam-list'); if(!list) return;
+                const exams=(load().exams||[]).slice().sort((a,b)=>(a.deadline||'').localeCompare(b.deadline||''));
+                list.innerHTML=exams.length?exams.map(e=>`<div class="task-item" style="border-left:5px solid #8b5cf6;padding:12px;margin:8px 0;background:var(--card);border-radius:10px"><strong style="color:#8b5cf6">${esc(e.type)}</strong> · ${esc(e.subject||'Без предмета')}<div>${esc(e.text||'')}</div>${e.link?'<a href="'+esc(e.link)+'" target="_blank" rel="noopener noreferrer">Открыть ссылку ↗</a>':''}<small>${fmt(e.deadline)}</small><button type="button" class="icon-btn" style="float:right" onclick="deleteExam('${esc(e.id)}')">Удалить</button></div>`).join(''):'<div class="cal-empty">Экзаменов пока нет</div>';
+            }
+            // Скрытый раздел: десять нажатий по фразе внизу экрана.
+            (function initStudyEasterEgg(){
+                const footer = document.getElementById('study-easter-egg');
+                if (!footer || footer.dataset.secretReady) return;
+                footer.dataset.secretReady = '1';
+                let taps = 0;
+                const activate = function(){
+                    taps++;
+                    if (taps < 10) return;
+                    taps = 0;
+                    const answer = prompt('Сложно учиться?');
+                    if (answer === null) return;
+                    if (answer.trim().toLocaleLowerCase('ru-RU') === 'кофе с конспектом') {
+                        try { localStorage.setItem('study_secret_unlocked','1'); } catch(e) {}
+                        const section = document.getElementById('secret-cheats-section');
+                        if (section) section.hidden = false;
+                        alert('Решение ближе чем ты думаешь');
+                    } else {
+                        alert('Пока не то. Подсказка: два помощника перед экзаменом.');
+                    }
+                };
+                footer.addEventListener('click', function(e){ e.preventDefault(); activate(); });
+                footer.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }});
+                try { if (localStorage.getItem('study_secret_unlocked') === '1') document.getElementById('secret-cheats-section').hidden = false; } catch(e) {}
+            })();
+
+            function addExam() {
+                const deadline=document.getElementById('exam-date').value; const subject=document.getElementById('exam-subject').value;
+                const type=document.getElementById('exam-type').value; const textValue=(document.getElementById('exam-text').value||'').trim(); const linkValue=(document.getElementById('exam-link').value||'').trim();
+                if(!deadline){alert('Выбери дату');return;}
+                const s=load(); if(!Array.isArray(s.exams))s.exams=[];
+                s.exams.push({id:'exam-'+Date.now(),deadline,subject,type,text:textValue,link:linkValue,category:type,exam:true}); save(s);
+                document.getElementById('exam-text').value=''; document.getElementById('exam-link').value=''; renderExams(); renderCalendarByDate(); renderRasp(false); showToast('Экзамен добавлен');
+            }
+            function deleteExam(id){const s=load();s.exams=(s.exams||[]).filter(e=>e.id!==id);save(s);renderExams();renderCalendarByDate();renderRasp(false);}
+
             function showSheet(name) {
                 document.querySelectorAll('.sheet').forEach(function(s) {
                     s.classList.remove('active');
@@ -14546,6 +14717,7 @@
                     fillSubjectSelect();
                     renderHw();
                 }
+                if (name === 'exams') { renderExams(); }
                 if (name === 'subj') {
                     fillSubjFlowGroupSelect();
                     renderSubjects();
@@ -14566,7 +14738,7 @@
 
             function setCalFilter(f) {
                 calFilter = f || 'all';
-                ['all', 'hw', 'proj'].forEach(function(k) {
+                ['all', 'hw', 'proj', 'exams'].forEach(function(k) {
                     var el = document.getElementById('cal-filter-' + k);
                     if (el)
                         el.classList.toggle('active', calFilter === k);
@@ -14604,7 +14776,9 @@
                         _src: 'hw'
                     });
                 });
+                var examItems = (load().exams || []).filter(t => t.deadline).map(t => Object.assign({}, t, {_src:'exam'}));
                 var allTasks = [];
+                if (calFilter === 'all' || calFilter === 'exams') allTasks = allTasks.concat(examItems);
                 if (calFilter === 'all' || calFilter === 'proj')
                     allTasks = allTasks.concat(tasks);
                 if (calFilter === 'all' || calFilter === 'hw')
@@ -14644,7 +14818,8 @@
                     var list = byDate[iso] || [];
                     var isToday = iso === todayStr;
                     var isSel = calSelected === iso;
-                    var cls = 'day-cell' + (isToday ? ' today' : '') + (list.length ? ' has-tasks' : '') + (isSel ? ' selected' : '');
+                    var hasExam = list.some(t => t._src === 'exam' || t.exam || (t.type && ['Контрольная точка','Коллоквиум','Экзамен'].includes(t.type)));
+                    var cls = 'day-cell' + (isToday ? ' today' : '') + (list.length ? ' has-tasks' : '') + (hasExam ? ' has-exam' : '') + (isSel ? ' selected' : '');
                     var dots = '';
                     if (list.length) {
                         dots = '<div class="day-dots">';
@@ -14702,7 +14877,8 @@
                         if (t.subject)
                             badge += ' <span class="hw-badge" style="background:' + esc(subjectColor(t.subject)) + '22;color:' + esc(subjectColor(t.subject)) + '">' + esc(t.subject) + '</span>';
                     }
-                    return '<div class="cal-day-task' + (done ? ' done' : '') + (isHw && !done ? ' hw-item' : '') + '">' + '<div class="checkbox" style="cursor:pointer" onclick="event.stopPropagation();toggleDone(\'' + t.id + '\');">' + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div>' + '<div><div>' + prefix + esc(t.text) + badge + '</div></div></div>';
+                    const taskLink = homeworkLinkMarkup(t.id, (s.links || {})[t.id] || '');
+                    return '<div class="cal-day-task' + (done ? ' done' : '') + (isHw && !done ? ' hw-item' : '') + '">' + '<div class="checkbox" style="cursor:pointer" onclick="event.stopPropagation();toggleDone(\'' + t.id + '\');">' + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div>' + '<div style="min-width:0;overflow-wrap:anywhere"><div>' + prefix + esc(t.text) + badge + '</div>' + taskLink + '</div></div>';
                 }).join('');
             }
 
