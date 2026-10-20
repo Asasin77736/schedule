@@ -2434,6 +2434,32 @@
                 }
             }
 
+
+            /* Compact vertical spacing on mobile and improve week-status contrast. */
+            #sheet-cal, #sheet-exams { margin-top: 0 !important; padding-top: 0 !important; }
+            #sheet-cal .lang-toggle:first-child { margin-top: 0 !important; }
+            #sheet-cal .month-nav { margin-top: 8px !important; }
+            #sheet-cal .calendar-card { margin-top: 10px !important; }
+            #sheet-exams > header { margin-top: 0 !important; margin-bottom: 10px !important; }
+            #sheet-exams .section { margin-top: 10px !important; }
+            #rasp-week-info, #hw-week-label, .subtitle {
+                color: #42566f !important;
+                opacity: 1 !important;
+                font-weight: 600 !important;
+                text-shadow: none !important;
+            }
+            [data-theme="dark"] #rasp-week-info,
+            [data-theme="dark"] #hw-week-label,
+            [data-theme="dark"] .subtitle {
+                color: #d8e5f5 !important;
+            }
+            @media (max-width: 899px) {
+                .sheet-tabs { margin-bottom: 8px !important; }
+                #sheet-cal .month-grid { gap: 5px !important; }
+                #sheet-cal .calendar-card { margin-top: 8px !important; }
+                #sheet-exams > header { padding-top: 0 !important; }
+            }
+
         </style>
         <meta name="mobile-web-app-capable" content="yes">
     <style>
@@ -2482,6 +2508,109 @@
     document.head.appendChild(script);
   })();
 </script>
+
+<style id="compact-layout-fix">
+/* Keep every main section compact and consistently centered. */
+.container {
+  width: min(calc(100% - 32px), 960px) !important;
+  max-width: 960px !important;
+  padding-top: 0 !important;
+  padding-bottom: 76px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+.top-bar { margin-bottom: 8px !important; }
+.sheet-tabs { margin-top: 0 !important; margin-bottom: 8px !important; }
+.sheet.active,
+#sheet-subj, #sheet-cal, #sheet-exams {
+  box-sizing: border-box !important;
+  width: min(calc(100% - 32px), 960px) !important;
+  max-width: 960px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-top: 0 !important;
+}
+.sheet.active > header:first-child,
+#sheet-subj > header:first-child,
+#sheet-cal > header:first-child,
+#sheet-exams > header:first-child {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  margin-bottom: 8px !important;
+}
+#sheet-subj > header:first-child h1,
+#sheet-cal > header:first-child h1,
+#sheet-exams > header:first-child h1 { margin-top: 0 !important; }
+#sheet-cal .calendar-card,
+#sheet-exams .section,
+#sheet-subj > div {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+/* Remove large top gaps left by section-specific layout rules. */
+#sheet-subj, #sheet-cal, #sheet-exams { margin-top: 0 !important; }
+#sheet-subj .section, #sheet-cal .section, #sheet-exams .section { margin-top: 8px !important; }
+@media (min-width: 900px) {
+  .container, .sheet.active, #sheet-subj, #sheet-cal, #sheet-exams {
+    width: min(calc(100% - 48px), 960px) !important;
+    max-width: 960px !important;
+  }
+}
+@media (max-width: 899px) {
+  .container, .sheet.active, #sheet-subj, #sheet-cal, #sheet-exams {
+    width: calc(100% - 16px) !important;
+    max-width: 960px !important;
+  }
+  .container { padding-top: 0 !important; }
+  .sheet-tabs { margin-bottom: 6px !important; }
+  .sheet.active > header:first-child { margin-bottom: 6px !important; }
+}
+
+            /* FINAL layout fix: keep every main tab at the same readable width. */
+            @media (min-width: 900px) {
+                .container {
+                    width: min(100% - 32px, 1000px) !important;
+                    max-width: 1000px !important;
+                    margin-left: auto !important;
+                    margin-right: auto !important;
+                }
+                #sheet-rasp, #sheet-hw, #sheet-cal, #sheet-subj, #sheet-exams {
+                    width: 100% !important;
+                    max-width: 100% !important;
+                    box-sizing: border-box !important;
+                    margin-left: auto !important;
+                    margin-right: auto !important;
+                }
+                #sheet-cal #calendar,
+                #sheet-cal .calendar-card,
+                #sheet-cal .calendar-grid-wrap,
+                #sheet-exams > header,
+                #sheet-exams > .section,
+                #sheet-subj > header,
+                #sheet-subj > div {
+                    width: 100% !important;
+                    max-width: 100% !important;
+                    box-sizing: border-box !important;
+                }
+            }
+            /* Remove the oversized blank area above section content on all devices. */
+            .container { padding-top: max(6px, env(safe-area-inset-top)) !important; }
+            .top-bar { margin-bottom: 8px !important; }
+            .sheet > header { margin-top: 0 !important; margin-bottom: 8px !important; }
+            #sheet-rasp, #sheet-hw, #sheet-cal, #sheet-subj, #sheet-exams {
+                margin-top: 0 !important;
+                padding-top: 0 !important;
+            }
+            #sheet-cal .lang-toggle:first-child { margin-top: 0 !important; }
+            #sheet-subj > header, #sheet-exams > header { padding-top: 0 !important; }
+            @media (max-width: 899px) {
+                .container { padding-top: max(6px, env(safe-area-inset-top)) !important; }
+                #sheet-cal, #sheet-subj, #sheet-exams { width: 100% !important; max-width: 100% !important; }
+            }
+
+</style>
+
 </head>
     <body>
         <div id="pwa-launch-screen" aria-hidden="true">
@@ -2818,7 +2947,7 @@
             <div id="sheet-exams" class="sheet">
                 <header style="margin-bottom:14px"><h1 style="font-size:1.35rem">🎓 Экзамены</h1><div class="subtitle">Контрольные точки, коллоквиумы и экзамены</div></header>
 
-<div class="section"><div class="section-title" style="color:#8b5cf6">Список экзаменов</div><div id="exam-list" class="task-list"></div></div><div class="section"><div class="section-title" style="color:#8b5cf6">➕ Добавить событие</div>
+<div class="section"><div class="section-title" style="color:var(--primary)">Список экзаменов</div><div id="exam-list" class="task-list"></div></div><div class="section"><div class="section-title" style="color:var(--primary)">➕ Добавить событие</div>
                   <div class="add-form" style="display:flex;flex-direction:column;gap:10px;padding:12px;background:var(--card);border:1px solid var(--border);border-radius:10px">
                     <label>Дата<input type="date" id="exam-date" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text)"></label>
                     <label>Предмет<select id="exam-subject" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text)"><option value="">— выбери предмет —</option></select></label>
@@ -2829,7 +2958,7 @@
                   </div>
                 </div>
                 
-                <div id="secret-cheats-section" class="section" hidden><div class="section-title" style="color:#8b5cf6">Шпоры</div><div id="cheats-content"></div></div>
+                <div id="secret-cheats-section" class="section" hidden><div class="section-title" style="color:var(--primary)">Шпоры</div><div id="cheats-content"></div></div>
             </div>
             </div>
             <div id="sheet-subj" class="sheet">
@@ -14348,12 +14477,12 @@
                         stats.items.forEach(item => {
                             const isDone = !!s.done[item.id];
                             const dn = daysUntil(item.deadline);
-                            html += `<div class="cal-day-task${isDone ? ' done' : ''}" style="${item.exam?'border-left:4px solid #8b5cf6;padding-left:8px;':''}" style="padding:8px 0;cursor:pointer;display:flex;align-items:flex-start;gap:10px" onclick="${item.exam ? '' : `toggleDone('${item.id}');`}renderRasp();">
+                            html += `<div class="cal-day-task${isDone ? ' done' : ''}" style="${item.exam?'border-left:4px solid var(--primary);padding-left:8px;':''}" style="padding:8px 0;cursor:pointer;display:flex;align-items:flex-start;gap:10px" onclick="${item.exam ? '' : `toggleDone('${item.id}');`}renderRasp();">
           <div class="checkbox" style="pointer-events:none">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
           </div>
           <div style="flex:1">
-            <div style="font-size:0.84rem">${esc(item.text)} <span class="hw-badge" style="${item.exam?'background:#8b5cf633;color:#8b5cf6':''}">${esc(item.exam ? (item.type || 'Экзамен') : (item.category || 'ДЗ'))}</span>${item.subject ? ' <span class="hw-badge" style="background:' + esc(subjectColor(item.subject)) + '22;color:' + esc(subjectColor(item.subject)) + '">' + esc(item.subject) + '</span>' : ''}</div>
+            <div style="font-size:0.84rem">${esc(item.text)} <span class="hw-badge" style="${item.exam?'background:var(--primary);color:#fff':''}">${esc(item.exam ? (item.type || 'Экзамен') : (item.category || 'ДЗ'))}</span>${item.subject ? ' <span class="hw-badge" style="background:' + esc(subjectColor(item.subject)) + '22;color:' + esc(subjectColor(item.subject)) + '">' + esc(item.subject) + '</span>' : ''}</div>
             <div style="font-size:0.72rem;color:var(--muted)">${fmt(item.deadline)} · ${daysText(dn)}</div>
           </div>
         </div>`;
@@ -14617,7 +14746,7 @@
                 if (sel) { const cur=sel.value; sel.innerHTML='<option value="">— выбери предмет —</option>'+getSubjects().map(x=>'<option value="'+esc(x.name)+'">'+esc(x.name)+'</option>').join(''); if(cur) sel.value=cur; }
                 const list=document.getElementById('exam-list'); if(!list) return;
                 const exams=(load().exams||[]).slice().sort((a,b)=>(a.deadline||'').localeCompare(b.deadline||''));
-                list.innerHTML=exams.length?exams.map(e=>`<div class="task-item" style="border-left:5px solid #8b5cf6;padding:12px;margin:8px 0;background:var(--card);border-radius:10px"><strong style="color:#8b5cf6">${esc(e.type)}</strong> · ${esc(e.subject||'Без предмета')}<div>${esc(e.text||'')}</div>${e.link?'<a href="'+esc(e.link)+'" target="_blank" rel="noopener noreferrer">Открыть ссылку ↗</a>':''}<small>${fmt(e.deadline)}</small><button type="button" class="icon-btn" style="float:right" onclick="deleteExam('${esc(e.id)}')">Удалить</button></div>`).join(''):'<div class="cal-empty">Экзаменов пока нет</div>';
+                list.innerHTML=exams.length?exams.map(e=>`<div class="task-item" style="border-left:5px solid var(--primary);padding:12px;margin:8px 0;background:var(--card);border-radius:10px"><strong style="color:var(--primary)">${esc(e.type)}</strong> · ${esc(e.subject||'Без предмета')}<div>${esc(e.text||'')}</div>${e.link?'<a href="'+esc(e.link)+'" target="_blank" rel="noopener noreferrer">Открыть ссылку ↗</a>':''}<small>${fmt(e.deadline)}</small><button type="button" class="icon-btn" style="float:right" onclick="deleteExam('${esc(e.id)}')">Удалить</button></div>`).join(''):'<div class="cal-empty">Экзаменов пока нет</div>';
             }
             // Скрытый раздел: десять нажатий по фразе внизу экрана.
             (function initStudyEasterEgg(){
