@@ -2538,6 +2538,7 @@
                     <button type="button" class="icon-btn" id="rasp-edit-btn" onclick="toggleRaspEdit()" title="Режим редактирования">✏️ Редактор</button>
                     <button type="button" class="icon-btn" onclick="exportSchedule()" title="Экспорт JSON">⬇ Экспорт</button>
                     <button type="button" class="icon-btn" onclick="document.getElementById('rasp-import-file').click()" title="Импорт JSON">⬆ Импорт</button>
+                    <span style="font-size:0.75rem;color:var(--muted);align-self:center">Если нашли ошибку в расписании — напишите мне</span>
                     <input type="file" id="rasp-import-file" accept=".json,application/json" style="display:none" onchange="importScheduleFile(event)">
                     <button type="button" class="icon-btn" onclick="resetSchedule()" title="Сбросить расписание">↺ Сброс</button>
                 </div>
@@ -13223,7 +13224,8 @@
                 "subject": "Химия",
                 "teacher": "Бурухин С.Б.",
                 "room": "1-238",
-                "sub": null
+                "sub": null,
+                "weeks": "odd"
             },
             {
                 "time": "10:45–12:20",
