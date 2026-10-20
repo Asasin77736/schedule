@@ -10,36 +10,36 @@
         <link rel="apple-touch-icon" href="./icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="./icon.png">
 
-        <!-- Подключаем манифест для Android, Chrome и Яндекс -->
-
-
-<!-- Иконка для экранов Apple (iPhone/iPad) -->
-
-
-<!-- Говорим Safari открывать сайт как приложение без вкладок -->
-
-<!-- Цвет шапки приложения -->
-
-        <!-- Подключение манифеста для Android/Yandex/Chrome -->
-
-
-<!-- Иконка для экранов Apple iOS (iPhone/iPad) -->
-
-
-<!-- Настройки полноэкранного режима для Safari -->
+        
 
 
 
 
-<!-- Цвет панели браузеров -->
 
 
-        <!-- Подключение манифеста для Android и Chrome -->
 
 
-<!-- Иконка для iPhone / Safari -->
 
-<!-- Цвет вкладки в мобильном браузере -->
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
         <title>Расписание и задачи</title>
         <style>
             :root {
@@ -217,7 +217,7 @@
                 animation: pop 0.35s ease;
             }
 
-            /* Month grid calendar */
+            
             .month-nav {
                 display: flex;
                 align-items: center;
@@ -438,7 +438,7 @@
                 color: var(--accent);
             }
 
-            /* только вс */
+            
             .day-cell:nth-child(7n) {
                 background: linear-gradient(145deg, rgba(42,157,143,0.08), rgba(240,245,252,0.9));
             }
@@ -859,7 +859,7 @@
                 background: var(--bg2);
             }
 
-            /* Accent actions remain visible without glowing too brightly in dark mode. */
+            
             .icon-btn.accent-action {
                 background: var(--accent);
                 color: #fff;
@@ -1206,7 +1206,7 @@
                 font-size: 0.82rem;
             }
 
-            /* Modal */
+            
             .modal-overlay {
                 display: none;
                 position: fixed;
@@ -1288,8 +1288,8 @@
                 color: var(--muted);
             }
 
-            /* Journal & calendar */
-            /* Feed */
+            
+            
             .feed-card {
                 background: var(--card);
                 border-radius: 12px;
@@ -1672,7 +1672,7 @@
                 opacity: 1;
             }
 
-            /* App styles */
+            
             .container {
                 max-width: 960px;
             }
@@ -1773,19 +1773,19 @@
                 color: #003274;
             }
 
-            /* Section atmosphere backgrounds */
+            
             #sheet-main.sheet.active ~ * {
             }
 
             #sheet-rasp {
-                /* schedule - plant/energy */
+                
             }
 
             .sheet.active {
                 animation: fadeUp 0.35s ease;
             }
 
-            /* HW color - distinct cyan/teal so it doesn't blend */
+            
             .hw-badge {
                 background: rgba(14,116,144,0.15) !important;
                 color: #0e7490 !important;
@@ -1806,7 +1806,7 @@
                 border-left: 3px solid #67e8f9;
             }
 
-            /* Calmer cards on photo bg */
+            
             .stat-card, .progress-card, .calendar-card, .journal-card, .task-list, .cal-day-block, .feed-card {
                 background: rgba(255,255,255,0.82);
                 backdrop-filter: blur(10px);
@@ -1881,7 +1881,7 @@
                 padding-bottom: 8px;
             }
 
-            /* Bottom navigation */
+            
             .bottom-nav {
                 position: fixed;
                 bottom: 0;
@@ -1928,7 +1928,7 @@
                 padding-bottom: 88px !important;
             }
 
-            /* Top sheet tabs */
+            
             .sheet-tabs {
                 display: flex;
                 gap: 0;
@@ -1961,7 +1961,7 @@
                 color: #fff;
             }
 
-            /* Theme fill animation overlay */
+            
             .theme-fill {
                 position: fixed;
                 inset: 0;
@@ -1980,7 +1980,7 @@
                 background: #edf2f7;
             }
 
-            /* Subjects manager */
+            
             .subj-list {
                 display: flex;
                 flex-direction: column;
@@ -2160,7 +2160,7 @@
 
 
 
-        /* PWA launch animation */
+        
         #pwa-launch-screen {
             position: fixed;
             inset: 0;
@@ -2232,7 +2232,7 @@
             .urgent-stage .task-item.done { background: rgba(229,62,62,0.08); }
             [data-theme="dark"] .urgent-stage .task-item .task-text { color: #fc8181 !important; }
         
-            /* Mobile reliability and readability */
+            
             html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
             body { background-attachment: scroll; }
             img { max-width: 100%; }
@@ -2250,7 +2250,7 @@
 
         
 
-            /* Layout hardening: long content and nested controls must stay inside cards. */
+            
             html { min-height: 100%; background: #0a1628; overscroll-behavior-y: none; }
             body { min-width: 0; width: 100%; overflow-wrap: anywhere; -webkit-overflow-scrolling: touch; }
             [data-theme="light"] { background: #e8eef5; }
@@ -2279,7 +2279,7 @@
                 .modal { width: calc(100% - 24px); }
             }
 
-            /* Читаемая тёмная тема: более ясные поверхности и контрастные элементы управления. */
+            
             [data-theme="dark"] {
                 --primary: #b7d7ff;
                 --primary-light: #78b8ff;
@@ -2354,7 +2354,7 @@
             }
 
 
-            /* Исправления контрастности кнопок в тёмной теме */
+            
             [data-theme="dark"] .btn,
             [data-theme="dark"] button,
             [data-theme="dark"] select,
@@ -2405,7 +2405,7 @@
 </style>
         <meta name="mobile-web-app-capable" content="yes">
     <style>
-/* Dark theme: subdued primary actions and clear button boundaries */
+
 [data-theme="dark"] button,
 [data-theme="dark"] .btn,
 [data-theme="dark"] .icon-btn,
@@ -2431,27 +2431,20 @@
   outline-offset: 2px;
 }
 </style>
-<!--
-  АНАЛИТИКА ПОСЕТИТЕЛЕЙ (GoatCounter)
-  1) Создай счётчик на https://www.goatcounter.com/
-  Счётчик настроен: https://asasin77736.goatcounter.com/count
-  После публикации статистика будет доступна в панели GoatCounter.
--->
-<script>
-  (function () {
-    const GOATCOUNTER_ENDPOINT = 'https://asasin77736.goatcounter.com/count';
-    if (!GOATCOUNTER_ENDPOINT || !/^https:\/\/[a-z0-9-]+\.goatcounter\.com\/count$/.test(GOATCOUNTER_ENDPOINT)) return;
-    // Не учитывать локальные открытия и тестовые страницы.
-    if (location.protocol !== 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1') return;
-    const script = document.createElement('script');
-    script.async = true;
-    script.src = 'https://gc.zgo.at/count.js';
-    script.setAttribute('data-goatcounter', GOATCOUNTER_ENDPOINT);
-    document.head.appendChild(script);
-  })();
+
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j=0; j<document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=113688485', 'ym');
+
+    ym(113688485, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
 </script>
 </head>
     <body>
+        <noscript><div><img src="https://mc.yandex.ru/watch/113688485" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
         <div id="pwa-launch-screen" aria-hidden="true">
             <img class="pwa-launch-icon" src="./icon.png" alt="">
             <div class="pwa-launch-title">Расписание</div>
@@ -2459,8 +2452,6 @@
             <div class="pwa-launch-loader" aria-hidden="true"><span></span><span></span><span></span></div>
         </div>
         <script>
-        // Показываем заставку сразу, до выполнения основного кода приложения.
-        // Это работает и для ярлыков Яндекс Браузера, которые открываются как вкладка.
         (() => {
           const splash = document.getElementById('pwa-launch-screen');
           if (!splash) return;
@@ -2478,7 +2469,6 @@
           };
           if (document.readyState === 'complete') hideSplash();
           else window.addEventListener('load', hideSplash, { once: true });
-          // Не оставляем заставку навсегда, если внешний ресурс завис.
           window.setTimeout(hideSplash, 1800);
         })();
         </script>
@@ -2558,7 +2548,7 @@
                             <h1 id="project-title" style="cursor:pointer" title="Нажми, чтобы изменить" onclick="editProjectMeta()">⚛ Мой проект</h1>
                             <div class="subtitle" id="project-subtitle" style="cursor:pointer" title="Нажми, чтобы изменить" onclick="editProjectMeta()">Нажми ✏️ и опиши свой проект</div>
                         </div>
-                        <!-- Кнопка-карандаш убрана: название и описание проекта можно изменить нажатием на них. -->
+                        
                     </div>
                 </header>
                 <div class="stats-row">
@@ -2666,7 +2656,7 @@
                     <p style="font-size:0.72rem;color:var(--muted);margin-top:6px;text-align:center">Скопирует сводку по проекту — вставь в любой чат с ИИ</p>
                 </div>
             </div>
-            <!-- /sheet-main -->
+            
 <footer id="study-easter-egg" tabindex="0" role="button" aria-label=" " style="margin-top:6px;margin-bottom:0;opacity:.12;text-align:center;cursor:pointer;user-select:none;font-size:.85rem;-webkit-tap-highlight-color:transparent;outline:none;background:transparent;border:0;color:inherit;box-shadow:none">Может уже пора начать учиться?</footer>
             <div id="sheet-hw" class="sheet">
                 <header style="margin-bottom:14px">
@@ -2854,7 +2844,7 @@
                 Экзамены
             </button>
         </nav>
-        <!-- Edit modal -->
+        
         <div class="modal-overlay" id="edit-modal">
             <div class="modal">
                 <h3 id="edit-modal-title">Редактировать задачу</h3>
@@ -3103,7 +3093,6 @@
                     return;
                 const oldName = item.name;
                 item.name = name;
-                // rename in existing hw entries
                 (s.hw || []).forEach(h => {
                     if (h.subject === oldName)
                         h.subject = name;
@@ -3150,13 +3139,12 @@
                     if (fill) {
                         fill.classList.toggle('light-mode', !isDark);
                         fill.classList.remove('active');
-                        // force reflow
                         void fill.offsetWidth;
                         fill.classList.add('active');
                         setTimeout(function() {
                             document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
                             const btn = document.getElementById('theme-btn');
-                            /* theme switch uses CSS */
+                            
                             setTimeout(function() {
                                 fill.classList.remove('active');
                             }, 50);
@@ -3166,7 +3154,7 @@
                 }
                 document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
                 const btn = document.getElementById('theme-btn');
-                /* theme switch uses CSS */
+                
             }
             function toggleVkMenu() {
                 const m = document.getElementById('vk-menu');
@@ -3182,7 +3170,6 @@
                     return;
                 }
                 m.style.display = 'block';
-                // On narrow screens anchor the popup to the button, but keep the whole menu inside the viewport.
                 if (window.matchMedia('(max-width: 480px)').matches) {
                     m.style.position = 'fixed';
                     m.style.right = 'auto';
@@ -3214,7 +3201,6 @@
             function checkAutoDark() {
                 const hour = new Date().getHours();
                 const s = load();
-                // After 22:00 until 6:00 prefer dark if user hasn't manually set recently — but simple: force dark after 22
                 if (hour >= 22 || hour < 6) {
                     if (s.theme !== 'dark') {
                         s.theme = 'dark';
@@ -3446,7 +3432,6 @@
                 const sectionsList = getSections();
                 sectionsList.forEach( (sec, si) => {
                     const items = tasks.filter(t => t.section === si);
-                    // show all stages even if empty (user manages them)
 
                     const n = sec.deadline ? daysUntil(sec.deadline) : null;
                     const warn = n !== null && n <= 7;
@@ -3511,7 +3496,6 @@
                 }
                 );
 
-                // custom section
                 const custom = tasks.filter(t => t.section === 'custom' || t.section === 6);
                 if (custom.length) {
                     const sectionEl = document.createElement('div');
@@ -3565,7 +3549,6 @@
             function getWeekBounds() {
                 const now = new Date();
                 const day = now.getDay();
-                // 0 Sun
                 const diffToMon = day === 0 ? -6 : 1 - day;
                 const mon = new Date(now);
                 mon.setDate(now.getDate() + diffToMon);
@@ -3594,7 +3577,6 @@
                 if (!list)
                     return;
 
-                // Subject filters
                 const filtersEl = document.getElementById('hw-subject-filters');
                 if (filtersEl) {
                     const subjects = [...new Set(items.map(i => i.subject).filter(Boolean))];
@@ -3607,12 +3589,10 @@
                     filtersEl.innerHTML = html;
                 }
 
-                // Apply filter
                 if (hwFilterSubject) {
                     items = items.filter(i => i.subject === hwFilterSubject);
                 }
 
-                // Weekly progress: only tasks whose deadline is in current week
                 const weekItems = getHw().filter(i => isInCurrentWeek(i.deadline));
                 let weekDone = 0;
                 weekItems.forEach(i => {
@@ -3630,7 +3610,6 @@
                     weekLabel.textContent = `Неделя ${f(mon)} – ${f(sun)} · выполнено ${weekDone} из ${weekTotal}`;
                 }
 
-                // Nearest tasks — keep done visible so accidental click can be undone
                 const nearestEl = document.getElementById('hw-nearest-list');
                 if (nearestEl) {
                     const nearest = getHw().filter(i => i.deadline && daysUntil(i.deadline) >= -1).sort( (a, b) => {
@@ -3638,7 +3617,6 @@
                           , db = !!s.done[b.id];
                         if (da !== db)
                             return da ? 1 : -1;
-                        // undone first
                         return a.deadline.localeCompare(b.deadline);
                     }
                     ).slice(0, 8);
@@ -3802,7 +3780,6 @@
                 document.getElementById('edit-deadline').value = t.deadline || '';
                 document.getElementById('edit-link').value = s.links[id] || '';
                 document.getElementById('edit-note').value = s.notes[id] || '';
-                // subject select
                 const subjSel = document.getElementById('edit-subject');
                 const subjects = s.subjects || [];
                 subjSel.innerHTML = '<option value="">— без предмета —</option>' + subjects.map(function(x) {
@@ -3850,7 +3827,6 @@
                     all = all.concat(hw);
                 if (deadFilter === 'all' || deadFilter === 'exams') all = all.concat(exams);
                 all.sort( (a, b) => a.deadline.localeCompare(b.deadline));
-                // show active first, then done; keep done visible for undo
                 const upcoming = all.filter(t => daysUntil(t.deadline) >= -5);
                 const el = document.getElementById('calendar');
                 if (!el)
@@ -4063,11 +4039,10 @@
                 render();
             }
 
-            /* ===== Topic feed ===== */
+            
 
-            // Always-visible curated cards (no CORS needed)
 
-            /* ===== Calendar ICS export ===== */
+            
             async function exportICS() {
                 const stateForExport = load();
                 const allItems = [
@@ -4134,7 +4109,6 @@
                 const icsContent = lines.join('\r\n') + '\r\n';
                 const filename = 'study_calendar.ics';
 
-                // На iPhone удобнее передать файл через системное меню «Поделиться».
                 try {
                     if (/iPhone|iPad|iPod/i.test(navigator.userAgent) &&
                         typeof File === 'function' &&
@@ -4160,7 +4134,6 @@
                 document.body.appendChild(a);
                 a.click();
                 a.remove();
-                // Не отзывать blob URL сразу: мобильным браузерам нужно время начать скачивание.
                 window.setTimeout(() => URL.revokeObjectURL(url), 15000);
                 showToast('Скачан .ics со всеми дедлайнами. Для Google Calendar импортируй файл в настройках календаря.');
             }
@@ -4192,7 +4165,7 @@
                 }
             }
 
-            /* ===== Расписание ===== */
+            
             const DEFAULT_SCHEDULE = {
                 "1": [],
                 "2": [],
@@ -4222,7 +4195,6 @@
                         const parsed = JSON.parse(raw);
                         if (parsed && typeof parsed === 'object') {
                             const norm = normalizeSchedule(parsed);
-                            // перенос на новый ключ
                             try { localStorage.setItem(SCHED_KEY, JSON.stringify(norm)); } catch (e) {}
                             return norm;
                         }
@@ -14098,7 +14070,6 @@
                 return 1;
             })();
             let raspWeekType = 'auto';
-            // 'auto' | 'odd' | 'even'
             let raspEditMode = false;
 
             const TYPE_COLORS = {
@@ -14108,10 +14079,6 @@
             };
 
             function getAcademicWeek() {
-                // Учебная неделя №1 — неделя, в которую входит 01.09.2026.
-                // Нумеруем учебные недели с понедельника: первая неделя
-                // начинается 31.08.2026, поэтому 19.10.2026 — неделя №8.
-                // UTC исключает ошибки из-за часового пояса и перехода DST.
                 const firstDay = Date.UTC(2026, 8, 1);
                 const firstMonday = firstDay - ((new Date(firstDay).getUTCDay() + 6) % 7) * 86400000;
                 const now = new Date();
@@ -14148,7 +14115,6 @@
                     (SCHEDULE[d] || []).forEach(function(l) {
                         if (l.sub !== null && l.sub !== undefined && l.sub !== '') {
                             var n = Number(l.sub);
-                            // Поддерживаем все три подгруппы
                             if (n === 1 || n === 2 || n === 3) set.add(n);
                         }
                     });
@@ -14160,7 +14126,6 @@
                 if (!wrap) return;
                 const avail = getAvailableSubgroups();
                 if (!avail.length) {
-                    // нет подгрупп — все пары общие
                     wrap.innerHTML = '<button type="button" class="active" id="rasp-sub-all" onclick="setRaspSubgroup(\'all\')">Все (без подгрупп)</button>';
                     if (raspSubgroup !== 'all') {
                         raspSubgroup = 'all';
@@ -14174,14 +14139,13 @@
                     html += '<button type="button" id="rasp-sub-' + n + '" class="' + active.trim() + '" onclick="setRaspSubgroup(' + n + ')">' + n + ' подгруппа</button>';
                 });
                 wrap.innerHTML = html;
-                // если сохранённая подгруппа недоступна — взять первую
                 if (raspSubgroup !== 'all' && avail.indexOf(raspSubgroup) < 0) {
                     setRaspSubgroup(avail[0], true);
                 }
             }
             function setRaspSubgroup(n, skipConfirm) {
                 if (n === 'all') {
-                    /* ok */
+                    
                 } else {
                     n = parseInt(n, 10);
                     if (n !== 1 && n !== 2 && n !== 3) n = 1;
@@ -14260,12 +14224,10 @@
             }
 
             let raspOpenDays = {};
-            // remember expanded days
 
             function getDayTaskStats(dayLessons, weekday) {
                 const subjects = new Set(dayLessons.map(l => l.subject));
                 const s = load();
-                // Keep done items visible so accidental clicks can be undone
                 const dueOnWeekday = h => {
                     if (!h.deadline) return false;
                     const parts = h.deadline.split('-').map(Number);
@@ -14273,7 +14235,6 @@
                     const due = new Date(parts[0], parts[1] - 1, parts[2]).getDay();
                     return (due === 0 ? 7 : due) === weekday;
                 };
-                // ДЗ относятся к предметам дня, а экзамены показываем по дате независимо от предмета в расписании.
                 const hw = getHw().filter(h => h.subject && subjects.has(h.subject) && dueOnWeekday(h))
                     .concat((load().exams || []).filter(dueOnWeekday).map(e => Object.assign({}, e, {exam:true, category:e.type || 'Экзамен'})));
                 let dz = 0
@@ -14283,7 +14244,6 @@
                 hw.forEach(h => {
                     if (s.done[h.id])
                         return;
-                    // count only active for badge
                     if (h.exam) { exams++; return; }
                     const c = (h.category || '').toLowerCase();
                     if (c.includes('лаб'))
@@ -14310,9 +14270,7 @@
                     el.style.display = raspOpenDays[day] ? 'block' : 'none';
             }
 
-            // Обновлять отметку текущей пары автоматически, без перезагрузки страницы.
             setInterval(() => {
-                // Не перестраиваем всё расписание в фоне: это может давать микрофризы на телефонах.
                 const scheduleSheet = document.getElementById('sheet-rasp');
                 if (document.visibilityState === 'visible' && scheduleSheet && scheduleSheet.classList.contains('active') && !raspEditMode) {
                     renderRasp(false);
@@ -14329,7 +14287,6 @@
                     const mode = raspWeekType === 'auto' ? 'текущая' : (odd ? 'нечётная' : 'чётная');
                     info.textContent = `Учебная неделя №${week} · ${mode}`;
                 }
-                // sync week buttons
                 const oddBtn = document.getElementById('rasp-week-odd');
                 const evenBtn = document.getElementById('rasp-week-even');
                 if (oddBtn)
@@ -14347,9 +14304,6 @@
                 let html = '';
                 for (let d = 1; d <= 6; d++) {
                     const lessons = (SCHEDULE[d] || []).filter(l => {
-                        // пары без подгруппы (null) видны всем;
-                        // при режиме "all" показываем всё;
-                        // иначе только выбранная подгруппа + общие
                         const subjectRule = (getSubjects().find(x => x.name === l.subject) || {}).subgroup;
                         if ([1, 2, 3, '1', '2', '3'].includes(subjectRule)) { if (l.sub !== null && l.sub !== undefined && l.sub !== '' && Number(l.sub) !== Number(subjectRule)) return false; }
                         else if (raspSubgroup !== 'all') {
@@ -14415,7 +14369,6 @@
                     }
                     html += `</div>`;
 
-                    // Точка текущей пары; во время перерыва отмечаем следующую.
                     const now = new Date();
                     const nowMinutes = now.getHours() * 60 + now.getMinutes();
                     const toMinutes = (value) => {
@@ -14435,7 +14388,6 @@
                         }
                     }
 
-                    // lessons with break — use original indices for edit
                     const allDay = SCHEDULE[d] || [];
                     let prevEnd = null;
                     lessons.forEach( (l, lessonIndex) => {
@@ -14589,22 +14541,16 @@
             function cleanSubjectName(name) {
                 if (!name) return '';
                 var s = String(name).trim();
-                // время в начале: (11:15-12:50)
                 s = s.replace(/^\(\d{1,2}[:.]\d{2}\s*[-–]\s*\d{1,2}[:.]\d{2}\)\s*/, '');
-                // кафедра ФВ
                 s = s.replace(/[.\s]*Каф\.?\s*ФВ\s*$/i, '');
-                // коды кафедр/баз в конце: ОБТ БИО, ОСЭН, ОЯФиТ АЭС, ОЯФиТ Р 3-ОЯФиТ и т.п.
                 s = s.replace(/\s+ОЯФиТ(?:\s+[А-ЯЁA-Za-z0-9\-]+)*(?:\s+\d+-ОЯФиТ)?\s*$/i, '');
                 s = s.replace(/\s+ОБТ(?:\s+[А-ЯЁA-Za-z0-9\-]+)*\s*$/i, '');
                 s = s.replace(/\s+ОСЭН(?:\s+[А-ЯЁA-Za-z0-9\-]+)*\s*$/i, '');
                 s = s.replace(/\s+\d+-ОЯФиТ\s*$/i, '');
-                // аудитория в конце: 2-611а
                 s = s.replace(/\s+\d{1,2}-\d{2,4}[аaАA]?\s*$/i, '');
-                // аудитория в середине + второй предмет
                 s = s.replace(/\s+\d{1,2}-\d{2,4}[аaАA]?\s+[А-ЯЁA-Z].*$/, '');
                 s = s.replace(/\s+/g, ' ').replace(/[.\s]+$/, '').trim();
                 if (/^Элективные курсы по физической культуре/i.test(s)) s = 'Элективные курсы по физической культуре';
-                // нормализация практик
                 if (/^Производственная практика/i.test(s)) {
                     if (/научно-исследовательск/i.test(s)) s = 'Производственная практика (научно-исследовательская работа)';
                     else if (/ознакомительн/i.test(s)) s = 'Производственная практика (ознакомительная практика)';
@@ -14654,7 +14600,6 @@
                 }
                 if (!confirm('Загрузить расписание группы ' + g + '? Текущее будет заменено.'))
                     return;
-                // deep copy
                 SCHEDULE = normalizeSchedule(JSON.parse(JSON.stringify(FLOW_SCHEDULE_GROUPS[g])));
                 saveSchedule(SCHEDULE);
                 updateRaspSubButtons();
@@ -14670,7 +14615,6 @@
                 const exams=(load().exams||[]).slice().sort((a,b)=>(a.deadline||'').localeCompare(b.deadline||''));
                 list.innerHTML=exams.length?exams.map(e=>`<div class="task-item" style="border-left:5px solid #8b5cf6;padding:12px;margin:8px 0;background:var(--card);border-radius:10px"><strong style="color:#8b5cf6">${esc(e.type)}</strong> · ${esc(e.subject||'Без предмета')}<div>${esc(e.text||'')}</div>${e.link?'<a href="'+esc(e.link)+'" target="_blank" rel="noopener noreferrer">Открыть ссылку ↗</a>':''}<small>${fmt(e.deadline)}</small><button type="button" class="icon-btn" style="float:right" onclick="deleteExam('${esc(e.id)}')">Удалить</button></div>`).join(''):'<div class="cal-empty">Экзаменов пока нет</div>';
             }
-            // Скрытый раздел: десять нажатий по фразе внизу экрана.
             (function initStudyEasterEgg(){
                 const footer = document.getElementById('study-easter-egg');
                 if (!footer || footer.dataset.secretReady) return;
@@ -14725,7 +14669,6 @@
                     tab.classList.add('active');
                 if (nav)
                     nav.classList.add('active');
-                // If top tab (rasp/hw/cal) — clear bottom active is already done; if bottom — clear top
                 window.scrollTo(0, 0);
                 if (name === 'cal') {
                     renderCalendarByDate();
@@ -14749,10 +14692,8 @@
 
             let calYear = new Date().getFullYear();
             let calMonth = new Date().getMonth();
-            // 0-11
             let calSelected = null;
             let calFilter = 'all';
-            // all | hw | proj
 
             function setCalFilter(f) {
                 calFilter = f || 'all';
@@ -14818,14 +14759,12 @@
                     return;
 
                 var first = new Date(calYear,calMonth,1);
-                // Monday-based: getDay() Sun=0 -> convert
                 var startPad = (first.getDay() + 6) % 7;
                 var daysInMonth = new Date(calYear,calMonth + 1,0).getDate();
                 var today = new Date();
                 var todayStr = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
 
                 var cells = [];
-                // prev month fillers
                 var prevDays = new Date(calYear,calMonth,0).getDate();
                 for (var i = 0; i < startPad; i++) {
                     var dnum = prevDays - startPad + i + 1;
@@ -14863,7 +14802,6 @@
                     }
                     cells.push('<div class="' + cls + '" onclick="selectCalDay(\'' + iso + '\')"><div class="day-num">' + day + '</div>' + dots + '</div>');
                 }
-                // next month fillers to complete rows
                 var total = cells.length;
                 var need = (7 - (total % 7)) % 7;
                 for (var j = 1; j <= need; j++) {
@@ -15089,7 +15027,6 @@
                     const hasContent =
                         (Array.isArray(current.sections) && current.sections.length > 0) ||
                         (Array.isArray(current.tasks) && current.tasks.length > 0);
-                    // Пустая карта не должна затирать последнюю полезную резервную копию.
                     if (!hasContent && hasRoadmapBackup()) {
                         if (!silent) showToast('Карта пуста — предыдущий бэкап сохранён');
                         updateBackupButton();
@@ -15156,7 +15093,6 @@
                 try { when = new Date(snap.savedAt).toLocaleString('ru-RU'); } catch (e) {}
                 if (!confirm('Восстановить дорожную карту из бэкапа' + (when ? ' (' + when + ')' : '') + '?\n\nТекущие этапы и задачи будут заменены.'))
                     return;
-                // Не перезаписываем бэкап текущим состоянием: восстанавливаем именно сохранённую копию.
                 const s = load();
                 s.projectTitle = snap.projectTitle != null ? snap.projectTitle : s.projectTitle;
                 s.projectSubtitle = snap.projectSubtitle != null ? snap.projectSubtitle : s.projectSubtitle;
@@ -15187,7 +15123,6 @@
 
             function exportJSON() {
                 const snapshot = makeRoadmapSnapshot();
-                // Экспорт не должен менять локальный бэкап сам по себе.
                 const blob = new Blob([JSON.stringify(snapshot, null, 2)], {
                     type: 'application/json;charset=utf-8'
                 });
@@ -15236,8 +15171,6 @@
                         if (hasSections) {
                             importedSections = data.sections;
                         } else if (hasTasks) {
-                            // Поддержка старых файлов, в которых задачи ссылаются на номера этапов,
-                            // но сам список этапов отсутствует.
                             const numericSections = importedTasks.map(t => t && t.section).filter(v => Number.isInteger(v) && v >= 0);
                             const maxSection = numericSections.length ? Math.max(...numericSections) : -1;
                             const inferredNames = ['Срочные задачи','Базовые понятия и навивка','Теплофизика и гидродинамика','Поиск литературы','Выбор геометрии','Подготовка отчёта'];
@@ -15250,7 +15183,6 @@
                             importedSections = Array.isArray(current.sections) ? current.sections : [];
                         }
 
-                        // Резервируем только дорожную карту. Если бэкап не записался, импорт отменяется.
                         if (!backupRoadmap(true)) throw new Error('Не удалось сохранить бэкап; импорт отменён, текущие данные не изменены');
                         const s = load();
                         const previousTaskIds = new Set(oldTasks.map(t => String(t && t.id)));
@@ -15273,7 +15205,6 @@
                         s.notes = mergeTaskMap(s.notes, data.notes, Object.prototype.hasOwnProperty.call(data, 'notes'));
                         s.links = mergeTaskMap(s.links, data.links, Object.prototype.hasOwnProperty.call(data, 'links'));
                         if (Array.isArray(data.journal)) s.journal = data.journal;
-                        // Намеренно не импортируем data.hw, data.subjects, data.theme или расписание.
                         if (!save(s)) throw new Error('Изменения не сохранены: проверь свободное место в хранилище');
                         applyProjectMeta();
                         fillSubjectSelect();
@@ -15298,7 +15229,6 @@
             function resetAll() {
                 if (!confirm('Сбросить дорожную карту?\nБудут удалены этапы и задачи проекта.\nРасписание и ДЗ не трогаем.\n\nПеред сбросом автоматически сохранится бэкап.'))
                     return;
-                // Сохраняем состояние перед очисткой; без успешного бэкапа не сбрасываем карту.
                 if (!backupRoadmap(true)) {
                     alert('Не удалось сохранить бэкап. Сброс отменён, данные сохранены.');
                     return;
@@ -15315,7 +15245,6 @@
                 showToast('Карта очищена. Можно восстановить из бэкапа');
             }
 
-            // Init — пустой старт для нового пользователя
             const st = load();
             if (!Array.isArray(st.tasks)) st.tasks = [];
             if (!Array.isArray(st.subjects)) st.subjects = [];
@@ -15327,7 +15256,6 @@
             if (!st.projectTitle) st.projectTitle = '⚛ Мой проект';
             if (st.projectSubtitle === undefined || st.projectSubtitle === null)
                 st.projectSubtitle = 'Нажми ✏️ и опиши свой проект';
-            // первый запуск: не подставляем чужие задачи/этапы
             if (!localStorage.getItem(KEY)) {
                 st.tasks = [];
                 st.sections = [];
@@ -15347,7 +15275,6 @@
             updateRaspSubButtons();
             setRaspSubgroup(raspSubgroup, true);
             applyProjectMeta();
-            // если бэкапа ещё нет, а карта уже заполнена — сохранить первый
             try {
                 if (!localStorage.getItem(BACKUP_KEY)) {
                     const s0 = load();
@@ -15361,26 +15288,26 @@
             renderSubjects();
             showSheet('rasp');
         </script>
-        <!-- Иконка для Android, Chrome, Яндекс и других современных браузеров -->
+        
 
 
-<!-- Базовая иконка для браузеров (вкладка на ПК) -->
+
 <link rel="icon" type="image/png" sizes="32x32" href="icon.png">
 
-<!-- --- ТЕГИ ДЛЯ APPLE SAFARI (iOS) --- -->
-<!-- Главная иконка для экрана "Домой" на iPhone / iPad -->
+
+
 <link rel="apple-touch-icon" href="icon.png">
 
-<!-- Разрешаем запускать сайт как полноценное веб-приложение (убирает браузерную строку) -->
 
 
-<!-- Стиль строки состояния вверху экрана (может быть default, black или black-translucent) -->
 
 
-<!-- Название приложения под иконкой на экране iPhone -->
 
 
-<!-- Цвет вкладки и элементов интерфейса -->
+
+
+
+
 
 <script>
   if ('serviceWorker' in navigator) {
