@@ -3187,13 +3187,27 @@
 
             function fillSubjectSelect() {
                 const sel = document.getElementById('hw-new-subject');
-                if (!sel)
-                    return;
+                if (!sel) return;
                 const cur = sel.value;
-                const subjects = getSubjects();
-                sel.innerHTML = '<option value="">— выбери предмет —</option>' + subjects.map(x => '<option value="' + esc(x.name) + '">' + esc(x.name) + '</option>').join('');
-                if (cur)
-                    sel.value = cur;
+                // Для добавления ДЗ берём предметы именно из текущего загруженного расписания,
+                // а не весь общий список предметов всех групп курса.
+                const names = new Set();
+                if (typeof SCHEDULE !== 'undefined' && SCHEDULE && typeof SCHEDULE === 'object') {
+                    Object.keys(SCHEDULE).forEach(function(day) {
+                        (Array.isArray(SCHEDULE[day]) ? SCHEDULE[day] : []).forEach(function(lesson) {
+                            const name = cleanSubjectName(lesson && lesson.subject);
+                            if (name) names.add(name);
+                        });
+                    });
+                }
+                // Если расписание ещё не загружено — не показываем предметы других групп.
+                const subjects = names.size
+                    ? Array.from(names).sort(function(a, b) { return a.localeCompare(b, 'ru'); })
+                    : [];
+                sel.innerHTML = '<option value="">— выбери предмет —</option>' +
+                    subjects.map(function(name) { return '<option value="' + esc(name) + '">' + esc(name) + '</option>'; }).join('');
+                if (cur && names.has(cur)) sel.value = cur;
+                else sel.value = '';
             }
 
             function renderSubjects() {
@@ -15756,6 +15770,7 @@
                     if (!saveSchedule(nextSchedule)) throw new Error('Не удалось сохранить расписание');
                     SCHEDULE = nextSchedule;
                     updateRaspSubButtons();
+                    fillSubjectSelect();
                     renderRasp(true);
                     showToast('Загружено: ' + g + ' · ' + course + ' курс');
                 } catch (err) {
