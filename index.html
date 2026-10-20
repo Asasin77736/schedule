@@ -2703,13 +2703,6 @@
                     <input type="file" id="rasp-import-file" accept=".json,application/json" style="display:none" onchange="importScheduleFile(event)">
                     <button type="button" class="icon-btn" onclick="resetSchedule()" title="Сбросить расписание">↺ Сброс</button>
                 </div>
-                <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center;background:var(--bg);padding:10px;border-radius:10px;border:1px solid var(--border)">
-                    <label style="font-size:0.82rem;font-weight:600;color:var(--primary)">Группа из потока:</label>
-                    <select id="flow-group-select" style="flex:1;min-width:140px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--text);font-size:0.85rem">
-                        <option value="">— выбери группу —</option>
-                    </select>
-                    <button type="button" class="icon-btn accent-action" onclick="loadFlowGroup()">Загрузить в расписание</button>
-                </div>
                 <div id="rasp-content"></div>
             </div>
             <div id="sheet-main" class="sheet">
@@ -14264,11 +14257,7 @@
                     n = parseInt(n, 10);
                     if (n !== 1 && n !== 2 && n !== 3) n = 1;
                 }
-                const prev = raspSubgroup;
-                if (!skipConfirm && n !== prev && n !== 'all') {
-                    const ok = confirm('Сделать ' + n + ' подгруппу основной?\nПри следующем открытии сайта будет выбрана она.');
-                    if (!ok) return;
-                }
+                // Меняем подгруппу сразу, без дополнительного окна подтверждения.
                 raspSubgroup = n;
                 try { localStorage.setItem('study_rasp_sub', String(n)); } catch (e) {}
                 const wrap = document.getElementById('rasp-sub-buttons');
@@ -14341,18 +14330,17 @@
             // remember expanded days
 
             function getDayTaskStats(dayLessons, weekday) {
-                const subjects = new Set(dayLessons.map(l => l.subject));
                 const s = load();
-                // Keep done items visible so accidental clicks can be undone
+                // ДЗ и экзамены показываем в расписании по фактической дате дедлайна,
+                // даже если предмет не стоит в этот день по обычному расписанию.
                 const dueOnWeekday = h => {
                     if (!h.deadline) return false;
                     const parts = h.deadline.split('-').map(Number);
-                    if (parts.length !== 3 || !parts[0]) return false;
+                    if (parts.length !== 3 || !parts[0] || !parts[1] || !parts[2]) return false;
                     const due = new Date(parts[0], parts[1] - 1, parts[2]).getDay();
                     return (due === 0 ? 7 : due) === weekday;
                 };
-                // ДЗ относятся к предметам дня, а экзамены показываем по дате независимо от предмета в расписании.
-                const hw = getHw().filter(h => h.subject && subjects.has(h.subject) && dueOnWeekday(h))
+                const hw = getHw().filter(dueOnWeekday)
                     .concat((load().exams || []).filter(dueOnWeekday).map(e => Object.assign({}, e, {exam:true, category:e.type || 'Экзамен'})));
                 let dz = 0
                   , lab = 0
