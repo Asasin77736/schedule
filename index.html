@@ -2971,6 +2971,12 @@
                     <h1 style="font-size:1.35rem">🎨 Предметы</h1>
                 <div style="margin:10px 0 14px;padding:12px;background:var(--card);border:1px solid var(--border);border-radius:12px">
                     <div style="font-size:0.82rem;color:var(--muted);margin-bottom:8px">Загрузить предметы из расписания группы (текущий список будет полностью заменён)</div>
+                    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+                        <label for="subjects-course-select" style="font-size:.82rem;font-weight:600;color:var(--primary)">Курс:</label>
+                        <select id="subjects-course-select" onchange="renderSubjects();fillSubjFlowGroupSelect()" style="min-width:105px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--text);font-size:.85rem">
+                            <option value="1">1 курс</option><option value="2">2 курс</option>
+                        </select>
+                    </div>
                     <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
                         <select id="subj-flow-group-select" style="flex:1;min-width:140px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--text);font-size:0.85rem">
                             <option value="">— выбери группу —</option>
@@ -2984,6 +2990,7 @@
                 <div class="section-title" style="color:var(--primary);margin-top:8px">➕ Добавить предмет</div>
                 <div class="subj-add-row">
                     <input type="text" id="subj-new-name" placeholder="Название предмета">
+                    <select id="subj-new-course" aria-label="Курс предмета" title="Курс предмета" style="max-width:105px;padding:7px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--text)"><option value="1">1 курс</option><option value="2">2 курс</option></select>
                     <input type="color" id="subj-new-color" value="#2b6cb0" title="Цвет">
                     <button type="button" onclick="addSubject()">Добавить</button>
                 </div>
@@ -3191,9 +3198,11 @@
                 const list = document.getElementById('subj-list');
                 if (!list)
                     return;
-                const subjects = getSubjects();
+                const courseSelect = document.getElementById('subjects-course-select');
+                const course = courseSelect ? String(courseSelect.value || '1') : '1';
+                const subjects = getSubjects().filter(x => String(x.course || 1) === course);
                 if (!subjects.length) {
-                    list.innerHTML = '<div class="cal-empty">Нет предметов. Добавь ниже.</div>';
+                    list.innerHTML = '<div class="cal-empty">На этом курсе пока нет предметов. Добавь ниже.</div>';
                     return;
                 }
                 list.innerHTML = subjects.map(x => `
@@ -3230,6 +3239,7 @@
             function addSubject() {
                 const name = (document.getElementById('subj-new-name').value || '').trim();
                 const color = document.getElementById('subj-new-color').value || '#2b6cb0';
+                const course = Number(document.getElementById('subj-new-course')?.value || document.getElementById('subjects-course-select')?.value || 1);
                 if (!name) {
                     alert('Введи название предмета');
                     return;
@@ -3237,17 +3247,20 @@
                 const s = load();
                 if (!s.subjects)
                     s.subjects = [];
-                if (s.subjects.some(x => x.name.toLowerCase() === name.toLowerCase())) {
-                    alert('Такой предмет уже есть');
+                if (s.subjects.some(x => x.name.toLowerCase() === name.toLowerCase() && String(x.course || 1) === String(course))) {
+                    alert('Такой предмет уже есть на этом курсе');
                     return;
                 }
                 s.subjects.push({
                     id: 's' + Date.now(),
                     name,
-                    color
+                    color,
+                    course
                 });
                 save(s);
                 document.getElementById('subj-new-name').value = '';
+                const courseFilter = document.getElementById('subjects-course-select');
+                if (courseFilter) courseFilter.value = String(course);
                 renderSubjects();
                 fillSubjectSelect();
             }
@@ -15617,7 +15630,9 @@
             function fillSubjFlowGroupSelect() {
                 var sel = document.getElementById('subj-flow-group-select');
                 if (!sel || typeof FLOW_SCHEDULE_GROUPS === 'undefined') return;
-                var groups = Object.keys(FLOW_SCHEDULE_GROUPS).sort();
+                var course = (document.getElementById('subjects-course-select') || {}).value || '1';
+                var data = course === '2' ? FLOW_SCHEDULE_GROUPS_SECOND : FLOW_SCHEDULE_GROUPS;
+                var groups = Object.keys(data).sort();
                 var cur = sel.value;
                 sel.innerHTML = '<option value="">— выбери группу —</option>' + groups.map(function(g) {
                     return '<option value="' + g + '">' + g + '</option>';
@@ -15628,9 +15643,11 @@
                 var sel = document.getElementById('subj-flow-group-select');
                 if (!sel || !sel.value) { alert('Выбери группу'); return; }
                 var g = sel.value;
-                if (!FLOW_SCHEDULE_GROUPS[g]) { alert('Группа не найдена'); return; }
-                if (!confirm('Заменить все предметы списком из группы ' + g + '?')) return;
-                var sch = FLOW_SCHEDULE_GROUPS[g];
+                var course = (document.getElementById('subjects-course-select') || {}).value || '1';
+                var source = course === '2' ? FLOW_SCHEDULE_GROUPS_SECOND : FLOW_SCHEDULE_GROUPS;
+                if (!source[g]) { alert('Группа не найдена'); return; }
+                if (!confirm('Заменить предметы ' + course + ' курса списком из группы ' + g + '?')) return;
+                var sch = source[g];
                 var names = {};
                 Object.keys(sch).forEach(function(d) {
                     (sch[d] || []).forEach(function(l) {
@@ -15641,9 +15658,9 @@
                 var list = Object.keys(names).sort(function(a,b){ return a.localeCompare(b, 'ru'); });
                 var palette = (typeof SUBJECT_PALETTE !== 'undefined') ? SUBJECT_PALETTE : ['#3C86C4','#0d9488','#6366f1','#0e7490','#16a34a','#c2410c','#db2777','#7c3aed','#64748b','#0284c7'];
                 var s = load();
-                s.subjects = list.map(function(name, i) {
-                    return { id: 'subj_' + Date.now() + '_' + i, name: name, color: palette[i % palette.length] };
-                });
+                s.subjects = (s.subjects || []).filter(function(x) { return String(x.course || 1) !== String(course); }).concat(list.map(function(name, i) {
+                    return { id: 'subj_' + Date.now() + '_' + i, name: name, color: palette[i % palette.length], course: Number(course) };
+                }));
                 save(s);
                 renderSubjects();
                 fillSubjectSelect();
