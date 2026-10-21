@@ -2716,7 +2716,18 @@
                     </select>
                     <button type="button" class="icon-btn accent-action" onclick="loadFlowGroup()">Загрузить в расписание</button>
                     <button type="button" class="icon-btn" onclick="openGroupWallpaperPicker()" title="Установить обои для выбранной группы">🖼️ Обои</button>
+                    <button type="button" class="icon-btn" onclick="resetGroupWallpaper()" title="Вернуть стандартный фон">↩ По умолчанию</button>
                     <input id="group-wallpaper-file" type="file" accept="image/*" hidden onchange="saveGroupWallpaperFile(event)">
+                    <details style="flex-basis:100%;margin:4px 0 0;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:var(--card);color:var(--text);font-size:.84rem;line-height:1.5">
+                        <summary style="cursor:pointer;font-weight:600">Как подобрать фото, чтобы оно не обрезалось криво</summary>
+                        <div style="margin-top:8px">
+                            • Лучше горизонтальное фото формата <b>16:9</b> (например, 1920 × 1080).<br>
+                            • Важные детали располагай ближе к центру: по краям фото может обрезаться на телефоне.<br>
+                            • Не растягивай изображение вручную — сайт сохраняет пропорции, уменьшает большие файлы и заполняет ими фон.<br>
+                            • Из-за разных пропорций экрана часть краёв неизбежно может скрываться. Для лучшего результата выбирай фото с запасом по краям.<br>
+                            • Кнопка «По умолчанию» удаляет только обои выбранной группы и возвращает стандартный фон.
+                        </div>
+                    </details>
                 </div>
                 <div id="rasp-content"></div>
             </div>
@@ -15804,6 +15815,24 @@
                     body.style.removeProperty('background-attachment');
                 }
             }
+            function resetGroupWallpaper() {
+                const wallpapers = getGroupWallpapers();
+                if (!wallpapers[activeWallpaperGroup]) {
+                    applyGroupWallpaper();
+                    showToast('Для этой группы уже используются обои по умолчанию');
+                    return;
+                }
+                if (!confirm('Вернуть стандартный фон для группы «' + activeWallpaperGroup + '»? Это не изменит обои других групп.')) return;
+                delete wallpapers[activeWallpaperGroup];
+                try {
+                    localStorage.setItem(GROUP_WALLPAPERS_KEY, JSON.stringify(wallpapers));
+                    applyGroupWallpaper();
+                    showToast('Стандартный фон восстановлен');
+                } catch (e) {
+                    alert('Не удалось сохранить настройку. Попробуй ещё раз.');
+                }
+            }
+
             function openGroupWallpaperPicker() {
                 const picker = document.getElementById('group-wallpaper-file');
                 if (!picker) return;
