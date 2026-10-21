@@ -2960,7 +2960,7 @@
                     <label>Тип<select id="exam-type" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text)"><option>Контрольная точка</option><option>Коллоквиум</option><option>Экзамен</option></select></label>
                     <label>Описание<input id="exam-text" type="text" placeholder="Например, главы 1–4" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text)"></label>
                     <label>Ссылка<input type="url" id="exam-link" placeholder="https://..." style="width:100%;padding:9px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text)"></label>
-                    <button type="button" class="icon-btn accent-action" onclick="addExam()">Добавить</button>
+                    <button id="exam-submit-btn" type="button" class="icon-btn accent-action" onclick="addExam()">Добавить</button><button id="exam-cancel-edit" type="button" class="icon-btn" onclick="cancelExamEdit()" hidden>Отмена</button>
                   </div>
                 </div>
                 
@@ -3820,13 +3820,18 @@
                     weekLabel.textContent = `Неделя ${f(mon)} – ${f(sun)} · выполнено ${weekDone} из ${weekTotal}`;
                 }
 
-                // Nearest tasks: hide completed tasks and show a finite 30-day window.
+                // ДЗ: просроченное показываем неделю; выполненное оставляем на сутки.
                 const nearestEl = document.getElementById('hw-nearest-list');
                 if (nearestEl) {
+                    const now = Date.now();
                     const nearest = getHw().filter(i => {
-                        if (!i.deadline || s.done[i.id]) return false;
+                        if (!i.deadline) return false;
+                        if (s.done[i.id]) {
+                            const doneAt = Number((s.doneAt || {})[i.id] || 0);
+                            return doneAt > 0 && now - doneAt < 24 * 60 * 60 * 1000;
+                        }
                         const days = daysUntil(i.deadline);
-                        return days >= -1 && days <= 30;
+                        return days >= -7 && days <= 30;
                     }).sort((a, b) => a.deadline.localeCompare(b.deadline)).slice(0, 8);
                     if (!nearest.length) {
                         nearestEl.innerHTML = '<div class="cal-empty" style="padding:12px">Нет ближайших задач ✨</div>';
@@ -4036,11 +4041,17 @@
                     all = all.concat(hw);
                 if (deadFilter === 'all' || deadFilter === 'exams') all = all.concat(exams);
                 all.sort((a, b) => a.deadline.localeCompare(b.deadline));
-                // Show only unfinished tasks in a finite window: overdue by up to 5 days through the next 30 days.
+                // Просроченные дедлайны проектов/экзаменов остаются; ДЗ скрывается через неделю.
+                // Любая выполненная задача видна ещё 24 часа после отметки.
+                const now = Date.now();
                 const upcoming = all.filter(t => {
-                    if (s.done[t.id]) return false;
+                    if (s.done[t.id]) {
+                        const doneAt = Number((s.doneAt || {})[t.id] || 0);
+                        return doneAt > 0 && now - doneAt < 24 * 60 * 60 * 1000;
+                    }
                     const days = daysUntil(t.deadline);
-                    return days >= -5 && days <= 30;
+                    if (t._src === 'hw') return days >= -7 && days <= 30;
+                    return days <= 30;
                 });
                 const el = document.getElementById('calendar');
                 if (!el)
@@ -4091,10 +4102,18 @@
 
             function toggleDone(id) {
                 const s = load();
-                s.done[id] = !s.done[id];
+                if (!s.doneAt || typeof s.doneAt !== 'object') s.doneAt = {};
+                if (s.done[id]) {
+                    s.done[id] = false;
+                    delete s.doneAt[id];
+                } else {
+                    s.done[id] = true;
+                    s.doneAt[id] = Date.now();
+                }
                 save(s);
                 render();
                 renderHw();
+                renderCalendar();
                 if (document.getElementById('sheet-cal') && document.getElementById('sheet-cal').classList.contains('active')) {
                     renderCalendarByDate();
                 }
@@ -15778,12 +15797,39 @@
                 }
             }
 
+            let editingExamId = null;
             function renderExams() {
                 const sel = document.getElementById('exam-subject');
                 if (sel) { const cur=sel.value; sel.innerHTML='<option value="">— выбери предмет —</option>'+getSubjects().map(x=>'<option value="'+esc(x.name)+'">'+esc(x.name)+'</option>').join(''); if(cur) sel.value=cur; }
                 const list=document.getElementById('exam-list'); if(!list) return;
                 const exams=(load().exams||[]).slice().sort((a,b)=>(a.deadline||'').localeCompare(b.deadline||''));
-                list.innerHTML=exams.length?exams.map(e=>`<div class="task-item" style="border-left:5px solid var(--primary);padding:12px;margin:8px 0;background:var(--card);border-radius:10px"><strong style="color:var(--primary)">${esc(e.type)}</strong> · ${esc(e.subject||'Без предмета')}<div>${esc(e.text||'')}</div>${e.link?'<a href="'+esc(e.link)+'" target="_blank" rel="noopener noreferrer">Открыть ссылку ↗</a>':''}<small>${fmt(e.deadline)}</small><button type="button" class="icon-btn" style="float:right" onclick="deleteExam('${esc(e.id)}')">Удалить</button></div>`).join(''):'<div class="cal-empty">Экзаменов пока нет</div>';
+                list.innerHTML=exams.length?exams.map(e=>`<div class="task-item" style="border-left:5px solid var(--primary);padding:12px;margin:8px 0;background:var(--card);border-radius:10px"><strong style="color:var(--primary)">${esc(e.type)}</strong> · ${esc(e.subject||'Без предмета')}<div>${esc(e.text||'')}</div>${e.link?'<a href="'+esc(e.link)+'" target="_blank" rel="noopener noreferrer">Открыть ссылку ↗</a>':''}<small>${fmt(e.deadline)}</small><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"><button type="button" class="icon-btn" onclick="editExam('${esc(e.id)}')">✏️ Редактировать</button><button type="button" class="icon-btn" onclick="deleteExam('${esc(e.id)}')">Удалить</button></div></div>`).join(''):'<div class="cal-empty">Экзаменов пока нет</div>';
+            }
+
+            function editExam(id) {
+                const e = (load().exams || []).find(x => String(x.id) === String(id));
+                if (!e) return;
+                editingExamId = e.id;
+                document.getElementById('exam-date').value = e.deadline || '';
+                document.getElementById('exam-subject').value = e.subject || '';
+                document.getElementById('exam-type').value = e.type || 'Экзамен';
+                document.getElementById('exam-text').value = e.text || '';
+                document.getElementById('exam-link').value = e.link || '';
+                const submit = document.getElementById('exam-submit-btn');
+                if (submit) submit.textContent = 'Сохранить изменения';
+                const cancel = document.getElementById('exam-cancel-edit');
+                if (cancel) cancel.hidden = false;
+                document.getElementById('exam-date').scrollIntoView({behavior:'smooth',block:'center'});
+            }
+
+            function cancelExamEdit() {
+                editingExamId = null;
+                ['exam-date','exam-text','exam-link'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+                const submit = document.getElementById('exam-submit-btn');
+                if (submit) submit.textContent = 'Добавить';
+                const cancel = document.getElementById('exam-cancel-edit');
+                if (cancel) cancel.hidden = true;
+                renderExams();
             }
             // Скрытый раздел: десять нажатий по фразе внизу экрана.
             (function initStudyEasterEgg(){
@@ -15821,10 +15867,20 @@
                 const type=document.getElementById('exam-type').value; const textValue=(document.getElementById('exam-text').value||'').trim(); const linkValue=(document.getElementById('exam-link').value||'').trim();
                 if(!deadline){alert('Выбери дату');return;}
                 const s=load(); if(!Array.isArray(s.exams))s.exams=[];
-                s.exams.push({id:'exam-'+Date.now(),deadline,subject,type,text:textValue,link:linkValue,category:type,exam:true}); save(s);
-                document.getElementById('exam-text').value=''; document.getElementById('exam-link').value=''; renderExams(); renderCalendarByDate(); renderRasp(false); showToast('Экзамен добавлен');
+                if (editingExamId != null) {
+                    const existing = s.exams.find(e => String(e.id) === String(editingExamId));
+                    if (!existing) { alert('Экзамен уже не найден.'); cancelExamEdit(); return; }
+                    Object.assign(existing, {deadline,subject,type,text:textValue,link:linkValue,category:type,exam:true});
+                    save(s);
+                    cancelExamEdit();
+                    renderExams(); renderCalendarByDate(); renderRasp(false); showToast('Изменения экзамена сохранены');
+                } else {
+                    s.exams.push({id:'exam-'+Date.now(),deadline,subject,type,text:textValue,link:linkValue,category:type,exam:true}); save(s);
+                    document.getElementById('exam-text').value=''; document.getElementById('exam-link').value='';
+                    renderExams(); renderCalendarByDate(); renderRasp(false); showToast('Экзамен добавлен');
+                }
             }
-            function deleteExam(id){const s=load();s.exams=(s.exams||[]).filter(e=>e.id!==id);save(s);renderExams();renderCalendarByDate();renderRasp(false);}
+            function deleteExam(id){if (String(editingExamId) === String(id)) cancelExamEdit(); const s=load();s.exams=(s.exams||[]).filter(e=>String(e.id)!==String(id));save(s);renderExams();renderCalendarByDate();renderRasp(false);}
 
             function showSheet(name) {
                 document.querySelectorAll('.sheet').forEach(function(s) {
