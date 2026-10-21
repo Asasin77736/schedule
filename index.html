@@ -3820,18 +3820,14 @@
                     weekLabel.textContent = `Неделя ${f(mon)} – ${f(sun)} · выполнено ${weekDone} из ${weekTotal}`;
                 }
 
-                // Nearest tasks — keep done visible so accidental click can be undone
+                // Nearest tasks: hide completed tasks and show a finite 30-day window.
                 const nearestEl = document.getElementById('hw-nearest-list');
                 if (nearestEl) {
-                    const nearest = getHw().filter(i => i.deadline && daysUntil(i.deadline) >= -1).sort( (a, b) => {
-                        const da = !!s.done[a.id]
-                          , db = !!s.done[b.id];
-                        if (da !== db)
-                            return da ? 1 : -1;
-                        // undone first
-                        return a.deadline.localeCompare(b.deadline);
-                    }
-                    ).slice(0, 8);
+                    const nearest = getHw().filter(i => {
+                        if (!i.deadline || s.done[i.id]) return false;
+                        const days = daysUntil(i.deadline);
+                        return days >= -1 && days <= 30;
+                    }).sort((a, b) => a.deadline.localeCompare(b.deadline)).slice(0, 8);
                     if (!nearest.length) {
                         nearestEl.innerHTML = '<div class="cal-empty" style="padding:12px">Нет ближайших задач ✨</div>';
                     } else {
@@ -4039,9 +4035,13 @@
                 if (deadFilter === 'all' || deadFilter === 'hw')
                     all = all.concat(hw);
                 if (deadFilter === 'all' || deadFilter === 'exams') all = all.concat(exams);
-                all.sort( (a, b) => a.deadline.localeCompare(b.deadline));
-                // show active first, then done; keep done visible for undo
-                const upcoming = all.filter(t => daysUntil(t.deadline) >= -5);
+                all.sort((a, b) => a.deadline.localeCompare(b.deadline));
+                // Show only unfinished tasks in a finite window: overdue by up to 5 days through the next 30 days.
+                const upcoming = all.filter(t => {
+                    if (s.done[t.id]) return false;
+                    const days = daysUntil(t.deadline);
+                    return days >= -5 && days <= 30;
+                });
                 const el = document.getElementById('calendar');
                 if (!el)
                     return;
