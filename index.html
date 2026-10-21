@@ -15831,35 +15831,50 @@
                 if (cancel) cancel.hidden = true;
                 renderExams();
             }
-            // Скрытый раздел: десять нажатий по фразе внизу экрана.
-            (function initStudyEasterEgg(){
-                const footer = document.getElementById('study-easter-egg');
-                // Скрипт расположен раньше footer в HTML, поэтому ждём завершения разбора страницы.
-                if (!footer) {
-                    document.addEventListener('DOMContentLoaded', initStudyEasterEgg, { once: true });
-                    return;
-                }
-                if (footer.dataset.secretReady) return;
-                footer.dataset.secretReady = '1';
-                let taps = 0;
-                const activate = function(){
-                    taps++;
-                    if (taps < 10) return;
-                    taps = 0;
-                    const answer = prompt('Сложно учиться?');
-                    if (answer === null) return;
-                    if (answer.trim().toLocaleLowerCase('ru-RU') === 'кофе с конспектом') {
-                        try { localStorage.setItem('study_secret_unlocked','1'); } catch(e) {}
-                        const section = document.getElementById('secret-cheats-section');
-                        if (section) section.hidden = false;
-                        alert('Решение ближе чем ты думаешь');
-                    } else {
-                        alert('Пока не то. Подсказка: два помощника перед экзаменом.');
-                    }
+            // Секрет: 10 нажатий на «Дорожная карта» показывают фото на 15 секунд.
+            (function initRoadmapPhotoEasterEgg(){
+                const init = () => {
+                    const roadmapButton = document.getElementById('nav-main');
+                    if (!roadmapButton || roadmapButton.dataset.photoSecretReady) return;
+                    roadmapButton.dataset.photoSecretReady = '1';
+                    let taps = 0;
+                    let resetTimer = null;
+                    let overlay = null;
+                    let hideTimer = null;
+                    const closePhoto = () => {
+                        if (hideTimer) clearTimeout(hideTimer);
+                        hideTimer = null;
+                        if (overlay) overlay.remove();
+                        overlay = null;
+                    };
+                    const showPhoto = () => {
+                        closePhoto();
+                        overlay = document.createElement('div');
+                        overlay.id = 'roadmap-photo-secret';
+                        overlay.setAttribute('role', 'dialog');
+                        overlay.setAttribute('aria-label', 'Секретная фотография');
+                        overlay.style.cssText = 'position:fixed;inset:0;z-index:2147483647;background:#000;display:flex;align-items:center;justify-content:center;padding:0;margin:0;overflow:hidden;';
+                        const img = document.createElement('img');
+                        img.src = './easter.jpg';
+                        img.alt = 'Дайте мне 125 в квадрате метров я построю вкусно и точка';
+                        img.style.cssText = 'display:block;width:100%;height:100%;object-fit:contain;max-width:100vw;max-height:100dvh;';
+                        overlay.appendChild(img);
+                        document.body.appendChild(overlay);
+                        hideTimer = setTimeout(closePhoto, 15000);
+                    };
+                    roadmapButton.addEventListener('click', () => {
+                        taps++;
+                        if (resetTimer) clearTimeout(resetTimer);
+                        if (taps >= 10) {
+                            taps = 0;
+                            showPhoto();
+                        } else {
+                            resetTimer = setTimeout(() => { taps = 0; }, 5000);
+                        }
+                    });
                 };
-                footer.addEventListener('click', function(e){ e.preventDefault(); activate(); });
-                footer.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }});
-                try { if (localStorage.getItem('study_secret_unlocked') === '1') document.getElementById('secret-cheats-section').hidden = false; } catch(e) {}
+                if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });
+                else init();
             })();
 
             function addExam() {
