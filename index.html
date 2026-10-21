@@ -2664,16 +2664,7 @@
   background-color: #e879b9 !important;
   color: #fff5fb !important;
 }
-@media (max-width: 600px) {
-  [data-style="pickme"] .top-bar {
-    justify-content: space-around !important;
-  }
-  [data-style="pickme"] .top-bar .icon-btn,
-  [data-style="pickme"] .top-bar button {
-    flex: 1 1 120px !important;
-    max-width: 100% !important;
-  }
-}
+/* Removed conflicting mobile button stretch rule; final responsive rules are below. */
 
 </style>
         <meta name="mobile-web-app-capable" content="yes">
@@ -2942,6 +2933,101 @@ html[data-style="pickme"] .bottom-nav button {
   html[data-style="pickme"] .subgroup-controls button,
   html[data-style="pickme"] .schedule-controls button {
     flex:0 1 auto !important;
+  }
+}
+</style>
+
+
+<style id="pickme-mobile-colors-cleanup">
+/* Единая палитра PickMe: один набор правил вместо конфликтующих переопределений. */
+html[data-style="pickme"] .cal-day-header {
+  background: linear-gradient(135deg, #713858, #482440) !important;
+  color: #fff1fa !important;
+  border-bottom-color: #a85c91 !important;
+}
+html[data-style="pickme"] .cal-day-header .d-date,
+html[data-style="pickme"] .cal-day-header .d-left,
+html[data-style="pickme"] .cal-day-header .d-left.warn {
+  color: #fff1fa !important;
+}
+html[data-style="pickme"] .progress-bar-fill {
+  background: linear-gradient(90deg, #e879b9 0%, #c084fc 55%, #f5a8d7 100%) !important;
+  box-shadow: 0 0 10px rgba(232,121,185,.35) !important;
+  border-radius: 999px !important;
+}
+html[data-style="pickme"] .sheet-tab.active,
+html[data-style="pickme"] .lang-toggle button.active,
+html[data-style="pickme"] .bottom-nav button.active {
+  background: linear-gradient(135deg, #d85ca8, #a94d9f) !important;
+  color: #fff5fb !important;
+  border-color: #f2a1d2 !important;
+}
+html[data-style="pickme"] .btn.primary,
+html[data-style="pickme"] button.primary,
+html[data-style="pickme"] .btn-primary,
+html[data-style="pickme"] .add-row button,
+html[data-style="pickme"] .journal-form .btn-add,
+html[data-style="pickme"] button[onclick="addHw()"],
+html[data-style="pickme"] button[onclick="addSubject()"] {
+  background: linear-gradient(135deg, #d85ca8, #a94d9f) !important;
+  color: #fff5fb !important;
+  border-color: #f2a1d2 !important;
+}
+html[data-style="pickme"] button,
+html[data-style="pickme"] .btn,
+html[data-style="pickme"] .icon-btn,
+html[data-style="pickme"] select {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+@media (max-width: 600px) {
+  html[data-style="pickme"] .top-bar {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 6px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 8px !important;
+  }
+  html[data-style="pickme"] .top-bar > *,
+  html[data-style="pickme"] .top-bar .icon-btn,
+  html[data-style="pickme"] .top-bar button {
+    flex: 0 1 auto !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    width: auto !important;
+    box-sizing: border-box !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere;
+  }
+  html[data-style="pickme"] .top-bar .icon-btn,
+  html[data-style="pickme"] .top-bar button {
+    min-height: 38px !important;
+    height: auto !important;
+    padding: 8px 10px !important;
+    line-height: 1.2 !important;
+    font-size: 14px !important;
+  }
+  html[data-style="pickme"] .sheet-tabs {
+    display: flex;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  html[data-style="pickme"] .sheet-tab {
+    min-width: 0 !important;
+    padding: 10px 5px !important;
+    font-size: 13px !important;
+    overflow-wrap: anywhere;
+  }
+  html[data-style="pickme"] .bottom-nav button {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    padding: 8px 3px !important;
+    font-size: 12px !important;
   }
 }
 </style>
