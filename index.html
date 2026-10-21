@@ -15859,29 +15859,121 @@
                 reader.onload = function () {
                     const img = new Image();
                     img.onerror = function () { alert('Не удалось открыть изображение.'); };
-                    img.onload = function () {
-                        const maxSide = 1440;
-                        const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
-                        const canvas = document.createElement('canvas');
-                        canvas.width = Math.max(1, Math.round(img.width * scale));
-                        canvas.height = Math.max(1, Math.round(img.height * scale));
-                        const ctx = canvas.getContext('2d');
-                        if (!ctx) { alert('Не удалось обработать изображение.'); return; }
-                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                        const data = canvas.toDataURL('image/webp', 0.72);
-                        const wallpapers = getGroupWallpapers();
-                        wallpapers[activeWallpaperGroup] = data;
-                        try {
-                            localStorage.setItem(GROUP_WALLPAPERS_KEY, JSON.stringify(wallpapers));
-                            applyGroupWallpaper();
-                            showToast('Обои сохранены для группы «' + activeWallpaperGroup + '»');
-                        } catch (e) {
-                            alert('Не хватило места для сохранения обоев. Попробуй изображение поменьше.');
-                        }
-                    };
+                    img.onload = function () { openWallpaperCropper(img); };
                     img.src = String(reader.result || '');
                 };
                 reader.readAsDataURL(file);
+            }
+
+            // Обрезка обоев как при выборе аватарки: пользователь двигает фото и меняет масштаб.
+            function openWallpaperCropper(img) {
+                const old = document.getElementById('wallpaper-crop-modal');
+                if (old) old.remove();
+
+                const modal = document.createElement('div');
+                modal.id = 'wallpaper-crop-modal';
+                modal.style.cssText = 'position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,.78);display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box;';
+                modal.innerHTML = `
+                    <div style="width:min(760px,100%);max-height:95dvh;overflow:auto;background:var(--card-bg,#172033);color:var(--text-color,#fff);border:1px solid rgba(255,255,255,.16);border-radius:18px;padding:16px;box-sizing:border-box;box-shadow:0 18px 60px rgba(0,0,0,.45)">
+                        <div style="font-size:18px;font-weight:700;margin-bottom:6px">Настрой обои</div>
+                        <div style="font-size:13px;opacity:.8;margin-bottom:12px">Перетаскивай фото, как при выборе аватарки. Увеличь его ползунком, чтобы выбрать нужную область.</div>
+                        <div id="wallpaper-crop-stage" style="position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:#101522;border-radius:10px;touch-action:none;cursor:grab;user-select:none;">
+                            <img id="wallpaper-crop-image" alt="Предпросмотр обоев" draggable="false" style="position:absolute;max-width:none;max-height:none;pointer-events:none;user-select:none;">
+                            <div style="position:absolute;inset:0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.35);pointer-events:none"></div>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:10px;margin:14px 0 8px">
+                            <span style="font-size:13px;white-space:nowrap">Масштаб</span>
+                            <input id="wallpaper-crop-zoom" type="range" min="1" max="3" step="0.01" value="1" style="flex:1;min-width:0">
+                            <span id="wallpaper-crop-zoom-label" style="font-size:12px;min-width:36px;text-align:right">100%</span>
+                        </div>
+                        <div style="font-size:12px;opacity:.7;margin-bottom:14px">Итоговые обои заполнят экран. На разных устройствах края могут отображаться немного по-разному.</div>
+                        <div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap">
+                            <button type="button" id="wallpaper-crop-cancel" class="icon-btn">Отмена</button>
+                            <button type="button" id="wallpaper-crop-save" class="icon-btn">✓ Установить обои</button>
+                        </div>
+                    </div>`;
+                document.body.appendChild(modal);
+
+                const stage = modal.querySelector('#wallpaper-crop-stage');
+                const preview = modal.querySelector('#wallpaper-crop-image');
+                const zoom = modal.querySelector('#wallpaper-crop-zoom');
+                const zoomLabel = modal.querySelector('#wallpaper-crop-zoom-label');
+                preview.src = img.src;
+
+                let stageW = 0, stageH = 0, baseW = 0, baseH = 0, drawW = 0, drawH = 0;
+                let x = 0, y = 0, startX = 0, startY = 0, pointerX = 0, pointerY = 0, dragging = false;
+                function clampPosition() {
+                    x = Math.min(0, Math.max(stageW - drawW, x));
+                    y = Math.min(0, Math.max(stageH - drawH, y));
+                }
+                function renderPreview(resetPosition) {
+                    const rect = stage.getBoundingClientRect();
+                    stageW = rect.width; stageH = rect.height;
+                    if (!stageW || !stageH) return;
+                    const cover = Math.max(stageW / img.width, stageH / img.height);
+                    baseW = img.width * cover; baseH = img.height * cover;
+                    const scale = Number(zoom.value) || 1;
+                    drawW = baseW * scale; drawH = baseH * scale;
+                    if (resetPosition) { x = (stageW - drawW) / 2; y = (stageH - drawH) / 2; }
+                    clampPosition();
+                    preview.style.width = drawW + 'px';
+                    preview.style.height = drawH + 'px';
+                    preview.style.left = x + 'px';
+                    preview.style.top = y + 'px';
+                    zoomLabel.textContent = Math.round(scale * 100) + '%';
+                }
+                function close() { modal.remove(); }
+                modal.querySelector('#wallpaper-crop-cancel').addEventListener('click', close);
+                modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
+                zoom.addEventListener('input', function () {
+                    const oldW = drawW, oldH = drawH, centerX = stageW / 2, centerY = stageH / 2;
+                    const relX = oldW ? (centerX - x) / oldW : .5;
+                    const relY = oldH ? (centerY - y) / oldH : .5;
+                    renderPreview(false);
+                    x = centerX - relX * drawW; y = centerY - relY * drawH;
+                    clampPosition();
+                    preview.style.left = x + 'px'; preview.style.top = y + 'px';
+                });
+                stage.addEventListener('pointerdown', function (e) {
+                    dragging = true; pointerX = e.clientX; pointerY = e.clientY; startX = x; startY = y;
+                    stage.style.cursor = 'grabbing';
+                    try { stage.setPointerCapture(e.pointerId); } catch (_) {}
+                });
+                stage.addEventListener('pointermove', function (e) {
+                    if (!dragging) return;
+                    x = startX + (e.clientX - pointerX); y = startY + (e.clientY - pointerY);
+                    clampPosition();
+                    preview.style.left = x + 'px'; preview.style.top = y + 'px';
+                });
+                function stopDrag() { dragging = false; stage.style.cursor = 'grab'; }
+                stage.addEventListener('pointerup', stopDrag);
+                stage.addEventListener('pointercancel', stopDrag);
+                modal.querySelector('#wallpaper-crop-save').addEventListener('click', function () {
+                    const outW = 1440, outH = 810;
+                    const canvas = document.createElement('canvas');
+                    canvas.width = outW; canvas.height = outH;
+                    const ctx = canvas.getContext('2d');
+                    if (!ctx) { alert('Не удалось обработать изображение.'); return; }
+                    const factor = outW / stageW;
+                    ctx.drawImage(img, -x / (drawW / img.width), -y / (drawH / img.height), outW / (drawW / img.width), outH / (drawH / img.height));
+                    const data = canvas.toDataURL('image/webp', 0.78);
+                    const wallpapers = getGroupWallpapers();
+                    wallpapers[activeWallpaperGroup] = data;
+                    try {
+                        localStorage.setItem(GROUP_WALLPAPERS_KEY, JSON.stringify(wallpapers));
+                        close();
+                        applyGroupWallpaper();
+                        showToast('Обои сохранены для группы «' + activeWallpaperGroup + '»');
+                    } catch (e) {
+                        alert('Не хватило места для сохранения обоев. Попробуй фото поменьше.');
+                    }
+                });
+                requestAnimationFrame(function () { renderPreview(true); });
+                if (typeof ResizeObserver !== 'undefined') {
+                    const observer = new ResizeObserver(function () { renderPreview(false); });
+                    observer.observe(stage);
+                    modal.querySelector('#wallpaper-crop-cancel').addEventListener('click', function () { observer.disconnect(); }, { once: true });
+                }
             }
 
             function loadFlowGroup() {
