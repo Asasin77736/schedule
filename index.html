@@ -2939,9 +2939,9 @@ html[data-style="pickme"] .bottom-nav button {
 
 
 <style id="pickme-mobile-colors-cleanup">
-/* Единая палитра PickMe: один набор правил вместо конфликтующих переопределений. */
+/* PickMe: сохраняем геометрию и поведение стандартных кнопок; меняем только цвета. */
 html[data-style="pickme"] .cal-day-header {
-  background: linear-gradient(135deg, #713858, #482440) !important;
+  background: #713858 !important;
   color: #fff1fa !important;
   border-bottom-color: #a85c91 !important;
 }
@@ -2951,36 +2951,54 @@ html[data-style="pickme"] .cal-day-header .d-left.warn {
   color: #fff1fa !important;
 }
 html[data-style="pickme"] .progress-bar-fill {
-  background: linear-gradient(90deg, #e879b9 0%, #c084fc 55%, #f5a8d7 100%) !important;
-  box-shadow: 0 0 10px rgba(232,121,185,.35) !important;
-  border-radius: 999px !important;
+  background: #d85ca8 !important;
+  box-shadow: none !important;
+  border-radius: inherit;
 }
-html[data-style="pickme"] .sheet-tab.active,
-html[data-style="pickme"] .lang-toggle button.active,
-html[data-style="pickme"] .bottom-nav button.active {
-  background: linear-gradient(135deg, #d85ca8, #a94d9f) !important;
-  color: #fff5fb !important;
-  border-color: #f2a1d2 !important;
+/* Обычные кнопки — те же отступы, рамки, радиусы и размеры, что в базовом стиле. */
+html[data-style="pickme"] .btn,
+html[data-style="pickme"] button,
+html[data-style="pickme"] .icon-btn {
+  background-color: #fff0f7;
+  color: #713858;
+  border-color: #e7a4cb;
+}
+html[data-style="pickme"] .btn:hover,
+html[data-style="pickme"] button:hover,
+html[data-style="pickme"] .icon-btn:hover {
+  background-color: #fbcfe8;
+  color: #572344;
+  border-color: #d879b2;
 }
 html[data-style="pickme"] .btn.primary,
 html[data-style="pickme"] button.primary,
 html[data-style="pickme"] .btn-primary,
+html[data-style="pickme"] .accent-action,
 html[data-style="pickme"] .add-row button,
 html[data-style="pickme"] .journal-form .btn-add,
 html[data-style="pickme"] button[onclick="addHw()"],
 html[data-style="pickme"] button[onclick="addSubject()"] {
-  background: linear-gradient(135deg, #d85ca8, #a94d9f) !important;
+  background-color: #d85ca8 !important;
   color: #fff5fb !important;
-  border-color: #f2a1d2 !important;
+  border-color: #c34d94 !important;
 }
-html[data-style="pickme"] button,
-html[data-style="pickme"] .btn,
-html[data-style="pickme"] .icon-btn,
-html[data-style="pickme"] select {
-  box-sizing: border-box;
-  max-width: 100%;
+html[data-style="pickme"] .btn.primary:hover,
+html[data-style="pickme"] button.primary:hover,
+html[data-style="pickme"] .btn-primary:hover,
+html[data-style="pickme"] .accent-action:hover {
+  background-color: #bd438e !important;
+  color: #fff5fb !important;
+  border-color: #a9367b !important;
+}
+html[data-style="pickme"] .sheet-tab.active,
+html[data-style="pickme"] .lang-toggle button.active,
+html[data-style="pickme"] .bottom-nav button.active {
+  background-color: #d85ca8 !important;
+  color: #fff5fb !important;
+  border-color: #c34d94 !important;
 }
 @media (max-width: 600px) {
+  /* Только адаптивное расположение; визуальные размеры берутся из базового стиля. */
   html[data-style="pickme"] .top-bar {
     display: flex !important;
     flex-wrap: wrap !important;
@@ -3002,14 +3020,6 @@ html[data-style="pickme"] select {
     white-space: normal !important;
     overflow-wrap: anywhere;
   }
-  html[data-style="pickme"] .top-bar .icon-btn,
-  html[data-style="pickme"] .top-bar button {
-    min-height: 38px !important;
-    height: auto !important;
-    padding: 8px 10px !important;
-    line-height: 1.2 !important;
-    font-size: 14px !important;
-  }
   html[data-style="pickme"] .sheet-tabs {
     display: flex;
     width: 100%;
@@ -3018,16 +3028,12 @@ html[data-style="pickme"] select {
   }
   html[data-style="pickme"] .sheet-tab {
     min-width: 0 !important;
-    padding: 10px 5px !important;
-    font-size: 13px !important;
     overflow-wrap: anywhere;
   }
   html[data-style="pickme"] .bottom-nav button {
     flex: 1 1 0 !important;
     min-width: 0 !important;
     max-width: 100% !important;
-    padding: 8px 3px !important;
-    font-size: 12px !important;
   }
 }
 </style>
