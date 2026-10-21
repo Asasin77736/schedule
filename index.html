@@ -2688,6 +2688,125 @@
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/113688485" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
+
+<style id="pickme-final-mobile-and-color-fix">
+/* Pickme: override legacy blue colors across schedule, homework, calendar and controls. */
+html[data-style="pickme"] [style*="#003274"],
+html[data-style="pickme"] [style*="#3C86C4"],
+html[data-style="pickme"] [style*="#073b78"],
+html[data-style="pickme"] [style*="#0077FF"],
+html[data-style="pickme"] [style*="#004a9f"],
+html[data-style="pickme"] [style*="#244f7e"],
+html[data-style="pickme"] [style*="rgb(0, 50, 116)"],
+html[data-style="pickme"] [style*="rgb(60, 134, 196)"] {
+  background-color:#713858 !important;
+  border-color:#b76aa0 !important;
+  color:#fff1fa !important;
+}
+html[data-style="pickme"] .active,
+html[data-style="pickme"] .selected,
+html[data-style="pickme"] .active button,
+html[data-style="pickme"] button.active,
+html[data-style="pickme"] button[aria-pressed="true"],
+html[data-style="pickme"] .fc .fc-button-primary,
+html[data-style="pickme"] .fc .fc-button-primary:disabled {
+  background:#a94f91 !important;
+  background-image:linear-gradient(135deg,#c16aaa,#98518f) !important;
+  border-color:#d78cbd !important;
+  color:#fff7fc !important;
+}
+html[data-style="pickme"] .day-header,
+html[data-style="pickme"] .weekday-header,
+html[data-style="pickme"] .calendar-day-header,
+html[data-style="pickme"] .calendar-header,
+html[data-style="pickme"] .fc-col-header-cell,
+html[data-style="pickme"] .fc .fc-toolbar,
+html[data-style="pickme"] .fc .fc-daygrid-day-number,
+html[data-style="pickme"] .fc .fc-list-day-cushion {
+  background:#713858 !important;
+  color:#fff1fa !important;
+  border-color:#a65c91 !important;
+}
+html[data-style="pickme"] .top-bar,
+html[data-style="pickme"] .actions,
+html[data-style="pickme"] .week-controls,
+html[data-style="pickme"] .subgroup-controls,
+html[data-style="pickme"] .schedule-controls,
+html[data-style="pickme"] .toolbar {
+  display:flex !important;
+  flex-wrap:wrap !important;
+  align-items:center !important;
+  gap:8px !important;
+  height:auto !important;
+  min-height:0 !important;
+  overflow:visible !important;
+}
+html[data-style="pickme"] .top-bar > *,
+html[data-style="pickme"] .actions > *,
+html[data-style="pickme"] .week-controls > *,
+html[data-style="pickme"] .subgroup-controls > *,
+html[data-style="pickme"] .schedule-controls > *,
+html[data-style="pickme"] .toolbar > * {
+  position:static !important;
+  float:none !important;
+  flex:0 1 auto !important;
+  min-width:0 !important;
+  max-width:100% !important;
+  box-sizing:border-box !important;
+}
+html[data-style="pickme"] .subgroup-controls,
+html[data-style="pickme"] .week-controls {
+  justify-content:flex-start !important;
+}
+html[data-style="pickme"] button,
+html[data-style="pickme"] .btn,
+html[data-style="pickme"] .icon-btn,
+html[data-style="pickme"] .fc button {
+  width:auto !important;
+  min-width:0 !important;
+  height:auto !important;
+  min-height:38px !important;
+  aspect-ratio:auto !important;
+  border-radius:8px !important;
+  white-space:normal !important;
+  flex:0 1 auto !important;
+  max-width:100% !important;
+}
+html[data-style="pickme"] .bottom-nav,
+html[data-style="pickme"] .bottom-nav button {
+  max-width:100% !important;
+  box-sizing:border-box !important;
+}
+@media (max-width:640px) {
+  html[data-style="pickme"] .top-bar,
+  html[data-style="pickme"] .actions,
+  html[data-style="pickme"] .week-controls,
+  html[data-style="pickme"] .subgroup-controls,
+  html[data-style="pickme"] .schedule-controls,
+  html[data-style="pickme"] .toolbar {
+    gap:6px !important;
+  }
+  html[data-style="pickme"] .container,
+  html[data-style="pickme"] .sheet.active,
+  html[data-style="pickme"] #sheet-rasp,
+  html[data-style="pickme"] #sheet-hw,
+  html[data-style="pickme"] #sheet-cal,
+  html[data-style="pickme"] #sheet-subj,
+  html[data-style="pickme"] #sheet-exams {
+    min-width:0 !important;
+    max-width:100% !important;
+    box-sizing:border-box !important;
+  }
+  html[data-style="pickme"] .top-bar button,
+  html[data-style="pickme"] .actions button,
+  html[data-style="pickme"] .week-controls button,
+  html[data-style="pickme"] .subgroup-controls button,
+  html[data-style="pickme"] .schedule-controls button {
+    flex:0 1 auto !important;
+  }
+}
+</style>
+
 </head>
     <body>
         <div id="pwa-launch-screen" aria-hidden="true">
