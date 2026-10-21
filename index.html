@@ -85,7 +85,15 @@
                 --cu: #fb923c;
                 --c-hw: #67e8f9;
             }
-            /* Стиль «Пикми» — отдельная тема всего сайта */
+
+            /* Дополнительные цветовые стили */
+            [data-style="pink"] {
+                --primary:#c02675; --primary-light:#ec4899; --accent:#db2777;
+                --bg:#fff1f7; --bg2:#fce7f3; --card:#fffafd; --text:#4a1833;
+                --muted:#9d6382; --border:#f2b8d2; --success:#be185d; --urgent:#be123c;
+                --urgent-bg:#fff1f2; --c1:#ec4899; --c2:#db2777; --c3:#c084fc;
+                --c4:#f472b6; --c5:#fb7185; --cu:#e11d48; --c-hw:#db2777;
+            }
             [data-style="pickme"] {
                 --primary:#e879b9; --primary-light:#f9a8d4; --accent:#c084fc;
                 --bg:#fff7fc; --bg2:#fce7f3; --card:#fffaff; --text:#713858;
@@ -93,9 +101,12 @@
                 --urgent-bg:#fff0f7; --c1:#f9a8d4; --c2:#e879b9; --c3:#c4b5fd;
                 --c4:#f0abfc; --c5:#fda4af; --cu:#db2777; --c-hw:#c084fc;
             }
+            [data-style="pink"] .top-bar, [data-style="pickme"] .top-bar {
+                background:linear-gradient(100deg,#be185d,#ec4899,#f9a8d4);
+            }
             [data-style="pickme"] .top-bar { background:linear-gradient(100deg,#f9a8d4,#fbcfe8,#e9d5ff); }
             [data-style="pickme"] .top-bar .icon-btn { color:#713858; border-color:rgba(190,24,93,.22); background:rgba(255,255,255,.55); }
-            [data-style="pickme"] header h1 { color:var(--primary); }
+            [data-style="pink"] header h1, [data-style="pickme"] header h1 { color:var(--primary); }
 
             * {
                 box-sizing: border-box;
@@ -2471,202 +2482,7 @@
                 #sheet-exams > header { padding-top: 0 !important; }
             }
 
-        
-            /* Pickme theme: site-wide pink palette, including calendar controls. */
-            html[data-style="pickme"] body {
-                background-color:#281528 !important;
-                background-image:
-                  radial-gradient(ellipse at 20% 20%,rgba(232,121,185,.16) 0 5px,transparent 6px),
-                  radial-gradient(ellipse at 80% 80%,rgba(192,132,252,.12) 0 5px,transparent 6px),
-                  linear-gradient(145deg,#1d111f 0%,#351b32 52%,#211321 100%) !important;
-                background-size:32px 32px,32px 32px,cover !important;
-                background-attachment:fixed;
-            }
-            html[data-style="pickme"] button,
-            html[data-style="pickme"] .btn,
-            html[data-style="pickme"] .icon-btn,
-            html[data-style="pickme"] .calendar button,
-            html[data-style="pickme"] [class*="calendar"] button,
-            html[data-style="pickme"] [class*="Calendar"] button,
-            html[data-style="pickme"] .fc button {
-                color:#fff1fa !important;
-                background:linear-gradient(135deg,#713858,#482440) !important;
-                border:1px solid #a65c91 !important;
-                border-radius:8px !important;
-                box-shadow:none;
-                width:auto;
-                height:auto;
-                min-height:38px;
-                aspect-ratio:auto !important;
-                flex:0 1 auto;
-                white-space:normal;
-            }
-            html[data-style="pickme"] button:hover,
-            html[data-style="pickme"] .calendar button:hover,
-            html[data-style="pickme"] [class*="calendar"] button:hover,
-            html[data-style="pickme"] [class*="Calendar"] button:hover {
-                background:linear-gradient(135deg,#a94f91,#754078) !important;
-            }
-            html[data-style="pickme"] .top-bar {
-                display:flex;
-                flex-wrap:wrap;
-                align-items:center;
-                gap:8px;
-                height:auto;
-                min-height:0;
-                overflow:visible;
-            }
-            html[data-style="pickme"] .top-bar > *,
-            html[data-style="pickme"] .top-bar .icon-btn {
-                max-width:100%;
-                margin:0;
-                position:relative;
-            }
-            html[data-style="pickme"] .top-bar .icon-btn {
-                padding:8px 12px !important;
-                min-width:0 !important;
-                min-height:38px !important;
-                border-radius:8px !important;
-                background:rgba(255,255,255,.14) !important;
-                color:#fff1fa !important;
-            }
-            html[data-style="pickme"] .vk-avatar-btn,
-            html[data-style="pickme"] .vk-avatar-btn img,
-            html[data-style="pickme"] .vk-menu-head img {
-                border-radius:50% !important;
-            }
-
-        
-/* PICKME THEME CONSISTENCY PATCH: pink palette across the entire timetable */
-[data-style="pickme"] body,
-[data-style="pickme"] main,
-[data-style="pickme"] .container,
-[data-style="pickme"] .sheet,
-[data-style="pickme"] .section,
-[data-style="pickme"] .card,
-[data-style="pickme"] .calendar-card,
-[data-style="pickme"] .cal-detail,
-[data-style="pickme"] .month-grid {
-  background-color: #321a30 !important;
-  color: #ffe8f5 !important;
-  border-color: #87466f !important;
-}
-[data-style="pickme"] body {
-  background-image:
-    radial-gradient(ellipse at 20% 0%, rgba(232,121,185,.22), transparent 48%),
-    linear-gradient(145deg,#211323 0%,#351a32 55%,#28152d 100%) !important;
-  background-attachment: fixed !important;
-}
-[data-style="pickme"] header h1,
-[data-style="pickme"] h1,
-[data-style="pickme"] h2,
-[data-style="pickme"] h3,
-[data-style="pickme"] .section-title,
-[data-style="pickme"] .sheet-title,
-[data-style="pickme"] .month-nav h2,
-[data-style="pickme"] .cal-detail h3 {
-  color: #f5a8d7 !important;
-  text-shadow: 0 1px 0 rgba(70,20,55,.35);
-}
-[data-style="pickme"] .day-cell,
-[data-style="pickme"] .day-cell:nth-child(7n),
-[data-style="pickme"] [data-theme="dark"] .day-cell,
-[data-style="pickme"] .cal-day-block,
-[data-style="pickme"] .task-item,
-[data-style="pickme"] .calendar-day,
-[data-style="pickme"] .schedule-day,
-[data-style="pickme"] .day-card {
-  background: linear-gradient(145deg,#492440,#321a30) !important;
-  color: #ffe8f5 !important;
-  border-color: #87466f !important;
-  box-shadow: inset 0 1px rgba(255,255,255,.04) !important;
-}
-[data-style="pickme"] .day-cell.today,
-[data-style="pickme"] .day-cell.selected,
-[data-style="pickme"] .sheet-tab.active,
-[data-style="pickme"] .lang-toggle button.active,
-[data-style="pickme"] .active,
-[data-style="pickme"] .selected {
-  background: linear-gradient(135deg,#d85ca8,#a94d9f) !important;
-  color: #fff5fb !important;
-  border-color: #f2a1d2 !important;
-}
-[data-style="pickme"] .day-cell.selected .day-num,
-[data-style="pickme"] .day-cell.selected .day-count {
-  color: #fff5fb !important;
-}
-[data-style="pickme"] .month-nav button,
-[data-style="pickme"] .lang-toggle button,
-[data-style="pickme"] .sheet-tab,
-[data-style="pickme"] .icon-btn,
-[data-style="pickme"] .btn,
-[data-style="pickme"] button,
-[data-style="pickme"] select,
-[data-style="pickme"] input,
-[data-style="pickme"] textarea {
-  background-color: #512744 !important;
-  color: #ffe8f5 !important;
-  border-color: #a85c91 !important;
-}
-[data-style="pickme"] .top-bar {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 10px !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  overflow: visible !important;
-  padding: 12px !important;
-}
-[data-style="pickme"] .top-bar > *,
-[data-style="pickme"] .top-bar .top-actions,
-[data-style="pickme"] .top-bar .top-controls {
-  position: static !important;
-  float: none !important;
-  flex: 0 1 auto !important;
-  min-width: 0 !important;
-  max-width: 100% !important;
-}
-[data-style="pickme"] .top-bar .icon-btn,
-[data-style="pickme"] .top-bar button {
-  width: auto !important;
-  height: auto !important;
-  min-height: 42px !important;
-  aspect-ratio: auto !important;
-  border-radius: 12px !important;
-  white-space: normal !important;
-}
-[data-style="pickme"] .top-bar img,
-[data-style="pickme"] .vk-avatar,
-[data-style="pickme"] .vk-avatar img,
-[data-style="pickme"] .vk-icon,
-[data-style="pickme"] .vk-button,
-[data-style="pickme"] .vk-link {
-  border-color: #f0a2d1 !important;
-  box-shadow: 0 0 0 2px rgba(232,121,185,.22) !important;
-}
-[data-style="pickme"] .top-bar .vk-avatar img,
-[data-style="pickme"] .top-bar img[alt*="VK"],
-[data-style="pickme"] .top-bar img[src*="vk"] {
-  border-radius: 50% !important;
-  outline: 2px solid #f0a2d1 !important;
-  outline-offset: 2px;
-}
-[data-style="pickme"] .day-cell.today {
-  background: linear-gradient(145deg,rgba(232,121,185,.34),rgba(192,132,252,.18)) !important;
-  border-color: #f0a2d1 !important;
-  box-shadow: 0 0 0 2px rgba(232,121,185,.2) !important;
-}
-[data-style="pickme"] .hw-badge,
-[data-style="pickme"] .day-dot,
-[data-style="pickme"] .day-dot.hw {
-  background-color: #e879b9 !important;
-  color: #fff5fb !important;
-}
-/* Removed conflicting mobile button stretch rule; final responsive rules are below. */
-
-</style>
+        </style>
         <meta name="mobile-web-app-capable" content="yes">
     <style>
 /* Dark theme: subdued primary actions and clear button boundaries */
@@ -2818,226 +2634,83 @@
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/113688485" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
+<style id="palette-repair">
 
-<style id="pickme-final-mobile-and-color-fix">
-/* Pickme: override legacy blue colors across schedule, homework, calendar and controls. */
-html[data-style="pickme"] [style*="#003274"],
-html[data-style="pickme"] [style*="#3C86C4"],
-html[data-style="pickme"] [style*="#073b78"],
-html[data-style="pickme"] [style*="#0077FF"],
-html[data-style="pickme"] [style*="#004a9f"],
-html[data-style="pickme"] [style*="#244f7e"],
-html[data-style="pickme"] [style*="rgb(0, 50, 116)"],
-html[data-style="pickme"] [style*="rgb(60, 134, 196)"] {
-  background-color:#713858 !important;
-  border-color:#b76aa0 !important;
-  color:#fff1fa !important;
+/* Palette repair: ensure the selected style reaches schedule, homework, calendar and dark mode. */
+html[data-style="pickme"] {
+  --primary:#d94f9e; --primary-light:#f19acb; --accent:#bf78df;
+  --bg:#fff7fc; --bg2:#fce7f3; --card:#fffaff; --text:#713858;
+  --muted:#b27a9b; --border:#f3c3dc; --success:#d946a0; --urgent:#db2777;
+  --urgent-bg:#fff0f7; --c1:#ed83bd; --c2:#d94f9e; --c3:#b99af7;
+  --c4:#e5a4ef; --c5:#fda4af; --cu:#db2777; --c-hw:#bf78df;
 }
-html[data-style="pickme"] .active,
-html[data-style="pickme"] .selected,
-html[data-style="pickme"] .active button,
-html[data-style="pickme"] button.active,
-html[data-style="pickme"] button[aria-pressed="true"],
-html[data-style="pickme"] .fc .fc-button-primary,
-html[data-style="pickme"] .fc .fc-button-primary:disabled {
-  background:#a94f91 !important;
-  background-image:linear-gradient(135deg,#c16aaa,#98518f) !important;
-  border-color:#d78cbd !important;
-  color:#fff7fc !important;
+html[data-style="pickme"][data-theme="dark"] {
+  --primary:#f6a6d2; --primary-light:#d96eae; --accent:#d6a0f3;
+  --bg:#211522; --bg2:#2b1a2c; --card:#38233a; --text:#fff0fa;
+  --muted:#d5a9c8; --border:#68405f; --success:#f19acb; --urgent:#ff8fc4;
+  --urgent-bg:rgba(255,143,196,.14); --c1:#f6a6d2; --c2:#e879b9; --c3:#c4b5fd;
+  --c4:#f0abfc; --c5:#fda4af; --cu:#ff8fc4; --c-hw:#d6a0f3;
 }
-html[data-style="pickme"] .day-header,
-html[data-style="pickme"] .weekday-header,
-html[data-style="pickme"] .calendar-day-header,
-html[data-style="pickme"] .calendar-header,
-html[data-style="pickme"] .fc-col-header-cell,
-html[data-style="pickme"] .fc .fc-toolbar,
-html[data-style="pickme"] .fc .fc-daygrid-day-number,
-html[data-style="pickme"] .fc .fc-list-day-cushion {
-  background:#713858 !important;
-  color:#fff1fa !important;
-  border-color:#a65c91 !important;
+html[data-style="pickme"] body {
+  background-color:var(--bg) !important;
+  background-image:radial-gradient(ellipse at 10% 0%,rgba(249,168,212,.30),transparent 42%),radial-gradient(ellipse at 100% 100%,rgba(196,181,253,.22),transparent 40%) !important;
+  color:var(--text) !important;
 }
-html[data-style="pickme"] .top-bar,
-html[data-style="pickme"] .actions,
-html[data-style="pickme"] .week-controls,
-html[data-style="pickme"] .subgroup-controls,
-html[data-style="pickme"] .schedule-controls,
-html[data-style="pickme"] .toolbar {
-  display:flex !important;
-  flex-wrap:wrap !important;
-  align-items:center !important;
-  gap:8px !important;
-  height:auto !important;
-  min-height:0 !important;
-  overflow:visible !important;
-}
-html[data-style="pickme"] .top-bar > *,
-html[data-style="pickme"] .actions > *,
-html[data-style="pickme"] .week-controls > *,
-html[data-style="pickme"] .subgroup-controls > *,
-html[data-style="pickme"] .schedule-controls > *,
-html[data-style="pickme"] .toolbar > * {
-  position:static !important;
-  float:none !important;
-  flex:0 1 auto !important;
-  min-width:0 !important;
-  max-width:100% !important;
-  box-sizing:border-box !important;
-}
-html[data-style="pickme"] .subgroup-controls,
-html[data-style="pickme"] .week-controls {
-  justify-content:flex-start !important;
-}
-html[data-style="pickme"] button,
-html[data-style="pickme"] .btn,
-html[data-style="pickme"] .icon-btn,
-html[data-style="pickme"] .fc button {
-  width:auto !important;
-  min-width:0 !important;
-  height:auto !important;
-  min-height:38px !important;
-  aspect-ratio:auto !important;
-  border-radius:8px !important;
-  white-space:normal !important;
-  flex:0 1 auto !important;
-  max-width:100% !important;
-}
-html[data-style="pickme"] .bottom-nav,
-html[data-style="pickme"] .bottom-nav button {
-  max-width:100% !important;
-  box-sizing:border-box !important;
-}
-@media (max-width:640px) {
-  html[data-style="pickme"] .top-bar,
-  html[data-style="pickme"] .actions,
-  html[data-style="pickme"] .week-controls,
-  html[data-style="pickme"] .subgroup-controls,
-  html[data-style="pickme"] .schedule-controls,
-  html[data-style="pickme"] .toolbar {
-    gap:6px !important;
-  }
-  html[data-style="pickme"] .container,
-  html[data-style="pickme"] .sheet.active,
-  html[data-style="pickme"] #sheet-rasp,
-  html[data-style="pickme"] #sheet-hw,
-  html[data-style="pickme"] #sheet-cal,
-  html[data-style="pickme"] #sheet-subj,
-  html[data-style="pickme"] #sheet-exams {
-    min-width:0 !important;
-    max-width:100% !important;
-    box-sizing:border-box !important;
-  }
-  html[data-style="pickme"] .top-bar button,
-  html[data-style="pickme"] .actions button,
-  html[data-style="pickme"] .week-controls button,
-  html[data-style="pickme"] .subgroup-controls button,
-  html[data-style="pickme"] .schedule-controls button {
-    flex:0 1 auto !important;
-  }
-}
-</style>
-
-
-<style id="pickme-mobile-colors-cleanup">
-/* PickMe: сохраняем геометрию и поведение стандартных кнопок; меняем только цвета. */
-html[data-style="pickme"] .cal-day-header {
-  background: #713858 !important;
-  color: #fff1fa !important;
-  border-bottom-color: #a85c91 !important;
-}
-html[data-style="pickme"] .cal-day-header .d-date,
-html[data-style="pickme"] .cal-day-header .d-left,
-html[data-style="pickme"] .cal-day-header .d-left.warn {
-  color: #fff1fa !important;
-}
-html[data-style="pickme"] .progress-bar-fill {
-  background: #d85ca8 !important;
-  box-shadow: none !important;
-  border-radius: inherit;
-}
-/* Обычные кнопки — те же отступы, рамки, радиусы и размеры, что в базовом стиле. */
-html[data-style="pickme"] .btn,
-html[data-style="pickme"] button,
-html[data-style="pickme"] .icon-btn {
-  background-color: #fff0f7;
-  color: #713858;
-  border-color: #e7a4cb;
-}
-html[data-style="pickme"] .btn:hover,
-html[data-style="pickme"] button:hover,
-html[data-style="pickme"] .icon-btn:hover {
-  background-color: #fbcfe8;
-  color: #572344;
-  border-color: #d879b2;
-}
+html[data-style="pickme"] .sheet-tabs { background:var(--card) !important; border-color:var(--border) !important; box-shadow:0 5px 18px rgba(217,79,158,.10); }
+html[data-style="pickme"] .sheet-tab { color:var(--muted) !important; border-color:var(--border) !important; }
+html[data-style="pickme"] .sheet-tab.active,
+html[data-style="pickme"] .lang-toggle button.active,
 html[data-style="pickme"] .btn.primary,
-html[data-style="pickme"] button.primary,
-html[data-style="pickme"] .btn-primary,
-html[data-style="pickme"] .accent-action,
 html[data-style="pickme"] .add-row button,
 html[data-style="pickme"] .journal-form .btn-add,
 html[data-style="pickme"] button[onclick="addHw()"],
 html[data-style="pickme"] button[onclick="addSubject()"] {
-  background-color: #d85ca8 !important;
-  color: #fff5fb !important;
-  border-color: #c34d94 !important;
+  background:linear-gradient(135deg,var(--primary-light),var(--accent)) !important;
+  border-color:var(--primary-light) !important; color:#fff !important;
 }
-html[data-style="pickme"] .btn.primary:hover,
-html[data-style="pickme"] button.primary:hover,
-html[data-style="pickme"] .btn-primary:hover,
-html[data-style="pickme"] .accent-action:hover {
-  background-color: #bd438e !important;
-  color: #fff5fb !important;
-  border-color: #a9367b !important;
+html[data-style="pickme"] #rasp-week-info,
+html[data-style="pickme"] #hw-week-label,
+html[data-style="pickme"] .subtitle { color:var(--primary) !important; }
+html[data-style="pickme"] #rasp-week-info {
+  display:inline-flex; align-items:center; width:max-content; max-width:100%;
+  padding:5px 11px; margin-top:5px; border:1px solid var(--border); border-radius:999px;
+  background:var(--card); font-weight:800 !important; box-shadow:0 3px 12px rgba(217,79,158,.10);
 }
-html[data-style="pickme"] .sheet-tab.active,
-html[data-style="pickme"] .lang-toggle button.active,
-html[data-style="pickme"] .bottom-nav button.active {
-  background-color: #d85ca8 !important;
-  color: #fff5fb !important;
-  border-color: #c34d94 !important;
+html[data-style="pickme"] #rasp-week-odd,
+html[data-style="pickme"] #rasp-week-even,
+html[data-style="pickme"] #rasp-week-odd.active,
+html[data-style="pickme"] #rasp-week-even.active {
+  border-color:var(--border) !important; color:var(--primary) !important; background:var(--card) !important;
 }
-@media (max-width: 600px) {
-  /* Только адаптивное расположение; визуальные размеры берутся из базового стиля. */
-  html[data-style="pickme"] .top-bar {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    justify-content: center !important;
-    align-items: center !important;
-    gap: 6px !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-    padding: 8px !important;
-  }
-  html[data-style="pickme"] .top-bar > *,
-  html[data-style="pickme"] .top-bar .icon-btn,
-  html[data-style="pickme"] .top-bar button {
-    flex: 0 1 auto !important;
-    min-width: 0 !important;
-    max-width: 100% !important;
-    width: auto !important;
-    box-sizing: border-box !important;
-    white-space: normal !important;
-    overflow-wrap: anywhere;
-  }
-  html[data-style="pickme"] .sheet-tabs {
-    display: flex;
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-  }
-  html[data-style="pickme"] .sheet-tab {
-    min-width: 0 !important;
-    overflow-wrap: anywhere;
-  }
-  html[data-style="pickme"] .bottom-nav button {
-    flex: 1 1 0 !important;
-    min-width: 0 !important;
-    max-width: 100% !important;
-  }
+html[data-style="pickme"] #rasp-week-odd.active,
+html[data-style="pickme"] #rasp-week-even.active { background:var(--primary-light) !important; color:#fff !important; }
+html[data-style="pickme"] .task-item,
+html[data-style="pickme"] .stat-card,
+html[data-style="pickme"] .progress-card,
+html[data-style="pickme"] .calendar-card,
+html[data-style="pickme"] .journal-card,
+html[data-style="pickme"] .section,
+html[data-style="pickme"] .task-list,
+html[data-style="pickme"] .cal-day-block {
+  border-color:var(--border) !important; box-shadow:0 4px 18px rgba(217,79,158,.08) !important;
 }
-</style>
+html[data-style="pickme"] .vk-avatar-btn img,
+html[data-style="pickme"] .vk-menu-head img { border:2px solid #f19acb; box-shadow:0 0 0 3px rgba(241,154,203,.22); }
+html[data-style="pickme"] .top-bar { background:linear-gradient(100deg,#f9a8d4,#fbcfe8,#e9d5ff) !important; }
+html[data-style="pickme"][data-theme="dark"] body { background-image:radial-gradient(ellipse at 10% 0%,rgba(217,79,158,.18),transparent 42%),radial-gradient(ellipse at 100% 100%,rgba(139,92,246,.13),transparent 40%) !important; }
+html[data-style="pickme"][data-theme="dark"] .sheet-tab.active,
+html[data-style="pickme"][data-theme="dark"] .lang-toggle button.active { background:linear-gradient(135deg,#bd5e9d,#9565b9) !important; color:#fff !important; }
+html[data-style="pickme"][data-theme="dark"] .icon-btn,
+html[data-style="pickme"][data-theme="dark"] button:not(.accent-action):not(.primary):not(.btn-primary) { background-color:var(--card) !important; color:var(--text) !important; border-color:var(--border) !important; }
+html[data-style="pickme"][data-theme="dark"] .accent-action,
+html[data-style="pickme"][data-theme="dark"] button.primary,
+html[data-style="pickme"][data-theme="dark"] .btn-primary { background:linear-gradient(135deg,#bd5e9d,#9565b9) !important; color:#fff !important; }
+html[data-style="pink"] .sheet-tab.active,
+html[data-style="pink"] .lang-toggle button.active { background:linear-gradient(135deg,#c02675,#ec4899) !important; color:#fff !important; }
+html[data-style="pink"] #rasp-week-info,
+html[data-style="pink"] #hw-week-label { color:var(--primary) !important; }
 
+</style>
 </head>
     <body>
         <div id="pwa-launch-screen" aria-hidden="true">
@@ -3075,7 +2748,7 @@ html[data-style="pickme"] .bottom-nav button.active {
             <div class="top-bar">
                 <div class="vk-wrap" style="position:relative">
                     <button type="button" class="vk-avatar-btn" id="vk-btn" onclick="toggleVkMenu()" title="ВКонтакте · zezeron" aria-label="ВКонтакте">
-                        <img src="https://ui-avatars.com/api/?name=Z&background=0077FF&color=ffffff&bold=true&size=64" alt="VK" width="32" height="32">
+                        <img src="https://ui-avatars.com/api/?name=Z&background=E879B9&color=ffffff&bold=true&size=64" alt="VK" width="32" height="32">
                         <span class="vk-badge" aria-hidden="true">
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="#fff">
                                 <path d="M12.785 16.241s.288-.032.436-.194c.136-.148.132-.427.132-.427s-.02-1.304.586-1.496c.596-.19 1.363 1.26 2.174 1.816.613.42 1.078.347 1.078.347l2.163-.03s1.13-.07.594-.958c-.044-.073-.312-.652-1.61-1.844-1.36-1.247-1.177-1.045.46-3.204.997-1.314 1.396-2.116 1.27-2.458-.12-.327-.864-.241-.864-.241l-2.435.015s-.181-.025-.315.055c-.13.078-.213.26-.213.26s-.382 1.016-.89 1.88c-1.07 1.82-1.5 1.916-1.676 1.803-.41-.263-.307-1.057-.307-1.622 0-1.764.267-2.5-.52-2.69-.262-.063-.454-.105-1.122-.112-.857-.01-1.582.003-1.992.16-.273.105-.483.339-.355.352.158.016.517.097.707.356.245.334.236 1.084.236 1.084s.14 2.065-.328 2.32c-.32.175-.76-.182-1.704-1.815-.482-.835-.846-1.76-.846-1.76s-.07-.172-.195-.265c-.152-.113-.364-.149-.364-.149l-2.316.015s-.347.01-.475.16c-.114.134-.009.41-.009.41s1.79 4.19 3.817 6.3c.86 1.935 3.972 1.808 3.972 1.808h.957z"/>
@@ -3084,7 +2757,7 @@ html[data-style="pickme"] .bottom-nav button.active {
                     </button>
                     <div id="vk-menu" class="vk-menu" style="display:none">
                         <div class="vk-menu-head">
-                            <img src="https://ui-avatars.com/api/?name=Z&background=0077FF&color=ffffff&bold=true&size=64" alt="" width="36" height="36">
+                            <img src="https://ui-avatars.com/api/?name=Z&background=E879B9&color=ffffff&bold=true&size=64" alt="" width="36" height="36">
                             <div>
                                 <div class="vk-menu-name">zezeron</div>
                                 <div class="vk-menu-sub">ВКонтакте</div>
@@ -4206,7 +3879,11 @@ html[data-style="pickme"] .bottom-nav button.active {
 
             function renderHw() {
                 const s = load();
-                let items = getHw().sort( (a, b) => (a.deadline || '9999').localeCompare(b.deadline || '9999'));
+                let items = getHw().sort((a, b) => {
+                    const ad = !!s.done[a.id], bd = !!s.done[b.id];
+                    if (ad !== bd) return ad ? 1 : -1; // невыполненные всегда сверху
+                    return (a.deadline || '9999').localeCompare(b.deadline || '9999');
+                });
                 const list = document.getElementById('hw-list');
                 if (!list)
                     return;
@@ -15654,9 +15331,9 @@ html[data-style="pickme"] .bottom-nav button.active {
             let raspEditMode = false;
 
             const TYPE_COLORS = {
-                'лек': '#3C86C4',
-                'пр': '#2A9D8F',
-                'лаб': '#0e7490'
+                'лек': 'var(--c1)',
+                'пр': 'var(--c2)',
+                'лаб': 'var(--c4)'
             };
 
             function getAcademicWeek() {
@@ -16296,29 +15973,20 @@ html[data-style="pickme"] .bottom-nav button.active {
                     <div style="font-size:18px;font-weight:750;margin-bottom:12px">Стиль сайта</div>
                     <div style="display:grid;gap:9px">
                     <button type="button" class="icon-btn" data-style-choice="default">🔵 Обычный</button>
+                    <button type="button" class="icon-btn" data-style-choice="pink">🌸 Розовый</button>
                     <button type="button" class="icon-btn" data-style-choice="pickme">🎀 Пикми</button>
                     <button type="button" class="icon-btn" data-style-choice="close">Закрыть</button></div></div>`;
                 document.body.appendChild(modal);
                 modal.addEventListener('click', function(e){ if(e.target===modal) modal.remove(); });
                 modal.querySelectorAll('[data-style-choice]').forEach(function(btn){btn.addEventListener('click',function(){
                     const choice=btn.getAttribute('data-style-choice'); if(choice==='close'){modal.remove();return;}
-                    if(choice==='default') document.documentElement.removeAttribute('data-style'); else if(choice==='pickme') document.documentElement.setAttribute('data-style','pickme');
+                    if(choice==='default') document.documentElement.removeAttribute('data-style'); else document.documentElement.setAttribute('data-style',choice);
                     try { localStorage.setItem('study_site_style_v1',choice); } catch(e) {}
                     modal.remove(); showToast('Стиль изменён');
                 });});
             }
-
-            // Для ЯФТ-Б25 автоматически включаем стиль «Пикми».
-            document.addEventListener('change', function(event) {
-                const el = event.target;
-                if (el && el.id === 'flow-group-select' && el.value === 'ЯФТ-Б25') {
-                    document.documentElement.setAttribute('data-style', 'pickme');
-                    try { localStorage.setItem('study_site_style_v1', 'pickme'); } catch (e) {}
-                    showToast('Для ЯФТ-Б25 включён стиль «Пикми»');
-                }
-            });
             function restoreSiteStyle() {
-                try { const style=localStorage.getItem('study_site_style_v1'); if(style==='pickme') document.documentElement.setAttribute('data-style','pickme'); }
+                try { const style=localStorage.getItem('study_site_style_v1'); if(style && style!=='default') document.documentElement.setAttribute('data-style',style); }
                 catch(e) {}
             }
 
@@ -16511,7 +16179,7 @@ html[data-style="pickme"] .bottom-nav button.active {
                 if (cancel) cancel.hidden = true;
                 renderExams();
             }
-            // Секрет: 10 нажатий на «Дорожная карта» открывают листалку мемов только из ./meme/.
+            // Секрет: 10 нажатий на «Дорожная карта» показывают фото на 15 секунд.
             (function initRoadmapPhotoEasterEgg(){
                 const init = () => {
                     const roadmapButton = document.getElementById('nav-main');
@@ -16520,87 +16188,27 @@ html[data-style="pickme"] .bottom-nav button.active {
                     let taps = 0;
                     let resetTimer = null;
                     let overlay = null;
-                    let photoFiles = [];
-                    let photoIndex = 0;
-                    let loading = false;
-
+                    let hideTimer = null;
                     const closePhoto = () => {
+                        if (hideTimer) clearTimeout(hideTimer);
+                        hideTimer = null;
                         if (overlay) overlay.remove();
                         overlay = null;
                     };
-                    const getPhotoList = async () => {
-                        if (photoFiles.length) return photoFiles;
-                        if (loading) return [];
-                        loading = true;
-                        try {
-                            const response = await fetch('https://api.github.com/repos/asasin77736/schedule/contents/meme?ref=main', {
-                                headers: { Accept: 'application/vnd.github+json' },
-                                cache: 'no-store'
-                            });
-                            if (!response.ok) throw new Error('Не удалось получить список мемов');
-                            const files = await response.json();
-                            photoFiles = files
-                                .filter(file => file.type === 'file' && /\.(avif|gif|jpe?g|png|webp)$/i.test(file.name))
-                                .sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }))
-                                .map(file => './meme/' + file.name.split('/').map(encodeURIComponent).join('/'));
-                        } catch (error) {
-                            photoFiles = [];
-                        } finally {
-                            loading = false;
-                        }
-                        return photoFiles;
-                    };
-                    const showPhoto = async () => {
+                    const showPhoto = () => {
                         closePhoto();
-                        const photos = await getPhotoList();
-                        if (!photos.length) {
-                            alert('Не удалось загрузить мемы из папки meme. Проверь, что в ней есть изображения.');
-                            return;
-                        }
-                        photoIndex = 0;
                         overlay = document.createElement('div');
                         overlay.id = 'roadmap-photo-secret';
                         overlay.setAttribute('role', 'dialog');
-                        overlay.setAttribute('aria-label', 'Секретные мемы');
-                        overlay.style.cssText = 'position:fixed;inset:0;z-index:2147483647;background:rgba(0,0,0,.94);display:flex;align-items:center;justify-content:center;padding:18px;box-sizing:border-box;overflow:hidden;';
-
+                        overlay.setAttribute('aria-label', 'Секретная фотография');
+                        overlay.style.cssText = 'position:fixed;inset:0;z-index:2147483647;background:#000;display:flex;align-items:center;justify-content:center;padding:0;margin:0;overflow:hidden;';
                         const img = document.createElement('img');
-                        img.alt = 'Секретный мем';
-                        img.style.cssText = 'display:block;width:calc(100% - 112px);height:calc(100% - 54px);object-fit:contain;max-width:100vw;max-height:100dvh;';
-
-                        const makeButton = (label, title, css, onClick) => {
-                            const button = document.createElement('button');
-                            button.type = 'button';
-                            button.textContent = label;
-                            button.setAttribute('aria-label', title);
-                            button.title = title;
-                            button.style.cssText = css;
-                            button.addEventListener('click', onClick);
-                            return button;
-                        };
-                        const buttonCss = 'position:absolute;z-index:2;border:1px solid rgba(255,255,255,.45);background:rgba(20,20,20,.7);color:white;border-radius:999px;width:48px;height:48px;font-size:30px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;';
-                        const prev = makeButton('‹', 'Предыдущий мем', buttonCss + 'left:14px;top:50%;transform:translateY(-50%);', () => { photoIndex = (photoIndex - 1 + photos.length) % photos.length; renderPhoto(); });
-                        const next = makeButton('›', 'Следующий мем', buttonCss + 'right:14px;top:50%;transform:translateY(-50%);', () => { photoIndex = (photoIndex + 1) % photos.length; renderPhoto(); });
-                        const close = makeButton('×', 'Закрыть', buttonCss + 'right:12px;top:12px;font-size:28px;width:42px;height:42px;', closePhoto);
-                        const counter = document.createElement('div');
-                        counter.style.cssText = 'position:absolute;left:50%;bottom:12px;transform:translateX(-50%);color:#fff;background:rgba(0,0,0,.55);padding:6px 12px;border-radius:999px;font:14px system-ui,sans-serif;';
-                        const renderPhoto = () => {
-                            img.src = photos[photoIndex];
-                            counter.textContent = (photoIndex + 1) + ' / ' + photos.length;
-                            prev.style.display = photos.length > 1 ? 'flex' : 'none';
-                            next.style.display = photos.length > 1 ? 'flex' : 'none';
-                        };
-                        overlay.append(img, prev, next, close, counter);
-                        overlay.addEventListener('click', event => { if (event.target === overlay) closePhoto(); });
-                        const keyHandler = event => {
-                            if (!overlay) { document.removeEventListener('keydown', keyHandler); return; }
-                            if (event.key === 'Escape') closePhoto();
-                            else if (event.key === 'ArrowLeft' && photos.length > 1) { photoIndex = (photoIndex - 1 + photos.length) % photos.length; renderPhoto(); }
-                            else if (event.key === 'ArrowRight' && photos.length > 1) { photoIndex = (photoIndex + 1) % photos.length; renderPhoto(); }
-                        };
-                        document.addEventListener('keydown', keyHandler);
+                        img.src = './easter.jpg';
+                        img.alt = 'Дайте мне 125 в квадрате метров я построю вкусно и точка';
+                        img.style.cssText = 'display:block;width:100%;height:100%;object-fit:contain;max-width:100vw;max-height:100dvh;';
+                        overlay.appendChild(img);
                         document.body.appendChild(overlay);
-                        renderPhoto();
+                        hideTimer = setTimeout(closePhoto, 15000);
                     };
                     roadmapButton.addEventListener('click', () => {
                         taps++;
