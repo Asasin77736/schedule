@@ -16595,6 +16595,44 @@
 
 
 <footer id="study-easter-egg" tabindex="0" role="button" aria-label="Может уже пора начать учиться? Нажми 10 раз" style="display:block;max-width:860px;margin:24px auto 90px;padding:12px;text-align:center;opacity:.48;cursor:pointer;user-select:none;font-size:.85rem;-webkit-tap-highlight-color:transparent;outline:none;background:transparent;border:0;color:inherit;box-shadow:none">Может уже пора начать учиться?</footer>
+
+<script>
+/* Пасхалка «Шпоры»: 10 нажатий по подписи внизу «Дорожной карты». */
+(function initCheatsEasterEgg() {
+  const init = () => {
+    const trigger = document.getElementById('study-easter-egg');
+    if (!trigger || trigger.dataset.cheatsEggReady) return;
+    trigger.dataset.cheatsEggReady = '1';
+    let taps = 0;
+    let resetTimer = null;
+    const activate = () => {
+      taps++;
+      if (resetTimer) clearTimeout(resetTimer);
+      if (taps >= 10) {
+        taps = 0;
+        const section = document.getElementById('secret-cheats-section');
+        if (typeof showSheet === 'function') showSheet('exams');
+        if (section) {
+          section.hidden = false;
+          requestAnimationFrame(() => section.scrollIntoView({ behavior: 'smooth', block: 'center' }));
+        }
+      } else {
+        resetTimer = setTimeout(() => { taps = 0; }, 5000);
+      }
+    };
+    trigger.addEventListener('click', activate);
+    trigger.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        activate();
+      }
+    });
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });
+  else init();
+})();
+</script>
+
     <!-- Cloudflare Web Analytics -->
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "808d3f48c67940efb83db07781c8e88d"}'></script>
 <!-- End Cloudflare Web Analytics -->
