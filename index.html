@@ -2536,7 +2536,146 @@
                 border-radius:50% !important;
             }
 
-        </style>
+        
+/* PICKME THEME CONSISTENCY PATCH: pink palette across the entire timetable */
+[data-style="pickme"] body,
+[data-style="pickme"] main,
+[data-style="pickme"] .container,
+[data-style="pickme"] .sheet,
+[data-style="pickme"] .section,
+[data-style="pickme"] .card,
+[data-style="pickme"] .calendar-card,
+[data-style="pickme"] .cal-detail,
+[data-style="pickme"] .month-grid {
+  background-color: #321a30 !important;
+  color: #ffe8f5 !important;
+  border-color: #87466f !important;
+}
+[data-style="pickme"] body {
+  background-image:
+    radial-gradient(ellipse at 20% 0%, rgba(232,121,185,.22), transparent 48%),
+    linear-gradient(145deg,#211323 0%,#351a32 55%,#28152d 100%) !important;
+  background-attachment: fixed !important;
+}
+[data-style="pickme"] header h1,
+[data-style="pickme"] h1,
+[data-style="pickme"] h2,
+[data-style="pickme"] h3,
+[data-style="pickme"] .section-title,
+[data-style="pickme"] .sheet-title,
+[data-style="pickme"] .month-nav h2,
+[data-style="pickme"] .cal-detail h3 {
+  color: #f5a8d7 !important;
+  text-shadow: 0 1px 0 rgba(70,20,55,.35);
+}
+[data-style="pickme"] .day-cell,
+[data-style="pickme"] .day-cell:nth-child(7n),
+[data-style="pickme"] [data-theme="dark"] .day-cell,
+[data-style="pickme"] .cal-day-block,
+[data-style="pickme"] .task-item,
+[data-style="pickme"] .calendar-day,
+[data-style="pickme"] .schedule-day,
+[data-style="pickme"] .day-card {
+  background: linear-gradient(145deg,#492440,#321a30) !important;
+  color: #ffe8f5 !important;
+  border-color: #87466f !important;
+  box-shadow: inset 0 1px rgba(255,255,255,.04) !important;
+}
+[data-style="pickme"] .day-cell.today,
+[data-style="pickme"] .day-cell.selected,
+[data-style="pickme"] .sheet-tab.active,
+[data-style="pickme"] .lang-toggle button.active,
+[data-style="pickme"] .active,
+[data-style="pickme"] .selected {
+  background: linear-gradient(135deg,#d85ca8,#a94d9f) !important;
+  color: #fff5fb !important;
+  border-color: #f2a1d2 !important;
+}
+[data-style="pickme"] .day-cell.selected .day-num,
+[data-style="pickme"] .day-cell.selected .day-count {
+  color: #fff5fb !important;
+}
+[data-style="pickme"] .month-nav button,
+[data-style="pickme"] .lang-toggle button,
+[data-style="pickme"] .sheet-tab,
+[data-style="pickme"] .icon-btn,
+[data-style="pickme"] .btn,
+[data-style="pickme"] button,
+[data-style="pickme"] select,
+[data-style="pickme"] input,
+[data-style="pickme"] textarea {
+  background-color: #512744 !important;
+  color: #ffe8f5 !important;
+  border-color: #a85c91 !important;
+}
+[data-style="pickme"] .top-bar {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: visible !important;
+  padding: 12px !important;
+}
+[data-style="pickme"] .top-bar > *,
+[data-style="pickme"] .top-bar .top-actions,
+[data-style="pickme"] .top-bar .top-controls {
+  position: static !important;
+  float: none !important;
+  flex: 0 1 auto !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+[data-style="pickme"] .top-bar .icon-btn,
+[data-style="pickme"] .top-bar button {
+  width: auto !important;
+  height: auto !important;
+  min-height: 42px !important;
+  aspect-ratio: auto !important;
+  border-radius: 12px !important;
+  white-space: normal !important;
+}
+[data-style="pickme"] .top-bar img,
+[data-style="pickme"] .vk-avatar,
+[data-style="pickme"] .vk-avatar img,
+[data-style="pickme"] .vk-icon,
+[data-style="pickme"] .vk-button,
+[data-style="pickme"] .vk-link {
+  border-color: #f0a2d1 !important;
+  box-shadow: 0 0 0 2px rgba(232,121,185,.22) !important;
+}
+[data-style="pickme"] .top-bar .vk-avatar img,
+[data-style="pickme"] .top-bar img[alt*="VK"],
+[data-style="pickme"] .top-bar img[src*="vk"] {
+  border-radius: 50% !important;
+  outline: 2px solid #f0a2d1 !important;
+  outline-offset: 2px;
+}
+[data-style="pickme"] .day-cell.today {
+  background: linear-gradient(145deg,rgba(232,121,185,.34),rgba(192,132,252,.18)) !important;
+  border-color: #f0a2d1 !important;
+  box-shadow: 0 0 0 2px rgba(232,121,185,.2) !important;
+}
+[data-style="pickme"] .hw-badge,
+[data-style="pickme"] .day-dot,
+[data-style="pickme"] .day-dot.hw {
+  background-color: #e879b9 !important;
+  color: #fff5fb !important;
+}
+@media (max-width: 600px) {
+  [data-style="pickme"] .top-bar {
+    justify-content: space-around !important;
+  }
+  [data-style="pickme"] .top-bar .icon-btn,
+  [data-style="pickme"] .top-bar button {
+    flex: 1 1 120px !important;
+    max-width: 100% !important;
+  }
+}
+
+</style>
         <meta name="mobile-web-app-capable" content="yes">
     <style>
 /* Dark theme: subdued primary actions and clear button boundaries */
