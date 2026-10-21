@@ -16419,7 +16419,7 @@ html[data-style="pickme"] .bottom-nav button {
                 if (cancel) cancel.hidden = true;
                 renderExams();
             }
-            // Секрет: 10 нажатий на «Дорожная карта» показывают фото на 15 секунд.
+            // Секрет: 10 нажатий на «Дорожная карта» открывают листалку мемов только из ./meme/.
             (function initRoadmapPhotoEasterEgg(){
                 const init = () => {
                     const roadmapButton = document.getElementById('nav-main');
@@ -16428,27 +16428,87 @@ html[data-style="pickme"] .bottom-nav button {
                     let taps = 0;
                     let resetTimer = null;
                     let overlay = null;
-                    let hideTimer = null;
+                    let photoFiles = [];
+                    let photoIndex = 0;
+                    let loading = false;
+
                     const closePhoto = () => {
-                        if (hideTimer) clearTimeout(hideTimer);
-                        hideTimer = null;
                         if (overlay) overlay.remove();
                         overlay = null;
                     };
-                    const showPhoto = () => {
+                    const getPhotoList = async () => {
+                        if (photoFiles.length) return photoFiles;
+                        if (loading) return [];
+                        loading = true;
+                        try {
+                            const response = await fetch('https://api.github.com/repos/asasin77736/schedule/contents/meme?ref=main', {
+                                headers: { Accept: 'application/vnd.github+json' },
+                                cache: 'no-store'
+                            });
+                            if (!response.ok) throw new Error('Не удалось получить список мемов');
+                            const files = await response.json();
+                            photoFiles = files
+                                .filter(file => file.type === 'file' && /\.(avif|gif|jpe?g|png|webp)$/i.test(file.name))
+                                .sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }))
+                                .map(file => './meme/' + file.name.split('/').map(encodeURIComponent).join('/'));
+                        } catch (error) {
+                            photoFiles = [];
+                        } finally {
+                            loading = false;
+                        }
+                        return photoFiles;
+                    };
+                    const showPhoto = async () => {
                         closePhoto();
+                        const photos = await getPhotoList();
+                        if (!photos.length) {
+                            alert('Не удалось загрузить мемы из папки meme. Проверь, что в ней есть изображения.');
+                            return;
+                        }
+                        photoIndex = 0;
                         overlay = document.createElement('div');
                         overlay.id = 'roadmap-photo-secret';
                         overlay.setAttribute('role', 'dialog');
-                        overlay.setAttribute('aria-label', 'Секретная фотография');
-                        overlay.style.cssText = 'position:fixed;inset:0;z-index:2147483647;background:#000;display:flex;align-items:center;justify-content:center;padding:0;margin:0;overflow:hidden;';
+                        overlay.setAttribute('aria-label', 'Секретные мемы');
+                        overlay.style.cssText = 'position:fixed;inset:0;z-index:2147483647;background:rgba(0,0,0,.94);display:flex;align-items:center;justify-content:center;padding:18px;box-sizing:border-box;overflow:hidden;';
+
                         const img = document.createElement('img');
-                        img.src = './easter.jpg';
-                        img.alt = 'Дайте мне 125 в квадрате метров я построю вкусно и точка';
-                        img.style.cssText = 'display:block;width:100%;height:100%;object-fit:contain;max-width:100vw;max-height:100dvh;';
-                        overlay.appendChild(img);
+                        img.alt = 'Секретный мем';
+                        img.style.cssText = 'display:block;width:calc(100% - 112px);height:calc(100% - 54px);object-fit:contain;max-width:100vw;max-height:100dvh;';
+
+                        const makeButton = (label, title, css, onClick) => {
+                            const button = document.createElement('button');
+                            button.type = 'button';
+                            button.textContent = label;
+                            button.setAttribute('aria-label', title);
+                            button.title = title;
+                            button.style.cssText = css;
+                            button.addEventListener('click', onClick);
+                            return button;
+                        };
+                        const buttonCss = 'position:absolute;z-index:2;border:1px solid rgba(255,255,255,.45);background:rgba(20,20,20,.7);color:white;border-radius:999px;width:48px;height:48px;font-size:30px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;';
+                        const prev = makeButton('‹', 'Предыдущий мем', buttonCss + 'left:14px;top:50%;transform:translateY(-50%);', () => { photoIndex = (photoIndex - 1 + photos.length) % photos.length; renderPhoto(); });
+                        const next = makeButton('›', 'Следующий мем', buttonCss + 'right:14px;top:50%;transform:translateY(-50%);', () => { photoIndex = (photoIndex + 1) % photos.length; renderPhoto(); });
+                        const close = makeButton('×', 'Закрыть', buttonCss + 'right:12px;top:12px;font-size:28px;width:42px;height:42px;', closePhoto);
+                        const counter = document.createElement('div');
+                        counter.style.cssText = 'position:absolute;left:50%;bottom:12px;transform:translateX(-50%);color:#fff;background:rgba(0,0,0,.55);padding:6px 12px;border-radius:999px;font:14px system-ui,sans-serif;';
+                        const renderPhoto = () => {
+                            img.src = photos[photoIndex];
+                            counter.textContent = (photoIndex + 1) + ' / ' + photos.length;
+                            prev.style.display = photos.length > 1 ? 'flex' : 'none';
+                            next.style.display = photos.length > 1 ? 'flex' : 'none';
+                        };
+                        overlay.append(img, prev, next, close, counter);
+                        overlay.addEventListener('click', event => { if (event.target === overlay) closePhoto(); });
+                        const keyHandler = event => {
+                            if (!overlay) { document.removeEventListener('keydown', keyHandler); return; }
+                            if (event.key === 'Escape') closePhoto();
+                            else if (event.key === 'ArrowLeft' && photos.length > 1) { photoIndex = (photoIndex - 1 + photos.length) % photos.length; renderPhoto(); }
+                            else if (event.key === 'ArrowRight' && photos.length > 1) { photoIndex = (photoIndex + 1) % photos.length; renderPhoto(); }
+                        };
+                        document.addEventListener('keydown', keyHandler);
                         document.body.appendChild(overlay);
-                        hideTimer = setTimeout(closePhoto, 15000);
+                        renderPhoto();
                     };
                     roadmapButton.addEventListener('click', () => {
                         taps++;
