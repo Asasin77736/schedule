@@ -1,0 +1,21 @@
+{
+  "id": "./",
+  "name": "Расписание и задачи",
+  "short_name": "Расписание",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  },
+  "background_color": "#ffffff",
+  "theme_color": "#3C86C4",
+  "icons": [
+    {
+      "src": "icon.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    }
+  ]
+}
