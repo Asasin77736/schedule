@@ -15955,7 +15955,7 @@
                     const ctx = canvas.getContext('2d');
                     if (!ctx) { alert('Не удалось обработать изображение.'); return; }
                     const factor = outW / stageW;
-                    ctx.drawImage(img, -x / (drawW / img.width), -y / (drawH / img.height), outW / (drawW / img.width), outH / (drawH / img.height));
+                    ctx.drawImage(img, x * factor, y * factor, drawW * factor, drawH * factor);
                     const data = canvas.toDataURL('image/webp', 0.78);
                     const wallpapers = getGroupWallpapers();
                     wallpapers[activeWallpaperGroup] = data;
