@@ -86,27 +86,9 @@
                 --c-hw: #67e8f9;
             }
 
-            /* Дополнительные цветовые стили */
-            [data-style="pink"] {
-                --primary:#c02675; --primary-light:#ec4899; --accent:#db2777;
-                --bg:#fff1f7; --bg2:#fce7f3; --card:#fffafd; --text:#4a1833;
-                --muted:#9d6382; --border:#f2b8d2; --success:#be185d; --urgent:#be123c;
-                --urgent-bg:#fff1f2; --c1:#ec4899; --c2:#db2777; --c3:#c084fc;
-                --c4:#f472b6; --c5:#fb7185; --cu:#e11d48; --c-hw:#db2777;
-            }
-            [data-style="pickme"] {
-                --primary:#e879b9; --primary-light:#f9a8d4; --accent:#c084fc;
-                --bg:#fff7fc; --bg2:#fce7f3; --card:#fffaff; --text:#713858;
-                --muted:#b27a9b; --border:#f8cde3; --success:#d946a0; --urgent:#db2777;
-                --urgent-bg:#fff0f7; --c1:#f9a8d4; --c2:#e879b9; --c3:#c4b5fd;
-                --c4:#f0abfc; --c5:#fda4af; --cu:#db2777; --c-hw:#c084fc;
-            }
-            [data-style="pink"] .top-bar, [data-style="pickme"] .top-bar {
-                background:linear-gradient(100deg,#be185d,#ec4899,#f9a8d4);
-            }
-            [data-style="pickme"] .top-bar { background:linear-gradient(100deg,#f9a8d4,#fbcfe8,#e9d5ff); }
-            [data-style="pickme"] .top-bar .icon-btn { color:#713858; border-color:rgba(190,24,93,.22); background:rgba(255,255,255,.55); }
-            [data-style="pink"] header h1, [data-style="pickme"] header h1 { color:var(--primary); }
+            /* Основной стандартный стиль сайта */
+
+            
 
             * {
                 box-sizing: border-box;
@@ -2634,83 +2616,6 @@
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/113688485" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
-<style id="palette-repair">
-
-/* Palette repair: ensure the selected style reaches schedule, homework, calendar and dark mode. */
-html[data-style="pickme"] {
-  --primary:#d94f9e; --primary-light:#f19acb; --accent:#bf78df;
-  --bg:#fff7fc; --bg2:#fce7f3; --card:#fffaff; --text:#713858;
-  --muted:#b27a9b; --border:#f3c3dc; --success:#d946a0; --urgent:#db2777;
-  --urgent-bg:#fff0f7; --c1:#ed83bd; --c2:#d94f9e; --c3:#b99af7;
-  --c4:#e5a4ef; --c5:#fda4af; --cu:#db2777; --c-hw:#bf78df;
-}
-html[data-style="pickme"][data-theme="dark"] {
-  --primary:#f6a6d2; --primary-light:#d96eae; --accent:#d6a0f3;
-  --bg:#211522; --bg2:#2b1a2c; --card:#38233a; --text:#fff0fa;
-  --muted:#d5a9c8; --border:#68405f; --success:#f19acb; --urgent:#ff8fc4;
-  --urgent-bg:rgba(255,143,196,.14); --c1:#f6a6d2; --c2:#e879b9; --c3:#c4b5fd;
-  --c4:#f0abfc; --c5:#fda4af; --cu:#ff8fc4; --c-hw:#d6a0f3;
-}
-html[data-style="pickme"] body {
-  background-color:var(--bg) !important;
-  background-image:radial-gradient(ellipse at 10% 0%,rgba(249,168,212,.30),transparent 42%),radial-gradient(ellipse at 100% 100%,rgba(196,181,253,.22),transparent 40%) !important;
-  color:var(--text) !important;
-}
-html[data-style="pickme"] .sheet-tabs { background:var(--card) !important; border-color:var(--border) !important; box-shadow:0 5px 18px rgba(217,79,158,.10); }
-html[data-style="pickme"] .sheet-tab { color:var(--muted) !important; border-color:var(--border) !important; }
-html[data-style="pickme"] .sheet-tab.active,
-html[data-style="pickme"] .lang-toggle button.active,
-html[data-style="pickme"] .btn.primary,
-html[data-style="pickme"] .add-row button,
-html[data-style="pickme"] .journal-form .btn-add,
-html[data-style="pickme"] button[onclick="addHw()"],
-html[data-style="pickme"] button[onclick="addSubject()"] {
-  background:linear-gradient(135deg,var(--primary-light),var(--accent)) !important;
-  border-color:var(--primary-light) !important; color:#fff !important;
-}
-html[data-style="pickme"] #rasp-week-info,
-html[data-style="pickme"] #hw-week-label,
-html[data-style="pickme"] .subtitle { color:var(--primary) !important; }
-html[data-style="pickme"] #rasp-week-info {
-  display:inline-flex; align-items:center; width:max-content; max-width:100%;
-  padding:5px 11px; margin-top:5px; border:1px solid var(--border); border-radius:999px;
-  background:var(--card); font-weight:800 !important; box-shadow:0 3px 12px rgba(217,79,158,.10);
-}
-html[data-style="pickme"] #rasp-week-odd,
-html[data-style="pickme"] #rasp-week-even,
-html[data-style="pickme"] #rasp-week-odd.active,
-html[data-style="pickme"] #rasp-week-even.active {
-  border-color:var(--border) !important; color:var(--primary) !important; background:var(--card) !important;
-}
-html[data-style="pickme"] #rasp-week-odd.active,
-html[data-style="pickme"] #rasp-week-even.active { background:var(--primary-light) !important; color:#fff !important; }
-html[data-style="pickme"] .task-item,
-html[data-style="pickme"] .stat-card,
-html[data-style="pickme"] .progress-card,
-html[data-style="pickme"] .calendar-card,
-html[data-style="pickme"] .journal-card,
-html[data-style="pickme"] .section,
-html[data-style="pickme"] .task-list,
-html[data-style="pickme"] .cal-day-block {
-  border-color:var(--border) !important; box-shadow:0 4px 18px rgba(217,79,158,.08) !important;
-}
-html[data-style="pickme"] .vk-avatar-btn img,
-html[data-style="pickme"] .vk-menu-head img { border:2px solid #f19acb; box-shadow:0 0 0 3px rgba(241,154,203,.22); }
-html[data-style="pickme"] .top-bar { background:linear-gradient(100deg,#f9a8d4,#fbcfe8,#e9d5ff) !important; }
-html[data-style="pickme"][data-theme="dark"] body { background-image:radial-gradient(ellipse at 10% 0%,rgba(217,79,158,.18),transparent 42%),radial-gradient(ellipse at 100% 100%,rgba(139,92,246,.13),transparent 40%) !important; }
-html[data-style="pickme"][data-theme="dark"] .sheet-tab.active,
-html[data-style="pickme"][data-theme="dark"] .lang-toggle button.active { background:linear-gradient(135deg,#bd5e9d,#9565b9) !important; color:#fff !important; }
-html[data-style="pickme"][data-theme="dark"] .icon-btn,
-html[data-style="pickme"][data-theme="dark"] button:not(.accent-action):not(.primary):not(.btn-primary) { background-color:var(--card) !important; color:var(--text) !important; border-color:var(--border) !important; }
-html[data-style="pickme"][data-theme="dark"] .accent-action,
-html[data-style="pickme"][data-theme="dark"] button.primary,
-html[data-style="pickme"][data-theme="dark"] .btn-primary { background:linear-gradient(135deg,#bd5e9d,#9565b9) !important; color:#fff !important; }
-html[data-style="pink"] .sheet-tab.active,
-html[data-style="pink"] .lang-toggle button.active { background:linear-gradient(135deg,#c02675,#ec4899) !important; color:#fff !important; }
-html[data-style="pink"] #rasp-week-info,
-html[data-style="pink"] #hw-week-label { color:var(--primary) !important; }
-
-</style>
 </head>
     <body>
         <div id="pwa-launch-screen" aria-hidden="true">
@@ -2773,7 +2678,6 @@ html[data-style="pink"] #hw-week-label { color:var(--primary) !important; }
                     </span>
                 </button>
                 <button type="button" class="icon-btn" onclick="openGroupWallpaperPicker()" title="Выбрать обои для текущей группы">🖼️ Обои</button>
-                <button type="button" class="icon-btn" onclick="openStylePicker()" title="Цветовое оформление сайта">🎨 Стиль</button>
             </div>
             <div class="sheet-tabs">
                 <button type="button" class="sheet-tab active" id="tab-rasp" onclick="showSheet('rasp')">📅 Расписание</button>
@@ -15965,30 +15869,12 @@ html[data-style="pink"] #hw-week-label { color:var(--primary) !important; }
                 });
             }
 
-            function openStylePicker() {
-                const old = document.getElementById('site-style-modal'); if (old) old.remove();
-                const modal = document.createElement('div'); modal.id = 'site-style-modal';
-                modal.style.cssText = 'position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,.68);display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box;';
-                modal.innerHTML = `<div style="width:min(360px,100%);background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:18px;padding:16px;box-shadow:0 18px 60px rgba(0,0,0,.4)">
-                    <div style="font-size:18px;font-weight:750;margin-bottom:12px">Стиль сайта</div>
-                    <div style="display:grid;gap:9px">
-                    <button type="button" class="icon-btn" data-style-choice="default">🔵 Обычный</button>
-                    <button type="button" class="icon-btn" data-style-choice="pink">🌸 Розовый</button>
-                    <button type="button" class="icon-btn" data-style-choice="pickme">🎀 Пикми</button>
-                    <button type="button" class="icon-btn" data-style-choice="close">Закрыть</button></div></div>`;
-                document.body.appendChild(modal);
-                modal.addEventListener('click', function(e){ if(e.target===modal) modal.remove(); });
-                modal.querySelectorAll('[data-style-choice]').forEach(function(btn){btn.addEventListener('click',function(){
-                    const choice=btn.getAttribute('data-style-choice'); if(choice==='close'){modal.remove();return;}
-                    if(choice==='default') document.documentElement.removeAttribute('data-style'); else document.documentElement.setAttribute('data-style',choice);
-                    try { localStorage.setItem('study_site_style_v1',choice); } catch(e) {}
-                    modal.remove(); showToast('Стиль изменён');
-                });});
-            }
             function restoreSiteStyle() {
-                try { const style=localStorage.getItem('study_site_style_v1'); if(style && style!=='default') document.documentElement.setAttribute('data-style',style); }
-                catch(e) {}
+                // На сайте оставлен только стандартный стиль; сбрасываем старые сохранённые варианты.
+                document.documentElement.removeAttribute('data-style');
+                try { localStorage.removeItem('study_site_style_v1'); } catch (e) {}
             }
+
 
             function saveGroupWallpaperFile(event) {
                 const file = event && event.target && event.target.files && event.target.files[0];
