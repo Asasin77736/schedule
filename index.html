@@ -2769,7 +2769,8 @@
                         <label for="journal-files">📎 Прикрепить файлы</label>
                         <input type="file" id="journal-files" multiple>
                         <div id="journal-files-preview" style="font-size:.82rem;color:var(--muted);margin-top:4px">Можно прикрепить до 3 файлов, каждый до 700 КБ.</div>
-                        <button class="btn-add" onclick="addJournalEntry()">➕ Добавить запись</button>
+                        <button class="btn-add" id="journal-submit" onclick="addJournalEntry()">➕ Добавить запись</button>
+                        <button type="button" id="journal-cancel-edit" onclick="cancelEditJournal()" style="display:none;margin-top:8px">Отмена редактирования</button>
                     </div>
                     <div id="journal-entries">
                         <div class="empty-journal">Пока записей нет</div>
@@ -4116,7 +4117,8 @@
                       </div>` : '';
                     return `
     <div class="journal-entry">
-      <button class="entry-delete" onclick="deleteJournal('${e.id}')">×</button>
+      <button class="entry-delete" onclick="deleteJournal('${e.id}')" title="Удалить запись">×</button>
+      <button class="entry-edit" onclick="editJournal('${e.id}')" style="margin-right:8px" title="Редактировать запись">✏️ Изменить</button>
       <div class="entry-date">${fmt(e.date)}</div>
       ${e.done ? `<div class="entry-block"><div class="entry-label">Сделано</div>${esc(e.done)}</div>` : ''}
       ${e.questions ? `<div class="entry-block"><div class="entry-label">Вопросы</div>${esc(e.questions)}</div>` : ''}
@@ -4292,6 +4294,42 @@
                 })));
             }
 
+            let editingJournalId = null;
+
+            function editJournal(id) {
+                const s = load();
+                const entry = s.journal.find(e => String(e.id) === String(id));
+                if (!entry) return;
+                editingJournalId = String(entry.id);
+                document.getElementById('journal-date').value = entry.date || '';
+                document.getElementById('journal-done').value = entry.done || '';
+                document.getElementById('journal-questions').value = entry.questions || '';
+                document.getElementById('journal-plan').value = entry.plan || '';
+                const fileInput = document.getElementById('journal-files');
+                if (fileInput) fileInput.value = '';
+                const preview = document.getElementById('journal-files-preview');
+                if (preview) preview.textContent = (entry.attachments || []).length
+                    ? 'Существующие вложения сохранятся. Можно добавить новые файлы (до 3 всего, по 700 КБ каждый).'
+                    : 'Можно прикрепить до 3 файлов, каждый до 700 КБ.';
+                document.getElementById('journal-submit').textContent = '💾 Сохранить изменения';
+                document.getElementById('journal-cancel-edit').style.display = 'block';
+                document.querySelector('.journal-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+
+            function cancelEditJournal() {
+                editingJournalId = null;
+                document.getElementById('journal-date').value = '';
+                document.getElementById('journal-done').value = '';
+                document.getElementById('journal-questions').value = '';
+                document.getElementById('journal-plan').value = '';
+                const fileInput = document.getElementById('journal-files');
+                if (fileInput) fileInput.value = '';
+                document.getElementById('journal-submit').textContent = '➕ Добавить запись';
+                document.getElementById('journal-cancel-edit').style.display = 'none';
+                updateJournalFilesPreview();
+                setToday();
+            }
+
             async function addJournalEntry() {
                 const date = document.getElementById('journal-date').value;
                 const done = document.getElementById('journal-done').value.trim();
@@ -4303,34 +4341,49 @@
                     alert('Укажи дату');
                     return;
                 }
-                if (!done && !questions && !plan && !files.length) {
+                const s = load();
+                const existing = editingJournalId ? s.journal.find(e => String(e.id) === editingJournalId) : null;
+                if (!done && !questions && !plan && !files.length && !(existing && (existing.attachments || []).length)) {
                     alert('Заполни хотя бы одно поле или прикрепи файл');
                     return;
                 }
-                let attachments;
+                let newAttachments;
                 try {
-                    attachments = await readJournalAttachments(files);
+                    newAttachments = await readJournalAttachments(files);
                 } catch (error) {
                     alert(error.message || 'Не удалось прикрепить файлы.');
                     return;
                 }
-                const s = load();
-                s.journal.unshift({
-                    id: Date.now().toString(),
+                const attachments = (existing && Array.isArray(existing.attachments) ? existing.attachments : []).concat(newAttachments);
+                if (attachments.length > JOURNAL_FILE_MAX_COUNT) {
+                    alert('К записи можно прикрепить не больше 3 файлов всего. Удали запись и создай её заново, если нужно заменить вложения.');
+                    return;
+                }
+                const entry = {
+                    id: existing ? existing.id : Date.now().toString(),
                     date,
                     done,
                     questions,
                     plan,
                     attachments
-                });
+                };
+                if (existing) {
+                    const index = s.journal.findIndex(e => String(e.id) === editingJournalId);
+                    if (index >= 0) s.journal[index] = entry;
+                } else {
+                    s.journal.unshift(entry);
+                }
                 if (!save(s)) {
                     alert('Не удалось сохранить запись. Возможно, в хранилище сайта закончилось место. Попробуй прикрепить файлы меньшего размера.');
                     return;
                 }
+                editingJournalId = null;
                 document.getElementById('journal-done').value = '';
                 document.getElementById('journal-questions').value = '';
                 document.getElementById('journal-plan').value = '';
                 if (fileInput) fileInput.value = '';
+                document.getElementById('journal-submit').textContent = '➕ Добавить запись';
+                document.getElementById('journal-cancel-edit').style.display = 'none';
                 updateJournalFilesPreview();
                 setToday();
                 render();
