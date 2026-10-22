@@ -2766,6 +2766,9 @@
                         <textarea id="journal-questions" placeholder="Вопросы..."></textarea>
                         <label>План</label>
                         <textarea id="journal-plan" placeholder="План..."></textarea>
+                        <label for="journal-files">📎 Прикрепить файлы</label>
+                        <input type="file" id="journal-files" multiple>
+                        <div id="journal-files-preview" style="font-size:.82rem;color:var(--muted);margin-top:4px">Можно прикрепить до 3 файлов, каждый до 700 КБ.</div>
                         <button class="btn-add" onclick="addJournalEntry()">➕ Добавить запись</button>
                     </div>
                     <div id="journal-entries">
@@ -4098,14 +4101,29 @@
                     c.innerHTML = '<div class="empty-journal">Пока записей нет</div>';
                     return;
                 }
-                c.innerHTML = s.journal.map(e => `
+                c.innerHTML = s.journal.map(e => {
+                    const attachments = Array.isArray(e.attachments) ? e.attachments : [];
+                    const filesHtml = attachments.length ? `
+                      <div class="entry-block">
+                        <div class="entry-label">📎 Файлы (${attachments.length})</div>
+                        <div style="display:flex;flex-direction:column;gap:7px">
+                          ${attachments.map((a, i) => {
+                              const data = typeof a.data === 'string' && /^data:[^,]*;base64,/.test(a.data) ? a.data : '';
+                              if (!data) return '';
+                              return `<a href="${data}" download="${esc(a.name || ('Файл ' + (i + 1)))}" style="display:flex;gap:8px;align-items:center;overflow-wrap:anywhere">📄 ${esc(a.name || ('Файл ' + (i + 1)))}</a>`;
+                          }).join('')}
+                        </div>
+                      </div>` : '';
+                    return `
     <div class="journal-entry">
       <button class="entry-delete" onclick="deleteJournal('${e.id}')">×</button>
       <div class="entry-date">${fmt(e.date)}</div>
       ${e.done ? `<div class="entry-block"><div class="entry-label">Сделано</div>${esc(e.done)}</div>` : ''}
       ${e.questions ? `<div class="entry-block"><div class="entry-label">Вопросы</div>${esc(e.questions)}</div>` : ''}
       ${e.plan ? `<div class="entry-block"><div class="entry-label">План</div>${esc(e.plan)}</div>` : ''}
-    </div>`).join('');
+      ${filesHtml}
+    </div>`;
+                }).join('');
             }
 
             function toggleDone(id) {
@@ -4242,17 +4260,58 @@
                 }
             }
 
-            function addJournalEntry() {
+            const JOURNAL_FILE_MAX_BYTES = 700 * 1024;
+            const JOURNAL_FILE_MAX_COUNT = 3;
+
+            function updateJournalFilesPreview() {
+                const input = document.getElementById('journal-files');
+                const preview = document.getElementById('journal-files-preview');
+                if (!input || !preview) return;
+                const files = Array.from(input.files || []);
+                if (!files.length) {
+                    preview.textContent = 'Можно прикрепить до 3 файлов, каждый до 700 КБ.';
+                    return;
+                }
+                preview.textContent = files.map(file => file.name + ' (' + Math.max(1, Math.round(file.size / 1024)) + ' КБ)').join(' · ');
+            }
+
+            async function readJournalAttachments(fileList) {
+                const files = Array.from(fileList || []);
+                if (files.length > JOURNAL_FILE_MAX_COUNT) throw new Error('Можно прикрепить не больше 3 файлов к одной записи.');
+                let total = 0;
+                files.forEach(file => {
+                    if (file.size > JOURNAL_FILE_MAX_BYTES) throw new Error('Файл «' + file.name + '» больше 700 КБ. Уменьши его размер и попробуй снова.');
+                    total += file.size;
+                });
+                if (total > 1500 * 1024) throw new Error('Общий размер вложений должен быть не больше 1,5 МБ.');
+                return Promise.all(files.map(file => new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve({ name: file.name, type: file.type || 'application/octet-stream', data: String(reader.result || '') });
+                    reader.onerror = () => reject(new Error('Не удалось прочитать файл «' + file.name + '».'));
+                    reader.readAsDataURL(file);
+                })));
+            }
+
+            async function addJournalEntry() {
                 const date = document.getElementById('journal-date').value;
                 const done = document.getElementById('journal-done').value.trim();
                 const questions = document.getElementById('journal-questions').value.trim();
                 const plan = document.getElementById('journal-plan').value.trim();
+                const fileInput = document.getElementById('journal-files');
+                const files = fileInput ? fileInput.files : [];
                 if (!date) {
                     alert('Укажи дату');
                     return;
                 }
-                if (!done && !questions && !plan) {
-                    alert('Заполни хотя бы одно поле');
+                if (!done && !questions && !plan && !files.length) {
+                    alert('Заполни хотя бы одно поле или прикрепи файл');
+                    return;
+                }
+                let attachments;
+                try {
+                    attachments = await readJournalAttachments(files);
+                } catch (error) {
+                    alert(error.message || 'Не удалось прикрепить файлы.');
                     return;
                 }
                 const s = load();
@@ -4261,15 +4320,24 @@
                     date,
                     done,
                     questions,
-                    plan
+                    plan,
+                    attachments
                 });
-                save(s);
+                if (!save(s)) {
+                    alert('Не удалось сохранить запись. Возможно, в хранилище сайта закончилось место. Попробуй прикрепить файлы меньшего размера.');
+                    return;
+                }
                 document.getElementById('journal-done').value = '';
                 document.getElementById('journal-questions').value = '';
                 document.getElementById('journal-plan').value = '';
+                if (fileInput) fileInput.value = '';
+                updateJournalFilesPreview();
                 setToday();
                 render();
             }
+
+            const journalFileInput = document.getElementById('journal-files');
+            if (journalFileInput) journalFileInput.addEventListener('change', updateJournalFilesPreview);
 
             function deleteJournal(id) {
                 if (!confirm('Удалить?'))
