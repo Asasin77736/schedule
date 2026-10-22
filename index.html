@@ -4221,7 +4221,7 @@
                     return `
     <div class="journal-entry">
       <button class="entry-delete" onclick="deleteJournal('${e.id}')" title="Удалить запись">×</button>
-      <button class="entry-edit" onclick="editJournal('${e.id}')" style="margin-right:8px" title="Редактировать запись">✏️ Изменить</button>
+      <button class="entry-edit" onclick="editJournal('${e.id}')" style="margin-right:8px" title="Редактировать запись" aria-label="Редактировать запись">✏️</button>
       <div class="entry-date">${fmt(e.date)}</div>
       ${e.done ? `<div class="entry-block"><div class="entry-label">Сделано</div>${esc(e.done)}</div>` : ''}
       ${e.questions ? `<div class="entry-block"><div class="entry-label">Вопросы</div>${esc(e.questions)}</div>` : ''}
