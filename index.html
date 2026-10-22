@@ -2678,6 +2678,9 @@
                     </span>
                 </button>
                 <button type="button" class="icon-btn" onclick="openGroupWallpaperPicker()" title="Выбрать обои для текущей группы">🖼️ Обои</button>
+                <button type="button" class="icon-btn" onclick="exportAllSiteData()" title="Создать файл со всеми данными сайта">📤 Экспорт данных</button>
+                <button type="button" class="icon-btn" onclick="chooseAllSiteImportFile()" title="Восстановить данные из файла">📥 Импорт данных</button>
+                <input type="file" id="all-site-import-file" accept=".json,application/json" hidden onchange="importAllSiteData(event)">
             </div>
             <div class="sheet-tabs">
                 <button type="button" class="sheet-tab active" id="tab-rasp" onclick="showSheet('rasp')">📅 Расписание</button>
@@ -3065,6 +3068,106 @@
         </div>
         <div class="copy-toast" id="toast">Скопировано!</div>
         <script>
+            // Полный перенос пользовательских данных сайта между устройствами.
+            // Включает основное состояние, расписание, настройки и пользовательские обои из localStorage.
+            const SITE_TRANSFER_PREFIXES = ['study_'];
+            const SITE_TRANSFER_KEYS = new Set(['site_v1', 'site_v1_roadmap_backup']);
+
+            function isSiteTransferKey(key) {
+                return SITE_TRANSFER_KEYS.has(key) || SITE_TRANSFER_PREFIXES.some(prefix => key.startsWith(prefix));
+            }
+
+            function exportAllSiteData() {
+                try {
+                    const values = {};
+                    const keys = [];
+                    for (let i = 0; i < localStorage.length; i++) {
+                        const key = localStorage.key(i);
+                        if (key && isSiteTransferKey(key)) {
+                            values[key] = localStorage.getItem(key);
+                            keys.push(key);
+                        }
+                    }
+                    const payload = {
+                        format: 'schedule-site-full-backup',
+                        version: 1,
+                        exportedAt: new Date().toISOString(),
+                        origin: location.origin,
+                        keys,
+                        values
+                    };
+                    const blob = new Blob([JSON.stringify(payload)], { type: 'application/json;charset=utf-8' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'schedule-site-full-backup-' + new Date().toISOString().slice(0, 10) + '.json';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    setTimeout(() => URL.revokeObjectURL(url), 1000);
+                    alert('Резервная копия создана. Перенеси JSON-файл на другое устройство и выбери там «Перенос данных» → импорт этого файла.');
+                } catch (error) {
+                    console.error('Ошибка экспорта данных сайта:', error);
+                    alert('Не удалось экспортировать все данные. Проверь, хватает ли памяти браузера.');
+                }
+            }
+
+            async function importAllSiteData(event) {
+                const input = event && event.target;
+                const file = input && input.files && input.files[0];
+                if (!file) return;
+                try {
+                    const raw = await file.text();
+                    const payload = JSON.parse(raw);
+                    if (!payload || payload.format !== 'schedule-site-full-backup' || payload.version !== 1 ||
+                        !payload.values || typeof payload.values !== 'object' || Array.isArray(payload.values)) {
+                        throw new Error('Это не файл полного переноса данных сайта.');
+                    }
+                    const incoming = Object.entries(payload.values).filter(([key, value]) =>
+                        isSiteTransferKey(key) && (typeof value === 'string' || value === null)
+                    );
+                    if (!incoming.length) throw new Error('В файле не найдены данные сайта.');
+                    const preview = incoming.map(([key]) => key).join(', ');
+                    if (!confirm('Импортировать полную копию сайта (' + incoming.length + ' хранилищ)?\n\nТекущие данные сайта на этом устройстве будут заменены. Перед продолжением рекомендуется экспортировать их в отдельный файл.\n\nНайдено: ' + preview)) return;
+
+                    // Сначала сохраняем текущие значения в памяти, чтобы восстановить их при ошибке импорта.
+                    const previous = {};
+                    const removeKeys = [];
+                    for (let i = 0; i < localStorage.length; i++) {
+                        const key = localStorage.key(i);
+                        if (key && isSiteTransferKey(key)) {
+                            previous[key] = localStorage.getItem(key);
+                            removeKeys.push(key);
+                        }
+                    }
+                    try {
+                        removeKeys.forEach(key => localStorage.removeItem(key));
+                        incoming.forEach(([key, value]) => {
+                            if (value !== null) localStorage.setItem(key, value);
+                        });
+                    } catch (writeError) {
+                        for (let i = localStorage.length - 1; i >= 0; i--) {
+                            const key = localStorage.key(i);
+                            if (key && isSiteTransferKey(key)) localStorage.removeItem(key);
+                        }
+                        Object.entries(previous).forEach(([key, value]) => localStorage.setItem(key, value));
+                        throw writeError;
+                    }
+                    alert('Данные перенесены. Сайт сейчас перезагрузится.');
+                    location.reload();
+                } catch (error) {
+                    console.error('Ошибка импорта данных сайта:', error);
+                    alert(error.message || 'Не удалось импортировать данные. Проверь файл и свободное место в хранилище.');
+                } finally {
+                    if (input) input.value = '';
+                }
+            }
+
+            function chooseAllSiteImportFile() {
+                const input = document.getElementById('all-site-import-file');
+                if (input) input.click();
+            }
+
             const DEFAULT_SECTIONS = [];
 
             const DEFAULT_TASKS = [];
